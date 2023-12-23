@@ -1,6 +1,6 @@
 print("loading")
 local plr = game.Player.LocalPlayer
-local backpack = plr.Backpack
+local backpack = plr.Character
 local tools = backpack:GetChildren()
 local Gun = nil
 
