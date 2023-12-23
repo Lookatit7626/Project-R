@@ -19,12 +19,10 @@ if tools[i] == nil then
   print("you have no guns equiped")
 else
   print("Firing")
-  while wait(0.01) do
+  while wait(0.001) do
 local zombies = ZombieFolder:GetChildren()
   for i = 1,#zombies do
-      wait(0.01)
-    function getNil(name,class) for _,v in next, getnilinstances() do if v.ClassName==class and v.Name==name then return v;end end end
-    function getNil(name,class) for _,v in next, getnilinstances() do if v.ClassName==class and v.Name==name then return v;end end end
+      wait(0.001)
 
     local args = {
       [1] = {
@@ -41,11 +39,11 @@ local zombies = ZombieFolder:GetChildren()
             }
         },
           ["RealTool"] = game:GetService("Players").LocalPlayer.Character:FindFirstChild(Gun.Name),
-          ["Tool"] = game:GetService("Players").LocalPlayer.Character.FindFirstChild(Gun.Name),
+          ["Tool"] = game:GetService("Players").LocalPlayer.Character:FindFirstChild(Gun.Name),
           ["HumanoidTables"] = {
               [1] = {
-                  ["HeadHits"] = 1,
-                  ["THumanoid"] = zombies[i]:WaitForChild("Humanoid)
+                  ["HeadHits"] = 2,
+                  ["THumanoid"] = zombies[i]:WaitForChild("Humanoid")
                   ["BodyHits"] = 0
               }
           }
