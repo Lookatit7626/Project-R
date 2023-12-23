@@ -1,3 +1,4 @@
+print("loading")
 local plr = game.Player.LocalPlayer
 local backpack = plr.Backpack
 local tools = backpack:GetChildren()
@@ -6,6 +7,7 @@ local Gun = nil
 local ZombieFolder = game.workspace:WaitForChild("Zombie Storage")
 
 for i = 1, #tools do
+  print(tools[i].Name)
   if tools[i]:FindFirstChild("GunController") then
     Gun = tools[i]
     break
@@ -16,6 +18,7 @@ end
 if tools[i] == nil then
   print("you have no guns equiped")
 else
+  print("Firing")
   while wait(0.01) do
 local zombies = ZombieFolder:GetChildren()
   for i = 1,#zombies do
