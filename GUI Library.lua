@@ -23,7 +23,7 @@ local UIListLayout = Instance.new("UIListLayout")
 --Properties:
 
 Notification.Name = "Notification"
-Notification.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+Notification.Parent = game.CoreGui
 Notification.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 Background.Name = "Background"
@@ -187,7 +187,7 @@ local module = {
 
 		ScreenGui.Name = TitleStr
 		--ScreenGui.Parent = game.CoreGui
-		ScreenGui.Parent = game.Players.LocalPlayer.PlayerGui
+		ScreenGui.Parent = game.CoreGui
 		ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 		
 		DragTop.Name = "DragTop"
