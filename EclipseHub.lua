@@ -43,13 +43,13 @@ Library.CreateLoopButton(PlayerScript,"InfJump", "Inf Jump", function()
 	local Set = nil
 	if not Set then
 		Set = game:GetService('UserInputService').JumpRequest:Connect(function()
-			script.Parent.Humanoid:ChangeState('Jumping')
+			game.Players.LocalPlayer.Character.Humanoid:ChangeState('Jumping')
 		end)
 	end
 	coroutine.wrap(function()
 		wait(1)
 		if AA == Test then
-			
+			Set:Disconnect()
 		end
 	end)()
 end,0.1)
