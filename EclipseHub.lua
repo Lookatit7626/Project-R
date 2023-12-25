@@ -62,7 +62,7 @@ Library.CreateLoopButton(PlayerScript,"AntiFling", "AntiFling", function()
 		primary.AssemblyLinearVelocity = Vector3.new(0,0,0)
 		primary.AssemblyAngularVelocity = Vector3.new(0,0,0)
 		primary.CFrame = lastpos 
-		Library.CreateNotification('Fling alert!','We detected that you got fling and prevented it from happening')
+		Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')
 	end
 	lastpos = primary.CFrame
 end,0.01)
