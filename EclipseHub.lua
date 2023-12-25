@@ -27,10 +27,57 @@ local button5 = Library.CreateButton(Section2,"IY","IY",function() loadstring(ga
 
 local button6 = Library.CreateButton(Section2,"Fling","Custom Fling Script",function() loadstring(game:HttpGet("https://pastebin.com/raw/WnJwFXgR"))() end)
 
+local PlayerScript = Library.CreateSection(GUI,"Player Script")
+
+Library.CreateSlider(PlayerScript,"Speed",'Speed',500,function(Speed)
+	game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Speed
+end)
+
+Library.CreateSlider(PlayerScript,"Jump",'Jump',1000,function(Speed)
+	game.Players.LocalPlayer.Character.Humanoid.JumpPower = Speed
+end)
+
+Library.CreateLoopButton(PlayerScript,"InfJump", "Inf Jump", function()
+	local Test = math.random(1,99999999)
+	local AA = Test
+	local Set = nil
+	if not Set then
+		Set = game:GetService('UserInputService').JumpRequest:Connect(function()
+			script.Parent.Humanoid:ChangeState('Jumping')
+		end)
+	end
+	coroutine.wrap(function()
+		wait(1)
+		if AA == Test then
+			
+		end
+	end)()
+end,0.1)
+
+local lastpos = nil
+Library.CreateLoopButton(PlayerScript,"AntiFling", "AntiFling", function()
+	local humanoidroot = script.Parent.HumanoidRootPart
+	local primary = humanoidroot
+	if primary.AssemblyLinearVelocity.Magnitude > 250 or primary.AssemblyAngularVelocity.Magnitude > 250  then
+		primary.AssemblyLinearVelocity = Vector3.new(0,0,0)
+		primary.AssemblyAngularVelocity = Vector3.new(0,0,0)
+		primary.CFrame = lastpos 
+	end
+	lastpos = primary.CFrame
+end,0.01)
+
+Library.CreateButton(PlayerScript,"resetGravity", "Reset Gravity to 196.2 ( Default )", function()
+	game.Workspace.Gravity = 196.2
+end)
+
+Library.CreateSlider(PlayerScript,"Gravity",'Gravity',250,function(Speed)
+	game.Workspace.Gravity = Speed
+end)
+
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
-local button = Library.CreateButton(HeavenSword,"Kill All","Kill All (NPCS)",function()
-	while true do local args = {
+local button = Library.CreateLoopButton(HeavenSword,"Kill All","Kill All (NPCS)",function()
+		local args = {
 		[1] = "A7"
 		}
 
@@ -44,12 +91,8 @@ local button = Library.CreateButton(HeavenSword,"Kill All","Kill All (NPCS)",fun
 		}
 
 		game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("UseItem"):FireServer(unpack(args))
-
-		wait(.05)
-	end
-end)
-local button = Library.CreateButton(HeavenSword,"InfHP","Inf HP all",function()
-	while true do
+end,0.05)
+local button = Library.CreateLoopButton(HeavenSword,"InfHP","Inf HP all",function()
 
 		local args = {
 			[1] = "InvA10",
@@ -59,14 +102,10 @@ local button = Library.CreateButton(HeavenSword,"InfHP","Inf HP all",function()
 		}
 
 		game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("UseItem"):FireServer(unpack(args))
+end,0.05)
+local button = Library.CreateLoopButton(HeavenSword,"HealAll","Heal All",function()
 
-		wait(.5)
-
-	end
-
-end)
-local button = Library.CreateButton(HeavenSword,"HealAll","Heal All",function()
-	while true do local args = {
+		local args = {
 		[1] = "A7"
 		}
 
@@ -81,11 +120,10 @@ local button = Library.CreateButton(HeavenSword,"HealAll","Heal All",function()
 
 		game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("UseItem"):FireServer(unpack(args))
 
-		wait(.05)
-	end
-end)
-local button = Library.CreateButton(HeavenSword,"Immunity","Immunity",function()
-	while true do local args = {
+end,.05)
+local button = Library.CreateLoopButton(HeavenSword,"Immunity","Immunity",function()
+
+		local args = {
 		[1] = "A7"
 		}
 
@@ -100,11 +138,8 @@ local button = Library.CreateButton(HeavenSword,"Immunity","Immunity",function()
 
 		game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("UseItem"):FireServer(unpack(args))
 
-		wait(.05)
-	end
-end)
-local button = Library.CreateButton(HeavenSword,"Fireball","Fireball",function()
-	while true do
+end,.05)
+local button = Library.CreateLoopButton(HeavenSword,"Fireball","Fireball",function()
 
 		local args = {
 			[1] = "C2"
@@ -121,6 +156,4 @@ local button = Library.CreateButton(HeavenSword,"Fireball","Fireball",function()
 
 		game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("UseItem"):FireServer(unpack(args))
 
-		wait(.1)
-	end
-end)
+end,.05)
