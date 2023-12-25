@@ -62,6 +62,7 @@ Library.CreateLoopButton(PlayerScript,"AntiFling", "AntiFling", function()
 		primary.AssemblyLinearVelocity = Vector3.new(0,0,0)
 		primary.AssemblyAngularVelocity = Vector3.new(0,0,0)
 		primary.CFrame = lastpos 
+		Library.CreateNotification('Fling alert!','We detected that you got fling and prevented it from happening')
 	end
 	lastpos = primary.CFrame
 end,0.01)
@@ -73,6 +74,24 @@ end)
 Library.CreateSlider(PlayerScript,"Gravity",'Gravity',250,function(Speed)
 	game.Workspace.Gravity = Speed
 end)
+
+Library.CreateTextBoxButton(PlayerScript,"Teleport",'Teleport',function(Playername)
+	local foundName = nil
+	local Players = game.Players:GetPlayers()
+	for i = 1, #Players do
+		local PossiblePlayer = Players[i]
+		if string.find(string.lower(PossiblePlayer.Name), string.lower(Playername)) then
+			foundName = PossiblePlayer.Name
+		end
+	end
+
+	if foundName then
+		game.Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart").CFrame = game.Workspace:FindFirstChild(foundName):FindFirstChild("HumanoidRootPart").CFrame
+	else
+		Library.CreateNotification("Alert!", "Can't find the player you want to teleport!")
+	end
+	
+end,"Player name")
 
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
