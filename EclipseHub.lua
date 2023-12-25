@@ -15,6 +15,9 @@ end)
 local Section2 = Library.CreateSection(GUI,"UniversalScript")
 
 local button3 = Library.CreateButton(Section2,"Build A Boat","Build a Boat Farm",function() loadstring(game:HttpGet("https://pastebin.com/raw/h9AnD9d1"))() end)
+
+local button3 = Library.CreateButton(Section2,"Vape V4","Vape V4",function() loadstring(game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/NewMainScript.lua", true))() end)
+
 local button4 = Library.CreateButton(Section2,"Dex","IY Mobile Dex",function()
 	getgenv().Key = "Bash"
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/Hosvile/Refinement/main/MC%3AIY%20Dex",true))() 
