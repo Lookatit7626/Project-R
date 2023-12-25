@@ -56,7 +56,7 @@ end,0.1)
 
 local lastpos = nil
 Library.CreateLoopButton(PlayerScript,"AntiFling", "AntiFling", function()
-	local humanoidroot = script.Parent.HumanoidRootPart
+	local humanoidroot = game.Players.LocalPlayer.Character.HumanoidRootPart
 	local primary = humanoidroot
 	if primary.AssemblyLinearVelocity.Magnitude > 250 or primary.AssemblyAngularVelocity.Magnitude > 250  then
 		primary.AssemblyLinearVelocity = Vector3.new(0,0,0)
