@@ -25,6 +25,7 @@ local UIListLayout = Instance.new("UIListLayout")
 Notification.Name = "Notification"
 Notification.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 Notification.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+Notification.ResetOnSpawn = false
 
 Background.Name = "Background"
 Background.Parent = Notification
@@ -189,6 +190,7 @@ local module = {
 		--ScreenGui.Parent = game.CoreGui
 		ScreenGui.Parent = game.Players.LocalPlayer.PlayerGui
 		ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+		ScreenGui.ResetOnSpawn = false
 		
 		DragTop.Name = "DragTop"
 		DragTop.Parent = ScreenGui
