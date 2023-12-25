@@ -23,7 +23,7 @@ local UIListLayout = Instance.new("UIListLayout")
 --Properties:
 
 Notification.Name = "Notification"
-Notification.Parent = game.CoreGui
+Notification.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 Notification.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 Background.Name = "Background"
@@ -187,7 +187,7 @@ local module = {
 
 		ScreenGui.Name = TitleStr
 		--ScreenGui.Parent = game.CoreGui
-		ScreenGui.Parent = game.CoreGui
+		ScreenGui.Parent = game.Players.LocalPlayer.PlayerGui
 		ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 		
 		DragTop.Name = "DragTop"
@@ -580,7 +580,7 @@ local module = {
 		coroutine.wrap(REWS_fake_script)()
 	end,
 	
-	['CreateTextBoxButton'] = function(Section,Name,Text,TextBoxDefault,callback)
+	['CreateTextBoxButton'] = function(Section,Name,Text,callback,TextBoxDefault)
 		local TextBoxButton = Instance.new("Frame")
 		local Button_4 = Instance.new("TextButton")
 		local TextBox = Instance.new("TextBox")
