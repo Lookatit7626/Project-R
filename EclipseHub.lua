@@ -6,23 +6,23 @@ local Section = Library.CreateSection(GUI,"Home")
 
 local button = Library.CreateButton(Section,"Name","Enforcing State Security GameWide")
 
-local button = mod.CreateButton(section,"Delete","Delete Hub",function()
+local button = Library.CreateButton(section,"Delete","Delete Hub",function()
 	mod.CreateNotification("Deleting","Deleting HUB...")
 	wait(2)
 	GUI:Destroy() 
 end)
 
-local Section2 = mod.CreateSection(GUI,"UniversalScript")
+local Section2 = Library.CreateSection(GUI,"UniversalScript")
 
-local Loop = mod.CreateLoopButton(section2,"LoopPrint",'Loop',function()
+local Loop = Library.CreateLoopButton(section2,"LoopPrint",'Loop',function()
 	workspace.PPPS:Destroy()
 	mod.CreateNotification('Title',"Hi")
 end,0.000000001)
 
-local textBox = mod.CreateTextBoxButton(section2,"Print",'Print','Hello world',function(text)
+local textBox = Library.CreateTextBoxButton(section2,"Print",'Print','Hello world',function(text)
 	print(text)
 end)
 
-local slider = mod.CreateSlider(section2,"Slide","SlideMe",60,function(text)
+local slider = Library.CreateSlider(section2,"Slide","SlideMe",60,function(text)
 	mod.CreateNotification('Slider',text)
 end)
