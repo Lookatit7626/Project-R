@@ -1,3 +1,5 @@
+local Character = game.Players.LocalPlayer.Character
+
 local rig = game:GetObjects("rbxassetid://5195737219")[1]
 rig.Name = "Dummy"
 rig.Parent = Character
