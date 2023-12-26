@@ -135,9 +135,32 @@ Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
 	end)()
 end,0.1)
 
-local Animations = Library.CreateSection(GUI,"Animations")
+local Server = Library.CreateSection(GUI,"Server Related")
 
-Library.CreateButton(Animations,"R15-R6","R15-R6",function() loadstring(game:HttpGet('https://raw.githubusercontent.com/Lookatit7626/Project-R/main/R15-R6.lua'))() end)
+Library.CreateButton(Server,"Rejoin","Rejoin the server",function() 
+	local ts = game:GetService("TeleportService")
+	local p = game:GetService("Players").LocalPlayer
+	ts:Teleport(game.PlaceId, p)
+end)
+
+Library.CreateButton(Server,"ServerHop","Server Hop",function() 
+	local Player = game.Players.LocalPlayer    
+	local Http = game:GetService("HttpService")
+	local TPS = game:GetService("TeleportService")
+	local Api = "https://games.roblox.com/v1/games/"
+
+	local _place,_id = game.PlaceId, game.JobId
+	local _servers = Api.._place.."/servers/Public?sortOrder=Asc&limit=10"
+	local function ListServers(cursor)
+		local Raw = game:HttpGet(_servers .. ((cursor and "&cursor="..cursor) or ""))
+		return Http:JSONDecode(Raw)
+	end
+
+	Player.Character.HumanoidRootPart.Anchored = true
+	local Servers = ListServers()
+	local Server = Servers.data[math.random(1,#Servers.data)]
+	TPS:TeleportToPlaceInstance(_place, Server.id, Player)
+end)
 
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
@@ -222,3 +245,4 @@ local button = Library.CreateLoopButton(HeavenSword,"Fireball","Fireball",functi
 	game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("UseItem"):FireServer(unpack(args))
 
 end,.05)
+
