@@ -137,7 +137,7 @@ end,0.1)
 
 local Animations = Library.CreateSection(GUI,"Animations")
 
-Library.CreateButton(Animations,"R15-R6","R15-R6",function() loadstring(game:HttpGet('https://raw.githubusercontent.com/Lookatit7626/Project-R/main/R15-R6'))() end)
+Library.CreateButton(Animations,"R15-R6","R15-R6",function() loadstring(game:HttpGet('https://raw.githubusercontent.com/Lookatit7626/Project-R/main/R15-R6.lua'))() end)
 
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
