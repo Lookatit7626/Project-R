@@ -1,4 +1,5 @@
 local Library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Lookatit7626/Project-R/main/GUI%20Library.lua')))()
+local Words = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Lookatit7626/Project-R/main/HateSpeechs.lua')))()
 
 local GUI = Library.CreateGUI("Eclipse's HUB","rbxassetid://14497104058")
 
@@ -49,7 +50,9 @@ Library.CreateLoopButton(PlayerScript,"InfJump", "Inf Jump", function()
 	coroutine.wrap(function()
 		wait(1)
 		if AA == Test then
-			Set:Disconnect()
+			pcall(function()
+				Set:Disconnect()
+			end)
 		end
 	end)()
 end,0.1)
@@ -92,6 +95,45 @@ Library.CreateTextBoxButton(PlayerScript,"Teleport",'Teleport',function(Playerna
 	end
 	
 end,"Player name")
+
+Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
+	local Test = math.random(1,99999999)
+	local AA = Test
+	local Set = false
+	local Event = nil
+	if not Set then
+		Set = true
+		if not Event then
+			Event = game.Players.PlayerChatted:Connect(function(chatType, plr, msg)
+				msg = string.lower(msg)
+				if chatType ~= Enum.PlayerChatType.Whisper and plr ~= game.Players.LocalPlayer then
+					for i, v in next, Words do
+						if string.find(msg, i) then
+							local suc, er = pcall(function()
+								game.Players:ReportAbuse(game.Players:FindFirstChild(plr.name), v, 'using hate speech and making me feel very shamed!')
+							end)
+							if not suc then
+								Library.CreateNotification('Reporting issue!',"Couldn't report due to the reason: " .. er .. ' | AR')
+								return warn("Couldn't report due to the reason: " .. er .. ' | AR')
+							else
+								Library.CreateNotification('Reported',"Reported a person for : "..v..", Person: "..plr.Name..".")
+							end
+						end
+					end
+				end
+			end)
+		end
+	end
+	coroutine.wrap(function()
+		wait(1)
+		if AA == Test then
+			Set = false
+			pcall(function()
+				Event:Disconnect()
+			end)
+		end
+	end)()
+end,0.1)
 
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
