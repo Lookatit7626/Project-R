@@ -1,3 +1,12 @@
+local rig = game:GetObjects("rbxassetid://5195737219")[1]
+rig.Name = "Dummy"
+rig.Parent = Character
+
+rig.HumanoidRootPart.Anchored = false
+workspace.CurrentCamera.CameraSubject = rig
+
+rig.HumanoidRootPart.CFrame = Character.HumanoidRootPart.CFrame
+
 rig = game:GetService("Players").LocalPlayer.Character.Dummy
 
 local Figure = rig.Animate.Parent
