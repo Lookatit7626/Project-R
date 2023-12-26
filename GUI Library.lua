@@ -342,6 +342,7 @@ local module = {
 		SectionChoser.ZIndex = 3
 		SectionChoser.CanvasSize = UDim2.new(0, 0, 0, 0)
 		SectionChoser.ScrollBarThickness = 0
+		SectionChoser.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
 		UIListLayout.Parent = SectionChoser
 		UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -439,6 +440,7 @@ local module = {
 		Sections001.CanvasSize = UDim2.new(0, 0, 0, 0)
 		Sections001.ScrollBarThickness = 0
 		Sections001.Visible = false
+		Sections001.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
 		UIListLayout_2.Parent = Sections001
 		UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
