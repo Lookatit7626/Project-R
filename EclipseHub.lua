@@ -145,9 +145,6 @@ local loop2 = false
 local Test2 = math.random(1,99999999)
 local AA2 = 1
 Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
-	Test2 = math.random(1,99999999)
-	AA2 = Test2
-	loop2 = true
 	if not Set2 then
 		Set2 = true
 		if not game['Loaded'] then game['Loaded']:Wait() end; repeat wait(.06) until game:GetService('Players').LocalPlayer ~= nil
@@ -491,11 +488,17 @@ Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function
 		end)
 		Library.CreateNotification('Translator','say anything to get your words translated!')
 	end
-	wait(1)
-	if Test2 == AA2 then
-		loop2 = false
-	end
-end,0.1)
+	coroutine.wrap(function()
+		Test2 = math.random(1,99999999)
+		AA2 = Test2
+		loop2 = true
+		wait(1)
+		if Test2 == AA2 then
+			print('closing')
+			loop2 = false
+		end
+	end)()
+end,0.5)
 
 Library.CreateTextBoxButton(PlayerScript,"ChangeLanguage",'Change Language',function(language)
 	Library.CreateNotification('Translator','changed language to '..language)
