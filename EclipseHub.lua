@@ -472,11 +472,11 @@ Library.CreateButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
 			if players[i].Name == game.Players.LocalPlayer.Name then
 				if msg:sub(1,1) == ">" and not msg:find(" ") then
 					if getISOCode(msg:sub(2)) then
-						sendEnabled = true
 						target = msg:sub(2)
+						Library.CreateNotification('Changed Language','Changed target language to '..target)
 					else
 						properties.Text = "[TR] Invalid language"
-						StarterGui:SetCore("ChatMakeSystemMessage", properties)
+						Library.CreateNotification('Invalid language',"can't find language, language is set to: "..target)
 					end
 				else
 					msg = translateTo(msg, target)
@@ -498,6 +498,8 @@ Library.CreateButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
 			Library.CreateNotification('Translated to english',player.Name..' said: '..msg)
 		end)
 	end)
+	
+	Library.CreateNotification('Language set','>[Language code] to say in the target language')
 end)
 
 local Server = Library.CreateSection(GUI,"Server Related")
