@@ -465,60 +465,38 @@ Library.CreateButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
 	local makeChat = function(msg)
 		textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(msg)
 	end
-
-	local HookChat = function(Bar)
-		coroutine.wrap(function()
-			if not table.find(Connected,Bar) then
-				local Connect = Bar['FocusLost']:Connect(function(Enter)
-					if Enter ~= false and Bar['Text'] ~= '' then
-						local Message = Bar['Text']
-						Bar['Text'] = '';
-						if Message == ">d" then
-							disableSend()
-						elseif Message:sub(1,1) == ">" and not Message:find(" ") then
-							if getISOCode(Message:sub(2)) then
-								sendEnabled = true
-								target = Message:sub(2)
-							else
-								properties.Text = "[TR] Invalid language"
-								StarterGui:SetCore("ChatMakeSystemMessage", properties)
-							end
-						elseif sendEnabled then
-							Message = translateTo(Message, target)
-							if not _G.SecureChat then
-								game:GetService('Players'):Chat(Message); 
-							end
-							makeChat(Message)
-						else
-							if not _G.SecureChat then
-								game:GetService('Players'):Chat(Message); 
-							end
-							makeChat(Message)
-						end
+	
+	local players = game.Players:GetPlayers()
+	for i = 1, #Players do
+		Players[i].Chatted:Connect(function(msg)
+			if players[i].Name == game.Players.LocalPlayer.Name then
+				if msg:sub(1,1) == ">" and not msg:find(" ") then
+					if getISOCode(msg:sub(2)) then
+						sendEnabled = true
+						target = msg:sub(2)
+					else
+						properties.Text = "[TR] Invalid language"
+						StarterGui:SetCore("ChatMakeSystemMessage", properties)
 					end
-				end)
-				Connected[#Connected+1] = Bar; Bar['AncestryChanged']:Wait(); Connect:Disconnect()
+				else
+					msg = translateTo(msg, target)
+					if not _G.SecureChat then
+						game:GetService('Players'):Chat(msg); 
+					end
+					makeChat(msg)
+				end
+			else
+				msg = translateTo(msg, target)
+				Library.CreateNotification('Translated to english',players[i].Name..' said: '..msg)
 			end
-		end)()
+		end)
 	end
-
-	HookChat(CBar); local BindHook = Instance.new('BindableEvent')
-
-	local MT = getrawmetatable(game); local NC = MT.__namecall; setreadonly(MT, false)
-
-	MT.__namecall = newcclosure(function(...)
-		local Method, Args = getnamecallmethod(), {...}
-		if rawequal(tostring(Args[1]),'ChatBarFocusChanged') and rawequal(Args[2],true) then 
-			if LP['PlayerGui']:FindFirstChild('Chat') then
-				BindHook:Fire()
-			end
-		end
-		return NC(...)
-	end)
-
-	BindHook['Event']:Connect(function()
-		CBar = LP['PlayerGui'].Chat['Frame'].ChatBarParentFrame['Frame'].BoxFrame['Frame'].ChatBar
-		HookChat(CBar)
+	
+	game.Players.PlayerAdded:Connect(function(player)
+		player.Chatted:Connect(function(msg)
+			msg = translateTo(msg, target)
+			Library.CreateNotification('Translated to english',player.Name..' said: '..msg)
+		end)
 	end)
 end)
 
