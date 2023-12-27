@@ -147,7 +147,7 @@ local target = "en"
 local Set2 = false
 Test2 = 0
 AA2 = 1
-Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
+Library.CreateButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
 	local loop2 = true
 	coroutine.wrap(function()
 		Test2 = math.random(1,99999999)
@@ -502,14 +502,7 @@ Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function
 		end)
 		Library.CreateNotification('Translator','say anything to get your words translated!')
 	end
-	coroutine.wrap(function()
-		wait(1)
-		if Test2 == AA2 then
-			print('closing')
-			loop2 = false
-		end
-	end)()
-end,0.1)
+end)
 
 Library.CreateTextBoxButton(PlayerScript,"ChangeLanguage",'Change Language',function(language)
 	Library.CreateNotification('Translator','changed language to '..language)
