@@ -459,7 +459,7 @@ Library.CreateButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
 		StarterGui:SetCore("ChatMakeSystemMessage", properties)
 	end
 
-	local CBar, CRemote, Connected = game.CoreGui.RobloxGui.Modules.Server.ClientChat.ChatBar, game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents['SayMessageRequest'], {}
+	local CBar, Connected = game.CoreGui.RobloxGui.Modules.Server.ClientChat.ChatBar, game:GetService('ReplicatedStorage'):WaitForChild('DefaultChatSystemChatEvents')['SayMessageRequest'], {}
 
 	local HookChat = function(Bar)
 		coroutine.wrap(function()
