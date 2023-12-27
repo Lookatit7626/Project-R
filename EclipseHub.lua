@@ -38,9 +38,11 @@ Library.CreateSlider(PlayerScript,"Jump",'Jump',1000,function(Speed)
 	game.Players.LocalPlayer.Character.Humanoid.JumpPower = Speed
 end)
 
+local Test0 = math.random(1,99999999)
+local AA0 = Test0
 Library.CreateLoopButton(PlayerScript,"InfJump", "Inf Jump", function()
-	local Test = math.random(1,99999999)
-	local AA = Test
+	Test0 = math.random(1,99999999)
+	AA0 = Test0
 	local Set = nil
 	if not Set then
 		Set = game:GetService('UserInputService').JumpRequest:Connect(function()
@@ -49,7 +51,7 @@ Library.CreateLoopButton(PlayerScript,"InfJump", "Inf Jump", function()
 	end
 	coroutine.wrap(function()
 		wait(1)
-		if AA == Test then
+		if AA0 == Test0 then
 			pcall(function()
 				Set:Disconnect()
 			end)
@@ -96,11 +98,13 @@ Library.CreateTextBoxButton(PlayerScript,"Teleport",'Teleport',function(Playerna
 
 end,"Player name")
 
+local Set = false
+local Event = nil
+local Test = math.random(1,99999999)
+local AA = Test
 Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
-	local Test = math.random(1,99999999)
-	local AA = Test
-	local Set = false
-	local Event = nil
+	Test = math.random(1,99999999)
+	AA = Test
 	if not Set then
 		Set = true
 		if not Event then
@@ -135,372 +139,368 @@ Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
 	end)()
 end,0.1)
 
-Library.CreateButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
-	if not game['Loaded'] then game['Loaded']:Wait() end; repeat wait(.06) until game:GetService('Players').LocalPlayer ~= nil
-	local YourLang = "en" 
-	local textChatService = game:GetService("TextChatService")
-	local googlev = isfile'googlev.txt' and readfile'googlev.txt' or ''
+local target = "en"
+local Set2 = false
+local loop2 = false
+local Test2 = math.random(1,99999999)
+local AA2 = 1
+Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
+	Test2 = math.random(1,99999999)
+	AA2 = Test2
+	loop2 = true
+	if not Set2 then
+		Set2 = true
+		if not game['Loaded'] then game['Loaded']:Wait() end; repeat wait(.06) until game:GetService('Players').LocalPlayer ~= nil
+		local YourLang = "en" 
+		local textChatService = game:GetService("TextChatService")
+		local googlev = isfile'googlev.txt' and readfile'googlev.txt' or ''
 
-	function googleConsent(Body)
-		local args = {}
+		local function googleConsent(Body)
+			local args = {}
 
-		for match in Body:gmatch('<input type="hidden" name=".-" value=".-">') do
-			local k,v = match:match('<input type="hidden" name="(.-)" value="(.-)">')
-			args[k] = v
+			for match in Body:gmatch('<input type="hidden" name=".-" value=".-">') do
+				local k,v = match:match('<input type="hidden" name="(.-)" value="(.-)">')
+				args[k] = v
+			end
+			googlev = args.v
+			writefile('googlev.txt', args.v)
 		end
-		googlev = args.v
-		writefile('googlev.txt', args.v)
-	end
 
-	local function got(url, Method, Body) 
-		Method = Method or "GET"
+		local function got(url, Method, Body) 
+			Method = Method or "GET"
 
-		local res = request({
-			Url = url,
-			Method = Method,
-			Headers = {cookie="CONSENT=YES+"..googlev},
-			Body = Body
-		})
-
-		if res.Body:match('https://consent.google.com/s') then
-			print('consent')
-			googleConsent(res.Body)
-			res = request({
+			local res = request({
 				Url = url,
-				Method = "GET",
-				Headers = {cookie="CONSENT=YES+"..googlev}
+				Method = Method,
+				Headers = {cookie="CONSENT=YES+"..googlev},
+				Body = Body
 			})
-		end
 
-		return res
-	end
-
-	local languages = {
-		auto = "Automatic",
-		af = "Afrikaans",
-		sq = "Albanian",
-		am = "Amharic",
-		ar = "Arabic",
-		hy = "Armenian",
-		az = "Azerbaijani",
-		eu = "Basque",
-		be = "Belarusian",
-		bn = "Bengali",
-		bs = "Bosnian",
-		bg = "Bulgarian",
-		ca = "Catalan",
-		ceb = "Cebuano",
-		ny = "Chichewa",
-		['zh-cn'] = "Chinese Simplified",
-		['zh-tw'] = "Chinese Traditional",
-		co = "Corsican",
-		hr = "Croatian",
-		cs = "Czech",
-		da = "Danish",
-		nl = "Dutch",
-		en = "English",
-		eo = "Esperanto",
-		et = "Estonian",
-		tl = "Filipino",
-		fi = "Finnish",
-		fr = "French",
-		fy = "Frisian",
-		gl = "Galician",
-		ka = "Georgian",
-		de = "German",
-		el = "Greek",
-		gu = "Gujarati",
-		ht = "Haitian Creole",
-		ha = "Hausa",
-		haw = "Hawaiian",
-		iw = "Hebrew",
-		hi = "Hindi",
-		hmn = "Hmong",
-		hu = "Hungarian",
-		is = "Icelandic",
-		ig = "Igbo",
-		id = "Indonesian",
-		ga = "Irish",
-		it = "Italian",
-		ja = "Japanese",
-		jw = "Javanese",
-		kn = "Kannada",
-		kk = "Kazakh",
-		km = "Khmer",
-		ko = "Korean",
-		ku = "Kurdish (Kurmanji)",
-		ky = "Kyrgyz",
-		lo = "Lao",
-		la = "Latin",
-		lv = "Latvian",
-		lt = "Lithuanian",
-		lb = "Luxembourgish",
-		mk = "Macedonian",
-		mg = "Malagasy",
-		ms = "Malay",
-		ml = "Malayalam",
-		mt = "Maltese",
-		mi = "Maori",
-		mr = "Marathi",
-		mn = "Mongolian",
-		my = "Myanmar (Burmese)",
-		ne = "Nepali",
-		no = "Norwegian",
-		ps = "Pashto",
-		fa = "Persian",
-		pl = "Polish",
-		pt = "Portuguese",
-		pa = "Punjabi",
-		ro = "Romanian",
-		ru = "Russian",
-		sm = "Samoan",
-		gd = "Scots Gaelic",
-		sr = "Serbian",
-		st = "Sesotho",
-		sn = "Shona",
-		sd = "Sindhi",
-		si = "Sinhala",
-		sk = "Slovak",
-		sl = "Slovenian",
-		so = "Somali",
-		es = "Spanish",
-		su = "Sundanese",
-		sw = "Swahili",
-		sv = "Swedish",
-		tg = "Tajik",
-		ta = "Tamil",
-		te = "Telugu",
-		th = "Thai",
-		tr = "Turkish",
-		uk = "Ukrainian",
-		ur = "Urdu",
-		uz = "Uzbek",
-		vi = "Vietnamese",
-		cy = "Welsh",
-		xh = "Xhosa",
-		yi = "Yiddish",
-		yo = "Yoruba",
-		zu = "Zulu"
-	};
-
-	function find(lang)
-		for i,v in pairs(languages) do
-			if i == lang or v == lang then
-				return i
+			if res.Body:match('https://consent.google.com/s') then
+				print('consent')
+				googleConsent(res.Body)
+				res = request({
+					Url = url,
+					Method = "GET",
+					Headers = {cookie="CONSENT=YES+"..googlev}
+				})
 			end
+
+			return res
 		end
-	end
 
-	function isSupported(lang)
-		local key = find(lang)
-		return key and true or false 
-	end
+		local languages = {
+			auto = "Automatic",
+			af = "Afrikaans",
+			sq = "Albanian",
+			am = "Amharic",
+			ar = "Arabic",
+			hy = "Armenian",
+			az = "Azerbaijani",
+			eu = "Basque",
+			be = "Belarusian",
+			bn = "Bengali",
+			bs = "Bosnian",
+			bg = "Bulgarian",
+			ca = "Catalan",
+			ceb = "Cebuano",
+			ny = "Chichewa",
+			['zh-cn'] = "Chinese Simplified",
+			['zh-tw'] = "Chinese Traditional",
+			co = "Corsican",
+			hr = "Croatian",
+			cs = "Czech",
+			da = "Danish",
+			nl = "Dutch",
+			en = "English",
+			eo = "Esperanto",
+			et = "Estonian",
+			tl = "Filipino",
+			fi = "Finnish",
+			fr = "French",
+			fy = "Frisian",
+			gl = "Galician",
+			ka = "Georgian",
+			de = "German",
+			el = "Greek",
+			gu = "Gujarati",
+			ht = "Haitian Creole",
+			ha = "Hausa",
+			haw = "Hawaiian",
+			iw = "Hebrew",
+			hi = "Hindi",
+			hmn = "Hmong",
+			hu = "Hungarian",
+			is = "Icelandic",
+			ig = "Igbo",
+			id = "Indonesian",
+			ga = "Irish",
+			it = "Italian",
+			ja = "Japanese",
+			jw = "Javanese",
+			kn = "Kannada",
+			kk = "Kazakh",
+			km = "Khmer",
+			ko = "Korean",
+			ku = "Kurdish (Kurmanji)",
+			ky = "Kyrgyz",
+			lo = "Lao",
+			la = "Latin",
+			lv = "Latvian",
+			lt = "Lithuanian",
+			lb = "Luxembourgish",
+			mk = "Macedonian",
+			mg = "Malagasy",
+			ms = "Malay",
+			ml = "Malayalam",
+			mt = "Maltese",
+			mi = "Maori",
+			mr = "Marathi",
+			mn = "Mongolian",
+			my = "Myanmar (Burmese)",
+			ne = "Nepali",
+			no = "Norwegian",
+			ps = "Pashto",
+			fa = "Persian",
+			pl = "Polish",
+			pt = "Portuguese",
+			pa = "Punjabi",
+			ro = "Romanian",
+			ru = "Russian",
+			sm = "Samoan",
+			gd = "Scots Gaelic",
+			sr = "Serbian",
+			st = "Sesotho",
+			sn = "Shona",
+			sd = "Sindhi",
+			si = "Sinhala",
+			sk = "Slovak",
+			sl = "Slovenian",
+			so = "Somali",
+			es = "Spanish",
+			su = "Sundanese",
+			sw = "Swahili",
+			sv = "Swedish",
+			tg = "Tajik",
+			ta = "Tamil",
+			te = "Telugu",
+			th = "Thai",
+			tr = "Turkish",
+			uk = "Ukrainian",
+			ur = "Urdu",
+			uz = "Uzbek",
+			vi = "Vietnamese",
+			cy = "Welsh",
+			xh = "Xhosa",
+			yi = "Yiddish",
+			yo = "Yoruba",
+			zu = "Zulu"
+		};
 
-	function getISOCode(lang)
-		local key = find(lang)
-		return key
-	end
-
-	function stringifyQuery(dataFields)
-		local data = ""
-		for k, v in pairs(dataFields) do
-			if type(v) == "table" then
-				for _,v in pairs(v) do
-					data = data .. ("&%s=%s"):format(
-					game.HttpService:UrlEncode(k),
-					game.HttpService:UrlEncode(v)
-					)
+		local function find(lang)
+			for i,v in pairs(languages) do
+				if i == lang or v == lang then
+					return i
 				end
-			else
-				data = data .. ("&%s=%s"):format(
-				game.HttpService:UrlEncode(k),
-				game.HttpService:UrlEncode(v)
-				)
 			end
 		end
-		data = data:sub(2)
-		return data
-	end
 
-	local reqid = math.random(1000,9999)
-	local rpcidsTranslate = "MkEWBc"
-	local rootURL = "https://translate.google.com/"
-	local executeURL = "https://translate.google.com/_/TranslateWebserverUi/data/batchexecute"
-	local fsid, bl
-
-	do -- init
-		print('initialize')
-		local InitialReq = got(rootURL)
-		fsid = InitialReq.Body:match('"FdrFJe":"(.-)"')
-		bl = InitialReq.Body:match('"cfb2h":"(.-)"')
-	end
-
-	local HttpService = game:GetService("HttpService")
-	function jsonE(o)
-		return HttpService:JSONEncode(o)
-	end
-	function jsonD(o)
-		return HttpService:JSONDecode(o)
-	end
-
-	function translate(str, to, from)
-		reqid+=10000
-		from = from and getISOCode(from) or 'auto'
-		to = to and getISOCode(to) or 'en'
-
-		local data = {{str, from, to, true}, {nil}}
-
-		local freq = {
-			{
-				{
-					rpcidsTranslate, 
-					jsonE(data),
-					nil,
-					"generic"
-				}
-			}
-		}
-
-		local url = executeURL..'?'..stringifyQuery{rpcids = rpcidsTranslate, ['f.sid'] = fsid, bl = bl, hl="en", _reqid = reqid-10000, rt = 'c'}
-		local body = stringifyQuery{['f.req'] = jsonE(freq)}
-
-		local req = got(url, "POST", body)
-
-		local body = jsonD(req.Body:match'%[.-%]\n')
-		local translationData = jsonD(body[1][3])
-		local result = {
-			text = "",
-			from = {
-				language = "",
-				text = ""
-			},
-			raw = ""
-		}
-		result.raw = translationData
-		result.text = translationData[2][1][1][6][1][1]
-
-		result.from.language = translationData[3]
-		result.from.text = translationData[2][5][1]
-
-		return result
-	end
-
-	local Players = game:GetService("Players")
-	local LP = Players.LocalPlayer
-	local StarterGui = game:GetService('StarterGui')
-	for i=1, 15 do
-		local r = pcall(StarterGui["SetCore"])
-		if r then break end
-		game:GetService('RunService').RenderStepped:wait()
-	end
-	wait()
-
-	local properties = {
-		Color = Color3.new(1,1,0);
-		Font = Enum.Font.SourceSansItalic;
-		TextSize = 16;
-	}
-
-	game:GetService("StarterGui"):SetCore("SendNotification",
-	{
-		Title = "Chat Translator",
-		Text = "Ported to Google Translate",
-		Duration = 3
-	}
-	)
-
-	properties.Text = "[TR] To send messages in a language, say > followed by the target language/language code, e.g.: >ru or >russian. To disable (go back to original language), say >d."
-	StarterGui:SetCore("ChatMakeSystemMessage", properties)
-
-	function translateFrom(message)
-		local translation = translate(message, YourLang)
-
-		local text
-		if translation.from.language ~= YourLang then 
-			text = translation.text
+		local function isSupported(lang)
+			local key = find(lang)
+			return key and true or false 
 		end
 
-		return {text, translation.from.language}
-	end
-
-	function get(plr, msg)
-		local tab = translateFrom(msg)
-		local translation = tab[1]
-		if translation then
-			properties.Text = "("..tab[2]:upper()..") ".."[".. plr.Name .."]: "..translation
-			StarterGui:SetCore("ChatMakeSystemMessage", properties)
+		local function getISOCode(lang)
+			local key = find(lang)
+			return key
 		end
-	end
 
-	for i, plr in ipairs(Players:GetPlayers()) do
-		plr.Chatted:Connect(function(msg)
-			get(plr, msg)
-		end)
-	end
-	Players.PlayerAdded:Connect(function(plr)
-		plr.Chatted:Connect(function(msg)
-			get(plr, msg)
-		end)
-	end)
-
-	local sendEnabled = false
-	local target = ""
-
-	function translateTo(message, target)
-		target = target:lower() 
-		local translation = translate(message, target, "auto")
-
-		return translation.text
-	end
-
-	function disableSend()
-		sendEnabled = false
-		properties.Text = "[TR] Sending Disabled"
-		StarterGui:SetCore("ChatMakeSystemMessage", properties)
-	end
-
-	local TextService = game:GetService('TextChatService')
-	local CBar, Connected = game.CoreGui.RobloxGui.Modules.Server.ClientChat.ChatBar, {}
-
-	local makeChat = function(msg)
-		textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(msg)
-	end
-	
-	local players = game.Players:GetPlayers()
-	for i = 1, #players do
-		players[i].Chatted:Connect(function(msg)
-			if players[i].Name == game.Players.LocalPlayer.Name then
-				if msg:sub(1,1) == ">" and not msg:find(" ") then
-					if getISOCode(msg:sub(2)) then
-						target = msg:sub(2)
-						Library.CreateNotification('Changed Language','Changed target language to '..target)
-					else
-						properties.Text = "[TR] Invalid language"
-						Library.CreateNotification('Invalid language',"can't find language, language is set to: "..target)
+		local function stringifyQuery(dataFields)
+			local data = ""
+			for k, v in pairs(dataFields) do
+				if type(v) == "table" then
+					for _,v in pairs(v) do
+						data = data .. ("&%s=%s"):format(
+							game.HttpService:UrlEncode(k),
+							game.HttpService:UrlEncode(v)
+						)
 					end
 				else
-					msg = translateTo(msg, target)
-					if not _G.SecureChat then
-						game:GetService('Players'):Chat(msg); 
-					end
-					makeChat(msg)
+					data = data .. ("&%s=%s"):format(
+						game.HttpService:UrlEncode(k),
+						game.HttpService:UrlEncode(v)
+					)
 				end
-			else
-				msg = translateTo(msg, target)
-				Library.CreateNotification('Translated to english',players[i].Name..' said: '..msg)
 			end
+			data = data:sub(2)
+			return data
+		end
+
+		local reqid = math.random(1000,9999)
+		local rpcidsTranslate = "MkEWBc"
+		local rootURL = "https://translate.google.com/"
+		local executeURL = "https://translate.google.com/_/TranslateWebserverUi/data/batchexecute"
+		local fsid, bl
+
+		do -- init
+			print('initialize')
+			local InitialReq = got(rootURL)
+			fsid = InitialReq.Body:match('"FdrFJe":"(.-)"')
+			bl = InitialReq.Body:match('"cfb2h":"(.-)"')
+		end
+
+		local HttpService = game:GetService("HttpService")
+		local function jsonE(o)
+			return HttpService:JSONEncode(o)
+		end
+		local function jsonD(o)
+			return HttpService:JSONDecode(o)
+		end
+
+		local function translate(str, to, from)
+			reqid+=10000
+			from = from and getISOCode(from) or 'auto'
+			to = to and getISOCode(to) or 'en'
+
+			local data = {{str, from, to, true}, {nil}}
+
+			local freq = {
+				{
+					{
+						rpcidsTranslate, 
+						jsonE(data),
+						nil,
+						"generic"
+					}
+				}
+			}
+
+			local url = executeURL..'?'..stringifyQuery{rpcids = rpcidsTranslate, ['f.sid'] = fsid, bl = bl, hl="en", _reqid = reqid-10000, rt = 'c'}
+			local body = stringifyQuery{['f.req'] = jsonE(freq)}
+
+			local req = got(url, "POST", body)
+
+			local body = jsonD(req.Body:match'%[.-%]\n')
+			local translationData = jsonD(body[1][3])
+			local result = {
+				text = "",
+				from = {
+					language = "",
+					text = ""
+				},
+				raw = ""
+			}
+			result.raw = translationData
+			result.text = translationData[2][1][1][6][1][1]
+
+			result.from.language = translationData[3]
+			result.from.text = translationData[2][5][1]
+
+			return result
+		end
+
+		local Players = game:GetService("Players")
+		local LP = Players.LocalPlayer
+		local StarterGui = game:GetService('StarterGui')
+		for i=1, 15 do
+			local r = pcall(StarterGui["SetCore"])
+			if r then break end
+			game:GetService('RunService').RenderStepped:wait()
+		end
+		wait()
+
+		local properties = {
+			Color = Color3.new(1,1,0);
+			Font = Enum.Font.SourceSansItalic;
+			TextSize = 16;
+		}
+
+		local function translateFrom(message)
+			local translation = translate(message, YourLang)
+
+			local text
+			if translation.from.language ~= YourLang then 
+				text = translation.text
+			end
+
+			return {text, translation.from.language}
+		end
+
+		local function get(plr, msg)
+			local tab = translateFrom(msg)
+			local translation = tab[1]
+			if translation then
+				properties.Text = "("..tab[2]:upper()..") ".."[".. plr.Name .."]: "..translation
+				StarterGui:SetCore("ChatMakeSystemMessage", properties)
+			end
+		end
+
+		for i, plr in ipairs(Players:GetPlayers()) do
+			plr.Chatted:Connect(function(msg)
+				get(plr, msg)
+			end)
+		end
+		Players.PlayerAdded:Connect(function(plr)
+			plr.Chatted:Connect(function(msg)
+				get(plr, msg)
+			end)
 		end)
+
+		local sendEnabled = false
+
+		local function translateTo(message, target)
+			target = target:lower() 
+			local translation = translate(message, target, "auto")
+
+			return translation.text
+		end
+
+		local TextService = game:GetService('TextChatService')
+		local CBar, Connected = game.CoreGui.RobloxGui.Modules.Server.ClientChat.ChatBar, {}
+
+		local makeChat = function(msg)
+			textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(msg)
+		end
+
+		local players = game.Players:GetPlayers()
+		for i = 1, #players do
+			players[i].Chatted:Connect(function(msg)
+				if players[i].Name == game.Players.LocalPlayer.Name then
+					if loop2 then
+						msg = translateTo(msg, target)
+						if not _G.SecureChat then
+							game:GetService('Players'):Chat(msg); 
+						end
+						makeChat(msg)
+					end
+				else
+					if loop2 then
+						msg = translateTo(msg, target)
+						Library.CreateNotification('Translated to english',players[i].Name..' said: '..msg)
+					end
+				end
+			end)
+		end
+
+		game.Players.PlayerAdded:Connect(function(player)
+			player.Chatted:Connect(function(msg)
+				if loop2 then
+					msg = translateTo(msg, target)
+					Library.CreateNotification('Translated to english',player.Name..' said: '..msg)
+				end
+			end)
+		end)
+		Library.CreateNotification('Language set','>[Language code] to say in the target language')
 	end
-	
-	game.Players.PlayerAdded:Connect(function(player)
-		player.Chatted:Connect(function(msg)
-			msg = translateTo(msg, target)
-			Library.CreateNotification('Translated to english',player.Name..' said: '..msg)
-		end)
-	end)
-	
-	Library.CreateNotification('Language set','>[Language code] to say in the target language')
-end)
+	wait(1)
+	if Test == AA then
+		loop2 = false
+	end
+end,0.1)
+
+Library.CreateTextBoxButton(PlayerScript,"ChangeLanguage",'Change Language',function(language)
+	target = language
+end,"en")
 
 local Server = Library.CreateSection(GUI,"Server Related")
 
