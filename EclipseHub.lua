@@ -42,8 +42,6 @@ local Set = nil
 Library.CreateLoopButton(PlayerScript,"InfJump", "Inf Jump", function()
 	local Test0 = math.random(1,99999999)
 	local AA0 = Test0
-	Test0 = math.random(1,99999999)
-	AA0 = Test0
 	if not Set then
 		Set = game:GetService('UserInputService').JumpRequest:Connect(function()
 			game.Players.LocalPlayer.Character.Humanoid:ChangeState('Jumping')
@@ -99,10 +97,10 @@ Library.CreateTextBoxButton(PlayerScript,"Teleport",'Teleport',function(Playerna
 end,"Player name")
 
 local Set = false
+local Test = math.random(1,99999999)
+local AA = Test
 Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
 	local Event = nil
-	local Test = math.random(1,99999999)
-	local AA = Test
 	Test = math.random(1,99999999)
 	AA = Test
 	if not Set then
@@ -141,13 +139,12 @@ end,0.1)
 
 local target = "en"
 local Set2 = false
-local Test2 = math.random(1,99999999)
-local AA2 = 1
+Test2 = 0
+AA2 = 1
 Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
-	local loop2 = false
+	local loop2 = true
 	Test2 = math.random(1,99999999)
 	AA2 = Test2
-	loop2 = true
 	if not Set2 then
 		Set2 = true
 		if not game['Loaded'] then game['Loaded']:Wait() end; repeat wait(.06) until game:GetService('Players').LocalPlayer ~= nil
