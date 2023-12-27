@@ -464,6 +464,7 @@ Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function
 		
 		game.Players.LocalPlayer.Chatted:Connect(function(msg)
 			if loop2 then
+				Library.CreateNotification('Translator:',msg)
 				msg = translateTo(msg, target)
 				Library.CreateNotification('Translator:',msg)
 				makeChat(msg)
@@ -491,7 +492,7 @@ Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function
 		Library.CreateNotification('Translator','say anything to get your words translated!')
 	end
 	wait(1)
-	if Test == AA then
+	if Test2 == AA2 then
 		loop2 = false
 	end
 end,0.1)
