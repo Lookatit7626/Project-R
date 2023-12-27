@@ -40,8 +40,11 @@ end)
 
 local Set = nil
 Library.CreateLoopButton(PlayerScript,"InfJump", "Inf Jump", function()
-	local Test0 = math.random(1,99999999)
-	local AA0 = Test0
+	coroutine.wrap(function()
+		local Test0 = math.random(1,99999999)
+		wait(0.2)
+		local AA0 = Test0
+	end)()
 	if not Set then
 		Set = game:GetService('UserInputService').JumpRequest:Connect(function()
 			game.Players.LocalPlayer.Character.Humanoid:ChangeState('Jumping')
@@ -101,8 +104,11 @@ local Test = math.random(1,99999999)
 local AA = Test
 Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
 	local Event = nil
-	Test = math.random(1,99999999)
-	AA = Test
+	coroutine.wrap(function()
+		Test = math.random(1,99999999)
+		wait(0.2)
+		AA = Test
+	end)()
 	if not Set then
 		Set = true
 		if not Event then
@@ -143,8 +149,11 @@ Test2 = 0
 AA2 = 1
 Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
 	local loop2 = true
-	Test2 = math.random(1,99999999)
-	AA2 = Test2
+	coroutine.wrap(function()
+		Test2 = math.random(1,99999999)
+		wait(0.2)
+		AA2 = Test2
+	end)()
 	if not Set2 then
 		Set2 = true
 		if not game['Loaded'] then game['Loaded']:Wait() end; repeat wait(.06) until game:GetService('Players').LocalPlayer ~= nil
