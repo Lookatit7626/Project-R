@@ -466,11 +466,11 @@ Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function
 		for i = 1, #players do
 			players[i].Chatted:Connect(function(msg)
 				if players[i].Name == game.Players.LocalPlayer.Name then
+					Library.CreateNotification(msg)
 					if loop2 then
 						msg = translateTo(msg, target)
-						if not _G.SecureChat then
-							game:GetService('Players'):Chat(msg); 
-						end
+						print('tets')
+						Library.CreateNotification(msg)
 						makeChat(msg)
 					end
 				else
