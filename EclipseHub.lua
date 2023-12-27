@@ -138,7 +138,7 @@ end,0.1)
 Library.CreateButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
 	if not game['Loaded'] then game['Loaded']:Wait() end; repeat wait(.06) until game:GetService('Players').LocalPlayer ~= nil
 	local YourLang = "en" 
-
+	local textChatService = game:GetService("TextChatService")
 	local googlev = isfile'googlev.txt' and readfile'googlev.txt' or ''
 
 	function googleConsent(Body)
@@ -459,7 +459,12 @@ Library.CreateButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
 		StarterGui:SetCore("ChatMakeSystemMessage", properties)
 	end
 
-	local CBar, Connected = game.CoreGui.RobloxGui.Modules.Server.ClientChat.ChatBar, game:GetService('ReplicatedStorage'):WaitForChild('DefaultChatSystemChatEvents')['SayMessageRequest'], {}
+	local TextService = game:GetService('TextChatService')
+	local CBar, Connected = game.CoreGui.RobloxGui.Modules.Server.ClientChat.ChatBar, {}
+
+	local makeChat = function(msg)
+		textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(msg)
+	end
 
 	local HookChat = function(Bar)
 		coroutine.wrap(function()
@@ -483,12 +488,12 @@ Library.CreateButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
 							if not _G.SecureChat then
 								game:GetService('Players'):Chat(Message); 
 							end
-							CRemote:FireServer(Message,'All')
+							makeChat(Message)
 						else
 							if not _G.SecureChat then
 								game:GetService('Players'):Chat(Message); 
 							end
-							CRemote:FireServer(Message,'All')
+							makeChat(Message)
 						end
 					end
 				end)
