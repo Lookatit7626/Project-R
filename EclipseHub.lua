@@ -467,8 +467,8 @@ Library.CreateButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
 	end
 	
 	local players = game.Players:GetPlayers()
-	for i = 1, #Players do
-		Players[i].Chatted:Connect(function(msg)
+	for i = 1, #players do
+		players[i].Chatted:Connect(function(msg)
 			if players[i].Name == game.Players.LocalPlayer.Name then
 				if msg:sub(1,1) == ">" and not msg:find(" ") then
 					if getISOCode(msg:sub(2)) then
