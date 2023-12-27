@@ -495,7 +495,7 @@ Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function
 			loop2 = false
 		end
 	end)()
-end,0.5)
+end,0.1)
 
 Library.CreateTextBoxButton(PlayerScript,"ChangeLanguage",'Change Language',function(language)
 	Library.CreateNotification('Translator','changed language to '..language)
