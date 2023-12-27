@@ -461,23 +461,21 @@ Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function
 		local makeChat = function(msg)
 			textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(msg)
 		end
+		
+		game.Players.LocalPlayer.Chatted:Connect(function(msg)
+			if loop2 then
+				msg = translateTo(msg, target)
+				Library.CreateNotification('Translator:',msg)
+				makeChat(msg)
+			end
+		end)
 
 		local players = game.Players:GetPlayers()
 		for i = 1, #players do
 			players[i].Chatted:Connect(function(msg)
-				if players[i].Name == game.Players.LocalPlayer.Name then
-					Library.CreateNotification(msg)
-					if loop2 then
-						msg = translateTo(msg, target)
-						print('tets')
-						Library.CreateNotification(msg)
-						makeChat(msg)
-					end
-				else
-					if loop2 then
-						msg = translateTo(msg, target)
-						Library.CreateNotification('Translated to english',players[i].Name..' said: '..msg)
-					end
+				if loop2 then
+					msg = translateTo(msg, target)
+					Library.CreateNotification('Translated to english',players[i].Name..' said: '..msg)
 				end
 			end)
 		end
@@ -490,7 +488,7 @@ Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function
 				end
 			end)
 		end)
-		Library.CreateNotification('Language set','>[Language code] to say in the target language')
+		Library.CreateNotification('Translator','say anything to get your words translated!')
 	end
 	wait(1)
 	if Test == AA then
@@ -499,6 +497,7 @@ Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function
 end,0.1)
 
 Library.CreateTextBoxButton(PlayerScript,"ChangeLanguage",'Change Language',function(language)
+	Library.CreateNotification('Translator','changed language to '..language)
 	target = language
 end,"en")
 
