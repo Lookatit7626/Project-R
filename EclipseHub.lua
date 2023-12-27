@@ -38,9 +38,9 @@ Library.CreateSlider(PlayerScript,"Jump",'Jump',1000,function(Speed)
 	game.Players.LocalPlayer.Character.Humanoid.JumpPower = Speed
 end)
 
-local Test0 = math.random(1,99999999)
-local AA0 = Test0
 Library.CreateLoopButton(PlayerScript,"InfJump", "Inf Jump", function()
+	local Test0 = math.random(1,99999999)
+	local AA0 = Test0
 	Test0 = math.random(1,99999999)
 	AA0 = Test0
 	local Set = nil
@@ -98,11 +98,11 @@ Library.CreateTextBoxButton(PlayerScript,"Teleport",'Teleport',function(Playerna
 
 end,"Player name")
 
-local Set = false
-local Event = nil
-local Test = math.random(1,99999999)
-local AA = Test
 Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
+	local Set = false
+	local Event = nil
+	local Test = math.random(1,99999999)
+	local AA = Test
 	Test = math.random(1,99999999)
 	AA = Test
 	if not Set then
@@ -140,11 +140,11 @@ Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
 end,0.1)
 
 local target = "en"
-local Set2 = false
-local loop2 = false
-local Test2 = math.random(1,99999999)
-local AA2 = 1
 Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
+	local Set2 = false
+	local loop2 = false
+	local Test2 = math.random(1,99999999)
+	local AA2 = 1
 	if not Set2 then
 		Set2 = true
 		if not game['Loaded'] then game['Loaded']:Wait() end; repeat wait(.06) until game:GetService('Players').LocalPlayer ~= nil
