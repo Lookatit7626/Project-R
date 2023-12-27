@@ -106,7 +106,7 @@ Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
 	local Event = nil
 	coroutine.wrap(function()
 		Test = math.random(1,99999999)
-		wait(0.2)
+		wait(0.6)
 		AA = Test
 	end)()
 	if not Set then
@@ -151,7 +151,7 @@ Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function
 	local loop2 = true
 	coroutine.wrap(function()
 		Test2 = math.random(1,99999999)
-		wait(0.2)
+		wait(0.6)
 		AA2 = Test2
 	end)()
 	if not Set2 then
@@ -468,12 +468,17 @@ Library.CreateLoopButton(PlayerScript,"AutoTranslate", "AutoTranslate", function
 			textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(msg)
 		end
 		
+		local cooldown233 = false
 		game.Players.LocalPlayer.Chatted:Connect(function(msg)
-			if loop2 then
-				Library.CreateNotification('Translator:',msg)
-				msg = translateTo(msg, target)
-				Library.CreateNotification('Translator:',msg)
-				makeChat(msg)
+			if not cooldown233 then
+				cooldown233 = true
+				if loop2 then
+					msg = translateTo(msg, target)
+					Library.CreateNotification('Translator:',msg)
+					makeChat(msg)
+				end
+				wait(1)
+				cooldown233 = false
 			end
 		end)
 
