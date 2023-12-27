@@ -135,7 +135,7 @@ Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
 	end)()
 end,0.1)
 
-Library.CreateButton(PlayerScript,"AutoReport", "AutoReport", function()
+Library.CreateButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
 	if not game['Loaded'] then game['Loaded']:Wait() end; repeat wait(.06) until game:GetService('Players').LocalPlayer ~= nil
 	local YourLang = "en" 
 
@@ -459,7 +459,7 @@ Library.CreateButton(PlayerScript,"AutoReport", "AutoReport", function()
 		StarterGui:SetCore("ChatMakeSystemMessage", properties)
 	end
 
-	local CBar, CRemote, Connected = LP['PlayerGui']:WaitForChild('Chat')['Frame'].ChatBarParentFrame['Frame'].BoxFrame['Frame'].ChatBar, game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents['SayMessageRequest'], {}
+	local CBar, CRemote, Connected = game.CoreGui.RobloxGui.Modules.Server.ClientChat.ChatBar, game:GetService('ReplicatedStorage').DefaultChatSystemChatEvents['SayMessageRequest'], {}
 
 	local HookChat = function(Bar)
 		coroutine.wrap(function()
