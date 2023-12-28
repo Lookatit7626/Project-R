@@ -26,6 +26,8 @@ end)
 
 Library.CreateButton(Section2,"IY","IY",function() loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))() end)
 
+Library.CreateButton(Section2,"Fly","Fly script",function() loadstring(game:HttpGet("https://raw.githubusercontent.com/YxuTeam/ArceusX-V3-Scripts/main/ArceusX-Fly.lua"))() end)
+
 Library.CreateButton(Section2,"Fling","Custom Fling Script",function() loadstring(game:HttpGet("https://pastebin.com/raw/WnJwFXgR"))() end)
 
 local PlayerScript = Library.CreateSection(GUI,"Player Script")
@@ -637,20 +639,3 @@ Library.CreateLoopButton(HeavenSword,"Fireball","Fireball",function()
 	game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("UseItem"):FireServer(unpack(args))
 
 end,.05)
-
-local Animations = Library.CreateSection(GUI,"Animations")
-Library.CreateButton(Animations,"Helicopter","Helicopter Animation (R6 Only!)",function()
-	local Anim = Instance.new("Animation")
-	Anim.AnimationId = "rbxassetid://15786916017"
-	local plrAni = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
-
-	Library.CreateNotification('Ran Animation','Ran the helicopter animation')
-end)
-
-Library.CreateButton(Animations,"Helicopter","Helicopter Animation (R15 Only!)",function()
-	local Anim = Instance.new("Animation")
-	Anim.AnimationId = "rbxassetid://15787256889"
-	local plrAni = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
-
-	Library.CreateNotification('Ran Animation','Ran the helicopter animation')
-end)
