@@ -143,10 +143,6 @@ Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
 	end)()
 end,0.1)
 
-Library.CreateButton(PlayerScript,"R15toR6", "R15 to R6", function()
-	loadstring(game:HttpGet(('https://raw.githubusercontent.com/Imagnir/r6_anims_for_r15/main/r6_anims.lua'),true))()
-end)
-
 local target = "en"
 local Set2 = false
 Test2 = 0
@@ -642,21 +638,19 @@ Library.CreateLoopButton(HeavenSword,"Fireball","Fireball",function()
 
 end,.05)
 
-local set = false
 local Animations = Library.CreateSection(GUI,"Animations")
-local track
 Library.CreateButton(Animations,"Helicopter","Helicopter Animation (R6 Only!)",function()
-	local Animate = game.Players.LocalPlayer.Character.Animate
+	local Anim = Instance.new("Animation")
+	Anim.AnimationId = "rbxassetid://15786916017"
+	local plrAni = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
 
-	local animationID = "rbxassetid://15786541383"
-	Animate.idle.Animation1.AnimationId = "rbxassetid://15786541383"
-	Animate.idle.Animation2.AnimationId = "rbxassetid://15786541383"
-	Animate.walk.WalkAnim.AnimationId = "rbxassetid://15786541383"
-	Animate.run.RunAnim.AnimationId = "rbxassetid://15786541383"
-	Animate.jump.JumpAnim.AnimationId = "rbxassetid://15786541383"
-	Animate.climb.ClimbAnim.AnimationId = "rbxassetid://15786541383"
-	Animate.fall.FallAnim.AnimationId = "rbxassetid://15786541383"
-	game.Players.LocalPlayer.Character.Humanoid.Jump = true
+	Library.CreateNotification('Ran Animation','Ran the helicopter animation')
+end)
+
+Library.CreateButton(Animations,"Helicopter","Helicopter Animation (R15 Only!)",function()
+	local Anim = Instance.new("Animation")
+	Anim.AnimationId = "rbxassetid://15787256889"
+	local plrAni = game.Players.LocalPlayer.Character.Humanoid:LoadAnimation(Anim)
 
 	Library.CreateNotification('Ran Animation','Ran the helicopter animation')
 end)
