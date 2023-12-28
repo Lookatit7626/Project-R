@@ -642,29 +642,39 @@ Library.CreateLoopButton(HeavenSword,"Fireball","Fireball",function()
 
 end,.05)
 
+local set = false
 local Animations = Library.CreateSection(GUI,"Animations")
+local track
 Library.CreateLoopButton(Animations,"Helicopter","Helicopter Animation (R6 Only!)",function()
-	
 	local animationID = "rbxassetid://15786541383"
 	local plr = game.Players.LocalPlayer
 	local ani = Instance.new('Animation')
-	ani.AnimationId = animationID
-	ani.Parent = game.Players.LocalPlayer.Character
-	ani.Name = 'HelicopterAni'
-	
-	local track
-	
 	local animator =  game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid'):FindFirstChildOfClass('Animator')
-	animator:LoadAnimation(ani)
+	
+	if Set == false then
+		Set = true
+		ani.AnimationId = animationID
+		ani.Parent = game.Players.LocalPlayer.Character
+		ani.Name = 'HelicopterAni'
+
+		animator:LoadAnimation(ani)
+		local playAnimation = game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid'):FindFirstChildOfClass('Animator'):GetPlayingAnimationTracks()
+		for _, tracks in playAnimation do
+			if tracks.Animation.AnimationId ~= animationID then
+				tracks:Stop()
+			end
+		end
+	end
+	local playing = false
 	local playAnimation = game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid'):FindFirstChildOfClass('Animator'):GetPlayingAnimationTracks()
 	for _, tracks in playAnimation do
-		if tracks.Animation.AnimationId ~= animationID then
-			tracks:Stop()
+		if tracks.Animation.AnimationId == animationID then
+			playing = true
 		end
 	end
 	
 	local humanoid =  game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid')
-	if humanoid then
+	if humanoid and not playing then
 		if animator then
 			track = animator:LoadAnimation(ani)
 			track.Looped = true
@@ -673,4 +683,4 @@ Library.CreateLoopButton(Animations,"Helicopter","Helicopter Animation (R6 Only!
 		end
 	end
 	
-end,.05)
+end,.1)
