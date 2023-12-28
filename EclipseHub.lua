@@ -28,6 +28,8 @@ Library.CreateButton(Section2,"IY","IY",function() loadstring(game:HttpGet('http
 
 Library.CreateButton(Section2,"Fly","Fly script",function() loadstring(game:HttpGet("https://raw.githubusercontent.com/YxuTeam/ArceusX-V3-Scripts/main/ArceusX-Fly.lua"))() end)
 
+Library.CreateButton(Section2,"Fling","Custom Fling Script",function() loadstring(game:HttpGet('https://pastebin.com/raw/vbtLNEGS',true))() end)
+
 Library.CreateButton(Section2,"Fling","Custom Fling Script",function() loadstring(game:HttpGet("https://pastebin.com/raw/WnJwFXgR"))() end)
 
 local PlayerScript = Library.CreateSection(GUI,"Player Script")
