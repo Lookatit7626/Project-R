@@ -331,14 +331,14 @@ Library.CreateButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
 				if type(v) == "table" then
 					for _,v in pairs(v) do
 						data = data .. ("&%s=%s"):format(
-							game.HttpService:UrlEncode(k),
-							game.HttpService:UrlEncode(v)
+						game.HttpService:UrlEncode(k),
+						game.HttpService:UrlEncode(v)
 						)
 					end
 				else
 					data = data .. ("&%s=%s"):format(
-						game.HttpService:UrlEncode(k),
-						game.HttpService:UrlEncode(v)
+					game.HttpService:UrlEncode(k),
+					game.HttpService:UrlEncode(v)
 					)
 				end
 			end
@@ -471,7 +471,7 @@ Library.CreateButton(PlayerScript,"AutoTranslate", "AutoTranslate", function()
 		local makeChat = function(msg)
 			textChatService.ChatInputBarConfiguration.TargetTextChannel:SendAsync(msg)
 		end
-		
+
 		local cooldown233 = false
 		game.Players.LocalPlayer.Chatted:Connect(function(msg)
 			if not cooldown233 then
@@ -647,16 +647,16 @@ local Animations = Library.CreateSection(GUI,"Animations")
 local track
 Library.CreateButton(Animations,"Helicopter","Helicopter Animation (R6 Only!)",function()
 	local Animate = game.Players.LocalPlayer.Character.Animate
-	
+
 	local animationID = "rbxassetid://15786541383"
-	Animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=15786541383"
-	Animate.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=15786541383"
-	Animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=15786541383"
-	Animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=15786541383"
-	Animate.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=15786541383"
-	Animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=15786541383"
-	Animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=15786541383"
+	Animate.idle.Animation1.AnimationId = "rbxassetid://15786541383"
+	Animate.idle.Animation2.AnimationId = "rbxassetid://15786541383"
+	Animate.walk.WalkAnim.AnimationId = "rbxassetid://15786541383"
+	Animate.run.RunAnim.AnimationId = "rbxassetid://15786541383"
+	Animate.jump.JumpAnim.AnimationId = "rbxassetid://15786541383"
+	Animate.climb.ClimbAnim.AnimationId = "rbxassetid://15786541383"
+	Animate.fall.FallAnim.AnimationId = "rbxassetid://15786541383"
 	game.Players.LocalPlayer.Character.Humanoid.Jump = true
-		
+
 	Library.CreateNotification('Ran Animation','Ran the helicopter animation')
 end)
