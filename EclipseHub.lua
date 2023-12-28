@@ -647,6 +647,11 @@ Library.CreateLoopButton(Animations,"Helicopter","Helicopter Animation (R6 Only!
 	
 	local animationID = "rbxassetid://15786541383"
 	local plr = game.Players.LocalPlayer
+	local ani = Instance.new('Animation')
+	ani.AnimationId = animationID
+	ani.Parent = game.Players.LocalPlayer.Character
+	ani.Name = 'HelicopterAni'
+	
 	local track
 	
 	local animator =  game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid'):FindFirstChildOfClass('Animator')
@@ -661,7 +666,7 @@ Library.CreateLoopButton(Animations,"Helicopter","Helicopter Animation (R6 Only!
 	local humanoid =  game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid')
 	if humanoid then
 		if animator then
-			track = animator:LoadAnimation(animationID)
+			track = animator:LoadAnimation(ani)
 			track.Looped = true
 			track.Priority = Enum.AnimationPriority.Action
 			track:Play()
