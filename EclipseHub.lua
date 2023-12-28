@@ -645,42 +645,18 @@ end,.05)
 local set = false
 local Animations = Library.CreateSection(GUI,"Animations")
 local track
-Library.CreateLoopButton(Animations,"Helicopter","Helicopter Animation (R6 Only!)",function()
+Library.CreateButton(Animations,"Helicopter","Helicopter Animation (R6 Only!)",function()
+	local Animate = game.Players.LocalPlayer.Character.Animate
+	
 	local animationID = "rbxassetid://15786541383"
-	local plr = game.Players.LocalPlayer
-	local ani = Instance.new('Animation')
-	local animator =  game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid'):FindFirstChildOfClass('Animator')
-	
-	if Set == false then
-		Set = true
-		ani.AnimationId = animationID
-		ani.Parent = game.Players.LocalPlayer.Character
-		ani.Name = 'HelicopterAni'
-
-		animator:LoadAnimation(ani)
-		local playAnimation = game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid'):FindFirstChildOfClass('Animator'):GetPlayingAnimationTracks()
-		for _, tracks in playAnimation do
-			if tracks.Animation.AnimationId ~= animationID then
-				tracks:Stop()
-			end
-		end
-	end
-	local playing = false
-	local playAnimation = game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid'):FindFirstChildOfClass('Animator'):GetPlayingAnimationTracks()
-	for _, tracks in playAnimation do
-		if tracks.Animation.AnimationId == animationID then
-			playing = true
-		end
-	end
-	
-	local humanoid =  game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid')
-	if humanoid and not playing then
-		if animator then
-			track = animator:LoadAnimation(ani)
-			track.Looped = true
-			track.Priority = Enum.AnimationPriority.Action
-			track:Play()
-		end
-	end
-	
-end,.1)
+	Animate.idle.Animation1.AnimationId = "http://www.roblox.com/asset/?id=15786541383"
+	Animate.idle.Animation2.AnimationId = "http://www.roblox.com/asset/?id=15786541383"
+	Animate.walk.WalkAnim.AnimationId = "http://www.roblox.com/asset/?id=15786541383"
+	Animate.run.RunAnim.AnimationId = "http://www.roblox.com/asset/?id=15786541383"
+	Animate.jump.JumpAnim.AnimationId = "http://www.roblox.com/asset/?id=15786541383"
+	Animate.climb.ClimbAnim.AnimationId = "http://www.roblox.com/asset/?id=15786541383"
+	Animate.fall.FallAnim.AnimationId = "http://www.roblox.com/asset/?id=15786541383"
+	game.Players.LocalPlayer.Character.Humanoid.Jump = true
+		
+	Library.CreateNotification('Ran Animation','Ran the helicopter animation')
+end)
