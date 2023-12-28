@@ -560,7 +560,7 @@ end,0.001)
 
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
-local button = Library.CreateLoopButton(WSS,"Kill All","Kill All (NPCS)",function()
+button = Library.CreateLoopButton(HeavenSword,"Kill All","Kill All (NPCS)",function()
 	local args = {
 		[1] = "A7"
 	}
@@ -576,7 +576,7 @@ local button = Library.CreateLoopButton(WSS,"Kill All","Kill All (NPCS)",functio
 
 	game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("UseItem"):FireServer(unpack(args))
 end,0.05)
-local button = Library.CreateLoopButton(HeavenSword,"InfHP","Inf HP all",function()
+Library.CreateLoopButton(HeavenSword,"InfHP","Inf HP all",function()
 
 	local args = {
 		[1] = "InvA10",
@@ -587,7 +587,7 @@ local button = Library.CreateLoopButton(HeavenSword,"InfHP","Inf HP all",functio
 
 	game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("UseItem"):FireServer(unpack(args))
 end,0.05)
-local button = Library.CreateLoopButton(HeavenSword,"HealAll","Heal All",function()
+Library.CreateLoopButton(HeavenSword,"HealAll","Heal All",function()
 
 	local args = {
 		[1] = "A7"
@@ -605,7 +605,7 @@ local button = Library.CreateLoopButton(HeavenSword,"HealAll","Heal All",functio
 	game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("UseItem"):FireServer(unpack(args))
 
 end,.05)
-local button = Library.CreateLoopButton(HeavenSword,"Immunity","Immunity",function()
+Library.CreateLoopButton(HeavenSword,"Immunity","Immunity",function()
 
 	local args = {
 		[1] = "A7"
@@ -623,7 +623,7 @@ local button = Library.CreateLoopButton(HeavenSword,"Immunity","Immunity",functi
 	game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("UseItem"):FireServer(unpack(args))
 
 end,.05)
-local button = Library.CreateLoopButton(HeavenSword,"Fireball","Fireball",function()
+Library.CreateLoopButton(HeavenSword,"Fireball","Fireball",function()
 
 	local args = {
 		[1] = "C2"
@@ -640,4 +640,32 @@ local button = Library.CreateLoopButton(HeavenSword,"Fireball","Fireball",functi
 
 	game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("UseItem"):FireServer(unpack(args))
 
+end,.05)
+
+local Animations = Library.CreateSection(GUI,"Animations")
+Library.CreateLoopButton(Animations,"Helicopter","Helicopter Animation (R6 Only!)",function()
+	
+	local animationID = "rbxassetid://15786541383"
+	local plr = game.Players.LocalPlayer
+	local track
+	
+	local animator =  game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid'):FindFirstChildOfClass('Animator')
+	animator:LoadAnimation(animationID)
+	local playAnimation = game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid'):FindFirstChildOfClass('Animator'):GetPlayingAnimationTracks()
+	for _, tracks in playAnimation do
+		if tracks.Animation.AnimationId ~= animationID then
+			tracks:Stop()
+		end
+	end
+	
+	local humanoid =  game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid')
+	if humanoid then
+		if animator then
+			track = animator:LoadAnimation(animationID)
+			track.Looped = true
+			track.Priority = Enum.AnimationPriority.Action
+			track:Play()
+		end
+	end
+	
 end,.05)
