@@ -556,7 +556,7 @@ end,0.001)
 
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
-local button = Library.CreateLoopButton(WSS,"Kill All","Kill All (NPCS)",function()
+local button = Library.CreateLoopButton(HeavenSword,"Kill All","Kill All (NPCS)",function()
 	local args = {
 		[1] = "A7"
 	}
