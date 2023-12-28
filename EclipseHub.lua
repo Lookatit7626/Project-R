@@ -143,6 +143,10 @@ Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
 	end)()
 end,0.1)
 
+Library.CreateButton(PlayerScript,"R15toR6", "R15 to R6", function()
+	loadstring(game:HttpGet(('https://raw.githubusercontent.com/Imagnir/r6_anims_for_r15/main/r6_anims.lua'),true))()
+end)
+
 local target = "en"
 local Set2 = false
 Test2 = 0
@@ -556,7 +560,7 @@ end,0.001)
 
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
-local button = Library.CreateLoopButton(HeavenSword,"Kill All","Kill All (NPCS)",function()
+local button = Library.CreateLoopButton(WSS,"Kill All","Kill All (NPCS)",function()
 	local args = {
 		[1] = "A7"
 	}
