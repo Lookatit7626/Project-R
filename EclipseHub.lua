@@ -655,7 +655,7 @@ Library.CreateLoopButton(Animations,"Helicopter","Helicopter Animation (R6 Only!
 	local track
 	
 	local animator =  game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid'):FindFirstChildOfClass('Animator')
-	animator:LoadAnimation(animationID)
+	animator:LoadAnimation(ani)
 	local playAnimation = game.Workspace:FindFirstChild(plr.Name):FindFirstChild('Humanoid'):FindFirstChildOfClass('Animator'):GetPlayingAnimationTracks()
 	for _, tracks in playAnimation do
 		if tracks.Animation.AnimationId ~= animationID then
