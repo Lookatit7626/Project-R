@@ -536,9 +536,27 @@ Library.CreateButton(Server,"ServerHop","Server Hop",function()
 	TPS:TeleportToPlaceInstance(_place, Server.id, Player)
 end)
 
+local WSS = Library.CreateSection(GUI,"Weight Lifting Sim(s)")
+
+Library.CreateButton(WSS,"Name","Weight Lifting Sim by Top Games")
+
+local button = Library.CreateLoopButton(WSS,"FarmWin","Farm win (must beat one person first)",function()
+	local args = {
+		[1] = "Player",
+		[2] = 30
+	}
+
+	game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("BattleEvent"):FireServer(unpack(args))
+end,0.001)
+
+local button = Library.CreateLoopButton(WSS,"FarmMuscle","Farm Muscles",function()
+	game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("AddMuscle"):FireServer()
+end,0.001)
+
+
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
-local button = Library.CreateLoopButton(HeavenSword,"Kill All","Kill All (NPCS)",function()
+local button = Library.CreateLoopButton(WSS,"Kill All","Kill All (NPCS)",function()
 	local args = {
 		[1] = "A7"
 	}
