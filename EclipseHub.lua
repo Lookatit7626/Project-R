@@ -564,16 +564,6 @@ Library.CreateLoopButton(WSS,"FarmStrengths","Farm Strengths",function()
 	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteEvents"):WaitForChild("GiveStrength"):FireServer(unpack(args))
 end,0.001)
 
-Library.CreateLoopButton(WSS,"FarmRebirths","Farm Rebirths",function()
-	local args = {
-   		 [1] = 100000000000000000000000000000
-	}
-
-	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteEvents"):WaitForChild("GiveStrength"):FireServer(unpack(args))
-	wait(0.01)
-	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteFunctions"):WaitForChild("Rebirth"):InvokeServer()
-end,0.05)
-
 Library.CreateLoopButton(WSS,"FarmWins","Farm Wins",function()
 	local args = {
     	[1] = {
@@ -586,7 +576,7 @@ Library.CreateLoopButton(WSS,"FarmWins","Farm Wins",function()
 	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteEvents"):WaitForChild("FreeGift"):FireServer(unpack(args))
 end,0.05)
 
-Library.CreateLoopButton(WSS,"FarmWins","Farm Wins",function()
+Library.CreateLoopButton(WSS,"FarmRebirth","Farm Rebirths",function()
 	local args = {
     	[1] = {
         	["GiftType"] = "Stat",
