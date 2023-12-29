@@ -42,15 +42,10 @@ Library.CreateSlider(PlayerScript,"Jump",'Jump',1000,function(Speed)
 	game.Players.LocalPlayer.Character.Humanoid.JumpPower = Speed
 end)
 
-local Set = nil
-local Test0
-local AA0
 Library.CreateLoopButton(PlayerScript,"InfJump", "Inf Jump", function()
-	coroutine.wrap(function()
-		Test0 = math.random(1,99999999)
-		wait(0.2)
-		AA0 = Test0
-	end)()
+	local Test0 = math.random(1,99999999)
+	local AA0 = Test0
+	local Set = nil
 	if not Set then
 		Set = game:GetService('UserInputService').JumpRequest:Connect(function()
 			game.Players.LocalPlayer.Character.Humanoid:ChangeState('Jumping')
