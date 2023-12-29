@@ -540,11 +540,11 @@ Library.CreateButton(Server,"ServerHop","Server Hop",function()
 	TPS:TeleportToPlaceInstance(_place, Server.id, Player)
 end)
 
-local WSS = Library.CreateSection(GUI,"Weight Lifting Sim(s)")
+local WSS = Library.CreateSection(GUI,"Simulators")
 
 Library.CreateButton(WSS,"Name","Weight Lifting Sim by Top Games")
 
-local button = Library.CreateLoopButton(WSS,"FarmWin","Farm win (must beat one person first)",function()
+Library.CreateLoopButton(WSS,"FarmWin","Farm win (must beat one person first)",function()
 	local args = {
 		[1] = "Player",
 		[2] = 30
@@ -553,10 +553,29 @@ local button = Library.CreateLoopButton(WSS,"FarmWin","Farm win (must beat one p
 	game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("BattleEvent"):FireServer(unpack(args))
 end,0.001)
 
-local button = Library.CreateLoopButton(WSS,"FarmMuscle","Farm Muscles",function()
+Library.CreateLoopButton(WSS,"FarmMuscle","Farm Muscles",function()
 	game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("AddMuscle"):FireServer()
 end,0.001)
 
+Library.CreateButton(WSS,"Name2","Block breaking simulator by Block Breaking Sim")
+
+Library.CreateLoopButton(WSS,"FarmStrengths","Farm Strengths",function()
+	local args = {
+    		[1] = 100000000000000000000000000000
+	}
+
+	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteEvents"):WaitForChild("GiveStrength"):FireServer(unpack(args))
+end,0.001)
+
+Library.CreateLoopButton(WSS,"FarmRebirths","Farm Rebirths",function()
+	local args = {
+   		 [1] = 100000000000000000000000000000
+	}
+
+	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteEvents"):WaitForChild("GiveStrength"):FireServer(unpack(args))
+	wait(0.01)
+	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteFunctions"):WaitForChild("Rebirth"):InvokeServer()
+end,0.05)
 
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
