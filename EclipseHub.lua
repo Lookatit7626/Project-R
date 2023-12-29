@@ -632,7 +632,8 @@ Library.CreateButton(Server,"ServerSniper","Server Sniper",function()
 	local Kill = false
 
 	local function HttpGet(url)
-		return pcall(HttpService.JSONDecode, HttpService, game:HttpGet(url))
+		local suc, re = pcall(HttpService.JSONDecode, HttpService, game:HttpGet(url))
+		return  re
 	end
 
 	local function Status(text, tout)
