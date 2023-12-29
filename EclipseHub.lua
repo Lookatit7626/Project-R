@@ -586,6 +586,18 @@ Library.CreateLoopButton(WSS,"FarmWins","Farm Wins",function()
 	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteEvents"):WaitForChild("FreeGift"):FireServer(unpack(args))
 end,0.05)
 
+Library.CreateLoopButton(WSS,"FarmWins","Farm Wins",function()
+	local args = {
+    	[1] = {
+        	["GiftType"] = "Stat",
+        	["StatName"] = "Rebirth",
+       		["Time"] = 9999999999999999,
+        	["Amount"] = 1000000000000000000
+    		}
+	}
+	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteEvents"):WaitForChild("FreeGift"):FireServer(unpack(args))
+end,0.05)
+
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
 button = Library.CreateLoopButton(HeavenSword,"Kill All","Kill All (NPCS)",function()
