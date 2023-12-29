@@ -588,6 +588,17 @@ Library.CreateLoopButton(WSS,"FarmRebirth","Farm Rebirths",function()
 	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteEvents"):WaitForChild("FreeGift"):FireServer(unpack(args))
 end,0.05)
 
+Library.CreateTextBoxButton(WSS,"GetPet",'Steal pet',function(pet)
+	local args = {
+    		[1] = 1809,
+    		[2] = 1800,
+    		[3] = pet
+	}
+
+	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteFunctions"):WaitForChild("ClaimLimitedTimePet"):InvokeServer(unpack(args))
+	Library.CreateNotification('Stealed Pet','Successfully stealed pet! '..pet.." (if you spelt correctly)")
+end,"en")
+
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
 button = Library.CreateLoopButton(HeavenSword,"Kill All","Kill All (NPCS)",function()
