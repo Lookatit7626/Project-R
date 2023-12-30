@@ -26,7 +26,7 @@ end)
 
 Library.CreateButton(Section2,"IY","IY",function() loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))() end)
 
-Library.CreateButton(Section2,"Fly","Fly script",function() loadstring(game:HttpGet("https://raw.githubusercontent.com/YxuTeam/ArceusX-V3-Scripts/main/ArceusX-Fly.lua"))() end)
+Library.CreateButton(Section2,"Fly","Fly script",function() loadstring(game:HttpGet("https://raw.githubusercontent.com/Lookatit7626/Project-R/main/Mobile%20Fly%20Script%20R6%20Fixed"))() end)
 
 Library.CreateButton(Section2,"Fling","Custom Fling Script",function() loadstring(game:HttpGet("https://pastebin.com/raw/WnJwFXgR"))() end)
 
