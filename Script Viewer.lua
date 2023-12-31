@@ -193,7 +193,7 @@ local function DLWXULA_fake_script() -- Topbar.ScriptViewerManager
 			if stringCccc == "LocalPlayer" then
 				stringCccc = game.Players.LocalPlayer.Name
 			end
-			if ScriptInstance:FindFirstChild(PathArray[i]) then
+			if ScriptInstance:FindFirstChild(stringCccc) then
 				ScriptInstance = ScriptInstance:FindFirstChild(stringCccc)
 			else
 				CreateNotification("Warning","We can't find the script : "..stringCccc.. " in: "..ScriptInstance.Name , 3)
