@@ -8,8 +8,7 @@ local Topbar = Instance.new("Frame")
 local BackFrame = Instance.new("Frame")
 local BottomFrame = Instance.new("ScrollingFrame")
 local IDE = Instance.new("TextLabel")
-local TopFrame = Instance.new("ScrollingFrame")
-local UIListLayout = Instance.new("UIListLayout")
+local TopFrame = Instance.new("Frame")
 local Clear = Instance.new("TextButton")
 local GetScript = Instance.new("TextButton")
 local Script = Instance.new("TextBox")
@@ -19,7 +18,7 @@ local X = Instance.new("TextButton")
 --Properties:
 
 ScriptViewer.Name = "Script Viewer"
-ScriptViewer.Parent = game.CoreGui
+ScriptViewer.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 ScriptViewer.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 Topbar.Name = "Topbar"
@@ -47,7 +46,6 @@ BottomFrame.BorderSizePixel = 0
 BottomFrame.Position = UDim2.new(0, 0, 0.100000001, 0)
 BottomFrame.Size = UDim2.new(1, 0, 0.899999976, 0)
 BottomFrame.CanvasSize = UDim2.new(0, 0, 58, 0)
-BottomFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
 IDE.Name = "IDE"
 IDE.Parent = BottomFrame
@@ -68,26 +66,17 @@ IDE.TextYAlignment = Enum.TextYAlignment.Top
 
 TopFrame.Name = "TopFrame"
 TopFrame.Parent = BackFrame
-TopFrame.Active = true
-TopFrame.BackgroundColor3 = Color3.fromRGB(75, 75, 75)
+TopFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 TopFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 TopFrame.BorderSizePixel = 0
 TopFrame.Size = UDim2.new(1, 0, 0.100000001, 0)
-TopFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
-TopFrame.VerticalScrollBarInset = Enum.ScrollBarInset.Always
-TopFrame.AutomaticCanvasSize = Enum.AutomaticSize.X
-
-UIListLayout.Parent = TopFrame
-UIListLayout.FillDirection = Enum.FillDirection.Horizontal
-UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Right
-UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 
 Clear.Name = "Clear"
 Clear.Parent = TopFrame
 Clear.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Clear.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Clear.BorderSizePixel = 0
-Clear.Size = UDim2.new(0.300000012, 0, 1, 0)
+Clear.Size = UDim2.new(0.232153431, 0, 1.00000012, 0)
 Clear.Font = Enum.Font.SourceSans
 Clear.Text = "Clear"
 Clear.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -100,7 +89,8 @@ GetScript.Parent = TopFrame
 GetScript.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 GetScript.BorderColor3 = Color3.fromRGB(0, 0, 0)
 GetScript.BorderSizePixel = 0
-GetScript.Size = UDim2.new(0.300000012, 0, 1, 0)
+GetScript.Position = UDim2.new(0.230088502, 0, 0, 0)
+GetScript.Size = UDim2.new(0.235103279, 0, 1.00000012, 0)
 GetScript.Font = Enum.Font.SourceSans
 GetScript.Text = "GetScript"
 GetScript.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -113,7 +103,8 @@ Script.Parent = TopFrame
 Script.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
 Script.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Script.BorderSizePixel = 0
-Script.Size = UDim2.new(1, 0, 1, 0)
+Script.Position = UDim2.new(0.465191782, 0, 0, 0)
+Script.Size = UDim2.new(0.534808159, 0, 1, 0)
 Script.Font = Enum.Font.SourceSans
 Script.Text = "<src>/<module>"
 Script.TextColor3 = Color3.fromRGB(0, 0, 0)
@@ -154,14 +145,14 @@ X.TextWrapped = true
 
 -- Scripts:
 
-local function OVYV_fake_script() -- Topbar.Dragger 
+local function OWATU_fake_script() -- Topbar.Dragger 
 	local script = Instance.new('LocalScript', Topbar)
 
 	script.Parent.Active = true
 	script.Parent.Draggable = true
 end
-coroutine.wrap(OVYV_fake_script)()
-local function UWJK_fake_script() -- Topbar.ScriptViewerManager 
+coroutine.wrap(OWATU_fake_script)()
+local function EWFNJ_fake_script() -- Topbar.ScriptViewerManager 
 	local script = Instance.new('LocalScript', Topbar)
 
 	local Clear = script.Parent.BackFrame.TopFrame.Clear
@@ -228,4 +219,4 @@ local function UWJK_fake_script() -- Topbar.ScriptViewerManager
 		end
 	end)
 end
-coroutine.wrap(UWJK_fake_script)()
+coroutine.wrap(EWFNJ_fake_script)()
