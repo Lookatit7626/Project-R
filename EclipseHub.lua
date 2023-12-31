@@ -840,6 +840,14 @@ Library.CreateLoopButton(TreasureHunt,"MineAllChestSandBlock","Mine All Chests [
 		if SandBlocks[i]:FindFirstChild('Chest') then
 			ChestModelName = SandBlocks[i].Name
 			Pos = SandBlocks[i].Position
+			pcall(function()
+				local ChestInsides = SandBlocks[i]:GetDescendants()
+				for i =1, #ChestInsides do
+					pcall(function()
+						ChestInsides.CanCollide = false
+					end)
+				end
+			end)
 			PreviousPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 			pcall(function()
 				while workspace:WaitForChild('SandBlocks'):FindFirstChild(ChestModelName) do
