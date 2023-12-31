@@ -821,6 +821,7 @@ Library.CreateLoopButton(TreasureHunt,"MineAllChestSandBlock","Mine All Chests [
 	local Pos : Vector3
 	local PreviousPos : Vector3
 	local tool = nil
+	local contin = true
 	
 	for i = 1,#playerChar do
 		if playerChar[i]:FindFirstChild('Handle') then
@@ -837,7 +838,7 @@ Library.CreateLoopButton(TreasureHunt,"MineAllChestSandBlock","Mine All Chests [
 	end
 	
 	for i = 1, #SandBlocks do
-		if SandBlocks[i]:FindFirstChild('Chest') then
+		if SandBlocks[i]:FindFirstChild('Chest') and contin then
 			ChestModelName = SandBlocks[i].Name
 			Pos = SandBlocks[i].Position
 			pcall(function()
@@ -936,6 +937,7 @@ Library.CreateLoopButton(TreasureHunt,"MineAllChestSandBlock","Mine All Chests [
 			pcall(function()
 				game.Players.LocalPlayer.Character.HumanoidRootPart.Position = PreviousPos
 			end)
+			contin = false
 			break
 		end
 	end
