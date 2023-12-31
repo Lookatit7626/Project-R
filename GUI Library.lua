@@ -150,7 +150,7 @@ local Mod = {
 
 local module = {
 	['CreateGUI'] = function(TitleStr : string ,IconID : string ,TitleBarColour : Color3 ,PrimaryColour : Color3 ,SecondaryColour : Color3 ,MainButtonColour : Color3 ,SideButtonColour : Color3 ,MainButtonTextColour : Color3 ,SideButtonTextColour : Color3)
-		
+
 		G_TitleBarColour = TitleBarColour or Color3.fromRGB(40, 40, 40)
 		G_PrimaryColour = PrimaryColour or Color3.fromRGB(66, 66, 66)
 		G_SecondaryColour = SecondaryColour or Color3.fromRGB(47, 47, 47)
@@ -158,7 +158,7 @@ local module = {
 		G_MainButtonTextColour = MainButtonTextColour or Color3.fromRGB(0,0,0)
 		G_SideButtonColour = SideButtonColour or Color3.fromRGB(255, 255, 255)
 		G_SideButtonTextcolour = SideButtonTextColour or Color3.fromRGB(0,0,0)
-		
+
 		G_ImageID = IconID or "rbxassetid://11207341665"
 
 		local ScreenGui = Instance.new("ScreenGui")
@@ -188,10 +188,10 @@ local module = {
 
 		ScreenGui.Name = TitleStr
 		--ScreenGui.Parent = game.CoreGui
-		ScreenGui.Parent = CoreGui
+		ScreenGui.Parent = game.CoreGui
 		ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 		ScreenGui.ResetOnSpawn = false
-		
+
 		DragTop.Name = "DragTop"
 		DragTop.Parent = ScreenGui
 		DragTop.AnchorPoint = Vector2.new(0.5, 0)
@@ -202,7 +202,7 @@ local module = {
 		DragTop.Position = UDim2.new(0.388679415, 0, 0.249505162, 0)
 		DragTop.Size = UDim2.new(0, 346, 0, 24)
 		DragTop.Transparency = 1
-		
+
 		MenuButton.Name = "MenuButton"
 		MenuButton.Parent = ScreenGui
 		MenuButton.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -350,7 +350,7 @@ local module = {
 
 		Sections.Name = "Sections"
 		Sections.Parent = BackgroundFrame
-		
+
 		local function ADFD_fake_script() -- SliderButton_2.DragScript 
 			local script = Instance.new('LocalScript', DragTop)
 
@@ -358,7 +358,7 @@ local module = {
 			script.Parent.Draggable = true
 		end
 		coroutine.wrap(ADFD_fake_script)()
-		
+
 		local function TDSX_fake_script() -- SliderButton_2.DragScript 
 			local script = Instance.new('LocalScript', Close)
 			script.Parent.MouseButton1Down:Connect(function()
@@ -367,17 +367,17 @@ local module = {
 			end)
 		end
 		coroutine.wrap(TDSX_fake_script)()
-		
+
 		local function YTFD_fake_script() -- SliderButton_2.DragScript 
 			local script = Instance.new('LocalScript', MenuButton)
-			
+
 			script.Parent.MouseButton1Down:Connect(function()
 				DragTop.Visible = true
 				MenuButton.Visible = false
 			end)
 		end
 		coroutine.wrap(YTFD_fake_script)()
-		
+
 		return ScreenGui
 	end,
 
@@ -445,18 +445,18 @@ local module = {
 		UIListLayout_2.Parent = Sections001
 		UIListLayout_2.SortOrder = Enum.SortOrder.LayoutOrder
 		UIListLayout_2.Padding = UDim.new(0, 2)
-		
+
 		return Sections001
 	end,
-	
+
 	['CreateNotification'] = function(Title:string,Body:string)
 		Mod.CreateNotification(Title,Body,G_ImageID)
 	end,
-	
+
 	['CreateButton'] = function(Section,Name,Text,callback)
 		local Button = Instance.new("Frame")
 		local Button_2 = Instance.new("TextButton")
-		
+
 		Button.Name = "Button"
 		Button.Parent = Section
 		Button.BackgroundColor3 = G_MainButtonColour
@@ -478,9 +478,9 @@ local module = {
 		Button_2.TextSize = 14.000
 		Button_2.TextWrapped = true
 		Button_2.BackgroundTransparency = 1
-		
+
 		callback = callback or function() end;
-		
+
 		local function REWS_fake_script() -- SliderButton_2.DragScript 
 			local script = Instance.new('LocalScript', Button_2)
 			pcall(function()
@@ -489,10 +489,10 @@ local module = {
 				end)
 			end)
 		end
-		
+
 		coroutine.wrap(REWS_fake_script)()
 	end,
-	
+
 	['CreateLoopButton'] = function(Section,Name,Text,callback,Cooldown, ProtectedSystem: boolean)
 		local Looping = false
 		local errs = 0
@@ -502,11 +502,11 @@ local module = {
 			Cooldown = 1
 			Mod.CreateNotification('Invalid Cooldown arugment #5',"You can't set the cooldown lower then 0.0001, this is set by the script developer and can be disabled by disabling ProtectedSystem",systemShield)
 		end
-		
+
 		local LoopButton = Instance.new("Frame")
 		local Button_3 = Instance.new("TextButton")
 		local Status = Instance.new("Frame")
-		
+
 		LoopButton.Name = Name
 		LoopButton.Parent = Section
 		LoopButton.BackgroundColor3 = G_MainButtonColour
@@ -536,7 +536,7 @@ local module = {
 		Status.BorderSizePixel = 0
 		Status.Position = UDim2.new(0.899999976, 0, 0, 0)
 		Status.Size = UDim2.new(0.100000001, 0, 1, 0)
-		
+
 		callback = callback or function() end;
 
 		local function REWS_fake_script() -- SliderButton_2.DragScript 
@@ -548,7 +548,7 @@ local module = {
 							local suc, err = pcall(function()
 								callback()
 							end)
-							
+
 							if not suc then
 								if errs <= 5 then
 									Mod.CreateNotification('An Script error has occured!', 'An error has occured while running this loop, if this occurs more then 5 times, the loop function will be disabled manually. error message: '..err,systemShield)
@@ -565,12 +565,12 @@ local module = {
 									errs = 0
 								end
 							end
-							
+
 						end
 						wait(Cooldown)
 					end
 				end)()
-				
+
 				script.Parent.MouseButton1Down:Connect(function()
 					if script.Parent.Parent.Status.BackgroundColor3 == Color3.fromRGB(93, 0, 2) then
 						script.Parent.Parent.Status.BackgroundColor3 = Color3.fromRGB(70, 162, 0)
@@ -583,14 +583,14 @@ local module = {
 
 		coroutine.wrap(REWS_fake_script)()
 	end,
-	
+
 	['CreateTextBoxButton'] = function(Section,Name,Text,callback,TextBoxDefault)
 		local TextBoxButton = Instance.new("Frame")
 		local Button_4 = Instance.new("TextButton")
 		local TextBox = Instance.new("TextBox")
-		
+
 		TextBoxDefault = TextBoxDefault or "-"
-		
+
 		TextBoxButton.Name = Name
 		TextBoxButton.Parent = Section
 		TextBoxButton.BackgroundColor3 = G_MainButtonColour
@@ -626,7 +626,7 @@ local module = {
 		TextBox.TextSize = 14.000
 		TextBox.TextWrapped = true
 		TextBox.BackgroundTransparency = 1
-		
+
 		callback = callback or function() end;
 
 		local function REWS_fake_script()
@@ -642,7 +642,7 @@ local module = {
 
 		coroutine.wrap(REWS_fake_script)()
 	end,
-	
+
 	['CreateSlider'] = function(Section,Name,Text,maxValue,callback)
 		local SliderButton = Instance.new("Frame")
 		local Button_5 = Instance.new("TextButton")
@@ -651,7 +651,7 @@ local module = {
 		local SliderButton_2 = Instance.new("Frame")
 		local SliderValue = Instance.new("TextLabel")
 		maxValue = maxValue or 1
-		
+
 		SliderButton.Name = Name
 		SliderButton.Parent = Section
 		SliderButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -723,7 +723,7 @@ local module = {
 
 			script.Parent.Active = true
 			script.Parent.Draggable = true
-			
+
 			coroutine.wrap(function()
 				pcall(function()
 					game:GetService('RunService').RenderStepped:Connect(function()
@@ -740,7 +740,7 @@ local module = {
 			end)()
 		end
 		coroutine.wrap(HVYD_fake_script)()
-		
+
 		callback = callback or function() end;
 
 		local function REWS_fake_script()
