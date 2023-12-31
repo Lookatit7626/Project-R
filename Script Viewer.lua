@@ -18,7 +18,7 @@ local X = Instance.new("TextButton")
 --Properties:
 
 ScriptViewer.Name = "Script Viewer"
-ScriptViewer.Parent = game.CoreGui
+ScriptViewer.Parent = game.StarterGui.RemoveUponJoiningGame
 ScriptViewer.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 Topbar.Name = "Topbar"
@@ -145,14 +145,14 @@ X.TextWrapped = true
 
 -- Scripts:
 
-local function YMKR_fake_script() -- Topbar.Dragger 
+local function GYMWV_fake_script() -- Topbar.Dragger 
 	local script = Instance.new('LocalScript', Topbar)
 
 	script.Parent.Active = true
 	script.Parent.Draggable = true
 end
-coroutine.wrap(YMKR_fake_script)()
-local function ODZGGQ_fake_script() -- Topbar.ScriptViewerManager 
+coroutine.wrap(GYMWV_fake_script)()
+local function LZCQ_fake_script() -- Topbar.ScriptViewerManager 
 	local script = Instance.new('LocalScript', Topbar)
 
 	local Clear = script.Parent.BackFrame.TopFrame.Clear
@@ -190,17 +190,23 @@ local function ODZGGQ_fake_script() -- Topbar.ScriptViewerManager
 		local ScriptInstance = game
 		local PathArray = string.split(Path,".")
 		for i = 2, #PathArray do
+			local stringCccc = PathArray[i]
+			if string.find(PathArray[i],':GetService("') or string.find(PathArray[i],':FindFirstChild("') or string.find(PathArray[i],':WaitForChild("') then
+				stringCccc = string.gsub(stringCccc,':GetService("',"")
+				stringCccc = string.gsub(stringCccc,':FindFirstChild("',"")
+				stringCccc = string.gsub(stringCccc,':WaitForChild("',"")
+				stringCccc = string.gsub(stringCccc,'")',"")
+			end
 			if ScriptInstance:FindFirstChild(PathArray[i]) then
-				ScriptInstance = ScriptInstance:FindFirstChild(PathArray[i])
+				ScriptInstance = ScriptInstance:FindFirstChild(stringCccc)
 			else
-				print("Failed, Could not find instance : "..PathArray[i].Name.." in: "..ScriptInstance.Name)
-				return
+				return "Failed, Could not find instance : "..stringCccc.." in: "..stringCccc
 			end
 		end
 		
 		if ScriptInstance:IsA('LocalScript') or ScriptInstance:IsA('ModuleScript') then
 			if identifyexecutor() ~= "Fluxus" then
-				CreateNotification("Warning","This only works for fluxus, any other executors might cause some error(s).",5)
+				CreateNotification("Warning","This only works for fluxus, any other executors might cause some error(s).",3)
 			end
 			local ScriptCode = getscriptbytecode(ScriptInstance)
 			local ERRCount = 1
@@ -220,4 +226,4 @@ local function ODZGGQ_fake_script() -- Topbar.ScriptViewerManager
 		end
 	end)
 end
-coroutine.wrap(ODZGGQ_fake_script)()
+coroutine.wrap(LZCQ_fake_script)()
