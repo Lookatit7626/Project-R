@@ -196,7 +196,7 @@ local function DLWXULA_fake_script() -- Topbar.ScriptViewerManager
 			if ScriptInstance:FindFirstChild(PathArray[i]) then
 				ScriptInstance = ScriptInstance:FindFirstChild(stringCccc)
 			else
-				CreateNotification("Warning","We can't find the script : "..,stringCccc.. " in: "..ScriptInstance.Name , 3)
+				CreateNotification("Warning","We can't find the script : "..stringCccc.. " in: "..ScriptInstance.Name , 3)
 				return
 			end
 		end
