@@ -18,7 +18,7 @@ local X = Instance.new("TextButton")
 --Properties:
 
 ScriptViewer.Name = "Script Viewer"
-ScriptViewer.Parent = game.StarterGui.RemoveUponJoiningGame
+ScriptViewer.Parent = game.CoreGui
 ScriptViewer.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
 Topbar.Name = "Topbar"
