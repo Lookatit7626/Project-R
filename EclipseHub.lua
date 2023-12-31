@@ -535,6 +535,10 @@ Library.CreateButton(Server,"ServerHop","Server Hop",function()
 	TPS:TeleportToPlaceInstance(_place, Server.id, Player)
 end)
 
+Library.CreateButton(Server,"Script Viewer","Script Viewer",function() 
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/Lookatit7626/Project-R/main/Script%20Viewer.lua",true))() 
+end)
+
 Library.CreateButton(Server,"ServerSniper","Server Sniper",function() 
 	local StreamSnipe = Instance.new("ScreenGui")
 	local Frame = Instance.new("Frame")
