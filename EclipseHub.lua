@@ -815,10 +815,27 @@ local TreasureHunt = Library.CreateSection(GUI,"Treasure Hunt Simulator")
 Library.CreateLoopButton(TreasureHunt,"MineAllChestSandBlock","Mine All Chests [SandBlock]",function()
 
 	local SandBlocks = workspace:WaitForChild('SandBlocks'):GetChildren()
+	local playerChar = game.Players.LocalPlayer.Character:GetChildren()
 
 	local ChestModelName = "X,Y,Z"
 	local Pos : Vector3
 	local PreviousPos : Vector3
+	local tool = nil
+	
+	for i = 1,#playerChar do
+		if playerChar[i]:FindFirstChild('Handle') then
+			if playerChar[i]:FindFirstChild("Configurations") then
+				if playerChar[i]:FindFirstChild("Configurations"):FindFirstChild('BlockDamage') then
+					tool = playerChar[i]
+				end
+			end
+		end
+	end
+	
+	if tool == nil then
+		Library.CreateNotification('No tool alert!',"We can't find a tool in your inventory, are you sure you are in Treasure Hunt Simulator?")
+	end
+	
 	for i = 1, #SandBlocks do
 		if SandBlocks[i]:FindFirstChild('Chest') then
 			ChestModelName = SandBlocks[i].Name
@@ -831,7 +848,7 @@ Library.CreateLoopButton(TreasureHunt,"MineAllChestSandBlock","Mine All Chests [
 					}
 					wait(0.01)
 					game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
-					game:GetService("Players").LocalPlayer.Character:FindFirstChild("Toy Shovel").RemoteClick:FireServer(unpack(args))
+					tool.RemoteClick:FireServer(unpack(args))
 				end
 			end)
 			pcall(function()
@@ -841,3 +858,5 @@ Library.CreateLoopButton(TreasureHunt,"MineAllChestSandBlock","Mine All Chests [
 		end
 	end
 end,.05)
+
+--Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')
