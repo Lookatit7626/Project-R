@@ -2,7 +2,6 @@
 -- Version: 3.2
 
 -- Instances:
--- E
 
 local ScriptViewer = Instance.new("ScreenGui")
 local Topbar = Instance.new("Frame")
@@ -194,13 +193,14 @@ local function ODZGGQ_fake_script() -- Topbar.ScriptViewerManager
 			if ScriptInstance:FindFirstChild(PathArray[i]) then
 				ScriptInstance = ScriptInstance:FindFirstChild(PathArray[i])
 			else
-				return "Failed, Could not find instance : "..PathArray[i].Name.." in: "..ScriptInstance.Name
+				print("Failed, Could not find instance : "..PathArray[i].Name.." in: "..ScriptInstance.Name)
+				return
 			end
 		end
 		
 		if ScriptInstance:IsA('LocalScript') or ScriptInstance:IsA('ModuleScript') then
 			if identifyexecutor() ~= "Fluxus" then
-				CreateNotification("Warning","This only works for fluxus, any other executors might cause some error(s).",3)
+				CreateNotification("Warning","This only works for fluxus, any other executors might cause some error(s).",5)
 			end
 			local ScriptCode = getscriptbytecode(ScriptInstance)
 			local ERRCount = 1
