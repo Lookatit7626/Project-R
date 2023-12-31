@@ -708,9 +708,55 @@ Library.CreateButton(Server,"ServerSniper","Server Sniper",function()
 	end)
 end)
 
-local WSS = Library.CreateSection(GUI,"Weight Lifting Sim(s)")
 
-Library.CreateButton(WSS,"Name","Weight Lifting Sim by Top Games")
+local WSS = Library.CreateSection(GUI,"Simulators")
+
+Library.CreateButton(WSS,"Name1","Block breaking simulator by Block Breaking Sim")
+
+Library.CreateLoopButton(WSS,"FarmStrengths","Farm Strengths",function()
+	local args = {
+		[1] = math.huge
+	}
+
+	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteEvents"):WaitForChild("GiveStrength"):FireServer(unpack(args))
+end,0.001)
+
+Library.CreateLoopButton(WSS,"FarmWins","Farm Wins",function()
+	local args = {
+		[1] = {
+			["GiftType"] = "Stat",
+			["StatName"] = "Win",
+			["Time"] =  math.huge,
+			["Amount"] =  math.huge
+		}
+	}
+	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteEvents"):WaitForChild("FreeGift"):FireServer(unpack(args))
+end,0.05)
+
+Library.CreateLoopButton(WSS,"FarmWins","Farm Wins",function()
+	local args = {
+		[1] = {
+			["GiftType"] = "Stat",
+			["StatName"] = "Rebirth",
+			["Time"] =  math.huge,
+			["Amount"] =  math.huge
+		}
+	}
+	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteEvents"):WaitForChild("FreeGift"):FireServer(unpack(args))
+end,0.05)
+
+Library.CreateTextBoxButton(WSS,"GetPet",'Steal pet',function(pet)
+	local args = {
+		[1] = 1809,
+		[2] = 1800,
+		[3] = pet
+	}
+
+	game:GetService("ReplicatedStorage"):WaitForChild("Game"):WaitForChild("RemoteFunctions"):WaitForChild("ClaimLimitedTimePet"):InvokeServer(unpack(args))
+	Library.CreateNotification('Stealed Pet','Successfully stealed pet! '..pet.." (if you spelt correctly)")
+end,"en")
+
+Library.CreateButton(WSS,"Name2","Weight Lifting Sim by Top Games")
 
 local button = Library.CreateLoopButton(WSS,"FarmWin","Farm win (must beat one person first)",function()
 	local args = {
@@ -808,139 +854,6 @@ Library.CreateLoopButton(HeavenSword,"Fireball","Fireball",function()
 
 	game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("UseItem"):FireServer(unpack(args))
 
-end,.05)
-
-local TreasureHunt = Library.CreateSection(GUI,"Treasure Hunt Simulator")
-
-Library.CreateLoopButton(TreasureHunt,"MineAllChestSandBlock","Mine All Chests [SandBlock]",function()
-
-	local SandBlocks = workspace:WaitForChild('SandBlocks'):GetChildren()
-	local playerChar = game.Players.LocalPlayer.Character:GetChildren()
-
-	local ChestModelName = "X,Y,Z"
-	local Pos : Vector3
-	local PreviousPos : Vector3
-	local tool = nil
-	local contin = true
-	
-	for i = 1,#playerChar do
-		if playerChar[i]:FindFirstChild('Handle') then
-			if playerChar[i]:FindFirstChild("Configurations") then
-				if playerChar[i]:FindFirstChild("Configurations"):FindFirstChild('BlockDamage') then
-					tool = playerChar[i]
-				end
-			end
-		end
-	end
-	
-	if tool == nil then
-		Library.CreateNotification('No tool alert!',"We can't find a tool in your inventory, are you sure you are in Treasure Hunt Simulator?")
-	end
-	
-	for i = 1, #SandBlocks do
-		if SandBlocks[i]:FindFirstChild('Chest') and contin then
-			ChestModelName = SandBlocks[i].Name
-			Pos = SandBlocks[i].Position
-			pcall(function()
-				local ChestInsides = SandBlocks[i]:GetDescendants()
-				for i =1, #ChestInsides do
-					pcall(function()
-						ChestInsides.CanCollide = false
-					end)
-				end
-			end)
-			PreviousPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
-			pcall(function()
-				while workspace:WaitForChild('SandBlocks'):FindFirstChild(ChestModelName) do
-					local args = {
-						[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(ChestModelName)
-					}
-					wait(0.01)
-					game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
-					tool.RemoteClick:FireServer(unpack(args))
-
-					wait(0.01)
-
-					local UHB = Pos + Vector3.new(0,0,1)
-					if workspace:WaitForChild("SandBlocks"):FindFirstChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z)) then
-						local args = {
-							[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z))
-						}
-						wait(0.01)
-						game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
-						tool.RemoteClick:FireServer(unpack(args))
-
-						wait(0.01)
-					end
-
-					local UHB = Pos + Vector3.new(0,0,-1)
-					if workspace:WaitForChild("SandBlocks"):FindFirstChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z)) then
-						local args = {
-							[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z))
-						}
-						wait(0.01)
-						game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
-						tool.RemoteClick:FireServer(unpack(args))
-
-						wait(0.01)
-					end
-
-					local UHB = Pos + Vector3.new(0,1,0)
-					if workspace:WaitForChild("SandBlocks"):FindFirstChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z)) then
-						local args = {
-							[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z))
-						}
-						wait(0.01)
-						game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
-						tool.RemoteClick:FireServer(unpack(args))
-
-						wait(0.01)
-					end
-
-					local UHB = Pos + Vector3.new(0,-1,0)
-					if workspace:WaitForChild("SandBlocks"):FindFirstChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z)) then
-						local args = {
-							[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z))
-						}
-						wait(0.01)
-						game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
-						tool.RemoteClick:FireServer(unpack(args))
-
-						wait(0.01)
-					end
-
-					local UHB = Pos + Vector3.new(1,0,0)
-					if workspace:WaitForChild("SandBlocks"):FindFirstChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z)) then
-						local args = {
-							[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z))
-						}
-						wait(0.01)
-						game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
-						tool.RemoteClick:FireServer(unpack(args))
-
-						wait(0.01)
-					end
-
-					local UHB = Pos + Vector3.new(-1,0,0)
-					if workspace:WaitForChild("SandBlocks"):FindFirstChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z)) then
-						local args = {
-							[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z))
-						}
-						wait(0.01)
-						game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
-						tool.RemoteClick:FireServer(unpack(args))
-
-						wait(0.01)
-					end
-				end
-			end)
-			pcall(function()
-				game.Players.LocalPlayer.Character.HumanoidRootPart.Position = PreviousPos
-			end)
-			contin = false
-			break
-		end
-	end
 end,.05)
 
 --Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')
