@@ -849,6 +849,66 @@ Library.CreateLoopButton(TreasureHunt,"MineAllChestSandBlock","Mine All Chests [
 					wait(0.01)
 					game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
 					tool.RemoteClick:FireServer(unpack(args))
+
+					wait(0.01)
+
+					local UHB = Pos + Vector3.new(0,0,1)
+					local args = {
+						[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z)..", ")
+					}
+					wait(0.01)
+					game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
+					tool.RemoteClick:FireServer(unpack(args))
+
+					wait(0.01)
+
+					local UHB = Pos + Vector3.new(0,0,-1)
+					local args = {
+						[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z)..", ")
+					}
+					wait(0.01)
+					game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
+					tool.RemoteClick:FireServer(unpack(args))
+
+					wait(0.01)
+
+					local UHB = Pos + Vector3.new(0,1,0)
+					local args = {
+						[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z)..", ")
+					}
+					wait(0.01)
+					game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
+					tool.RemoteClick:FireServer(unpack(args))
+
+					wait(0.01)
+
+					local UHB = Pos + Vector3.new(0,-1,0)
+					local args = {
+						[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z)..", ")
+					}
+					wait(0.01)
+					game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
+					tool.RemoteClick:FireServer(unpack(args))
+
+					wait(0.01)
+
+					local UHB = Pos + Vector3.new(1,0,0)
+					local args = {
+						[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z)..", ")
+					}
+					wait(0.01)
+					game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
+					tool.RemoteClick:FireServer(unpack(args))
+
+					wait(0.01)
+
+					local UHB = Pos + Vector3.new(-1,0,0)
+					local args = {
+						[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(tostring(UHB.X)..", "..tostring(UHB.Y)..", "..tostring(UHB.Z)..", ")
+					}
+					wait(0.01)
+					game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
+					tool.RemoteClick:FireServer(unpack(args))
 				end
 			end)
 			pcall(function()
