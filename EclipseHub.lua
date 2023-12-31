@@ -809,3 +809,35 @@ Library.CreateLoopButton(HeavenSword,"Fireball","Fireball",function()
 	game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("UseItem"):FireServer(unpack(args))
 
 end,.05)
+
+local TreasureHunt = Library.CreateSection(GUI,"Treasure Hunt Simulator")
+
+Library.CreateLoopButton(TreasureHunt,"MineAllChestSandBlock","Mine All Chests [SandBlock[",function()
+
+	local SandBlocks = workspace:WaitForChild('SandBlocks'):GetChildren()
+
+	local ChestModelName = "X,Y,Z"
+	local Pos : Vector3
+	local PreviousPos : Vector3
+	for i = 1, #SandBlocks do
+		if SandBlocks[i]:FindFirstChild('Chest') then
+			ChestModelName = SandBlocks[i].Name
+			Pos = SandBlocks[i].Chest.Position
+			PreviousPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
+			pcall(function()
+				while SandBlocks:FindFirstChild(ChestModelName) do
+					local args = {
+						[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(ChestModelName)
+					}
+					wait(0.01)
+					game.Players.LocalPlayer.Character.HumanoidRootPart.Position = Pos
+					game:GetService("Players").LocalPlayer.Character:FindFirstChild("Toy Shovel").RemoteClick:FireServer(unpack(args))
+				end
+			end)
+			pcall(function()
+				game.Players.LocalPlayer.Character.HumanoidRootPart.Position = PreviousPos
+			end)
+			break
+		end
+	end
+end,.05)
