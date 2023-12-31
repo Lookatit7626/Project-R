@@ -47,6 +47,7 @@ BottomFrame.BorderSizePixel = 0
 BottomFrame.Position = UDim2.new(0, 0, 0.100000001, 0)
 BottomFrame.Size = UDim2.new(1, 0, 0.899999976, 0)
 BottomFrame.CanvasSize = UDim2.new(0, 0, 58, 0)
+BottomFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
 IDE.Name = "IDE"
 IDE.Parent = BottomFrame
@@ -74,6 +75,7 @@ TopFrame.BorderSizePixel = 0
 TopFrame.Size = UDim2.new(1, 0, 0.100000001, 0)
 TopFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
 TopFrame.VerticalScrollBarInset = Enum.ScrollBarInset.Always
+TopFrame.AutomaticCanvasSize = Enum.AutomaticSize.X
 
 UIListLayout.Parent = TopFrame
 UIListLayout.FillDirection = Enum.FillDirection.Horizontal
@@ -227,4 +229,3 @@ local function UWJK_fake_script() -- Topbar.ScriptViewerManager
 	end)
 end
 coroutine.wrap(UWJK_fake_script)()
-
