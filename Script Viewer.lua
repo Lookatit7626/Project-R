@@ -190,16 +190,14 @@ local function DLWXULA_fake_script() -- Topbar.ScriptViewerManager
 		local PathArray = string.split(Path,".")
 		for i = 2, #PathArray do
 			local stringCccc = PathArray[i]
-			if string.find(PathArray[i],':GetService("') or string.find(PathArray[i],':FindFirstChild("') or string.find(PathArray[i],':WaitForChild("') then
-				stringCccc = string.gsub(stringCccc,':GetService("',"")
-				stringCccc = string.gsub(stringCccc,':FindFirstChild("',"")
-				stringCccc = string.gsub(stringCccc,':WaitForChild("',"")
-				stringCccc = string.gsub(stringCccc,'")',"")
+			if stringCccc == "LocalPlayer" then
+				stringCccc = game.Players.LocalPlayer.Name
 			end
 			if ScriptInstance:FindFirstChild(PathArray[i]) then
 				ScriptInstance = ScriptInstance:FindFirstChild(stringCccc)
 			else
-				return "Failed, Could not find instance : "..stringCccc.." in: "..stringCccc
+				CreateNotification("Warning","We can't find the script : "..,stringCccc.. " in: "..ScriptInstance.Name , 3)
+				return
 			end
 		end
 		
