@@ -812,7 +812,7 @@ end,.05)
 
 local TreasureHunt = Library.CreateSection(GUI,"Treasure Hunt Simulator")
 
-Library.CreateLoopButton(TreasureHunt,"MineAllChestSandBlock","Mine All Chests [SandBlock[",function()
+Library.CreateLoopButton(TreasureHunt,"MineAllChestSandBlock","Mine All Chests [SandBlock]",function()
 
 	local SandBlocks = workspace:WaitForChild('SandBlocks'):GetChildren()
 
@@ -822,7 +822,7 @@ Library.CreateLoopButton(TreasureHunt,"MineAllChestSandBlock","Mine All Chests [
 	for i = 1, #SandBlocks do
 		if SandBlocks[i]:FindFirstChild('Chest') then
 			ChestModelName = SandBlocks[i].Name
-			Pos = SandBlocks[i].Chest.Position
+			Pos = SandBlocks[i].Position
 			PreviousPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 			pcall(function()
 				while SandBlocks:FindFirstChild(ChestModelName) do
