@@ -191,12 +191,7 @@ local function LZCQ_fake_script() -- Topbar.ScriptViewerManager
 		local PathArray = string.split(Path,".")
 		for i = 2, #PathArray do
 			local stringCccc = PathArray[i]
-			if string.find(PathArray[i],':GetService("') or string.find(PathArray[i],':FindFirstChild("') or string.find(PathArray[i],':WaitForChild("') then
-				stringCccc = string.gsub(stringCccc,':GetService("',"")
-				stringCccc = string.gsub(stringCccc,':FindFirstChild("',"")
-				stringCccc = string.gsub(stringCccc,':WaitForChild("',"")
-				stringCccc = string.gsub(stringCccc,'")',"")
-			end
+			print(stringCccc)
 			if ScriptInstance:FindFirstChild(PathArray[i]) then
 				ScriptInstance = ScriptInstance:FindFirstChild(stringCccc)
 			else
