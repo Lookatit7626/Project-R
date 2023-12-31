@@ -50,8 +50,7 @@ BottomFrame.CanvasSize = UDim2.new(0, 0, 58, 0)
 IDE.Name = "IDE"
 IDE.Parent = BottomFrame
 IDE.Active = true
-IDE.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-IDE.BackgroundTransparency = 1.000
+IDE.BackgroundColor3 = Color3.fromRGB(27, 27, 27)
 IDE.BorderColor3 = Color3.fromRGB(0, 0, 0)
 IDE.BorderSizePixel = 0
 IDE.Position = UDim2.new(0.0500000007, 0, 0.0500000007, 0)
@@ -145,14 +144,14 @@ X.TextWrapped = true
 
 -- Scripts:
 
-local function GYMWV_fake_script() -- Topbar.Dragger 
+local function LBZJQ_fake_script() -- Topbar.Dragger 
 	local script = Instance.new('LocalScript', Topbar)
 
 	script.Parent.Active = true
 	script.Parent.Draggable = true
 end
-coroutine.wrap(GYMWV_fake_script)()
-local function LZCQ_fake_script() -- Topbar.ScriptViewerManager 
+coroutine.wrap(LBZJQ_fake_script)()
+local function DLWXULA_fake_script() -- Topbar.ScriptViewerManager 
 	local script = Instance.new('LocalScript', Topbar)
 
 	local Clear = script.Parent.BackFrame.TopFrame.Clear
@@ -191,7 +190,12 @@ local function LZCQ_fake_script() -- Topbar.ScriptViewerManager
 		local PathArray = string.split(Path,".")
 		for i = 2, #PathArray do
 			local stringCccc = PathArray[i]
-			print(stringCccc)
+			if string.find(PathArray[i],':GetService("') or string.find(PathArray[i],':FindFirstChild("') or string.find(PathArray[i],':WaitForChild("') then
+				stringCccc = string.gsub(stringCccc,':GetService("',"")
+				stringCccc = string.gsub(stringCccc,':FindFirstChild("',"")
+				stringCccc = string.gsub(stringCccc,':WaitForChild("',"")
+				stringCccc = string.gsub(stringCccc,'")',"")
+			end
 			if ScriptInstance:FindFirstChild(PathArray[i]) then
 				ScriptInstance = ScriptInstance:FindFirstChild(stringCccc)
 			else
@@ -221,4 +225,4 @@ local function LZCQ_fake_script() -- Topbar.ScriptViewerManager
 		end
 	end)
 end
-coroutine.wrap(LZCQ_fake_script)()
+coroutine.wrap(DLWXULA_fake_script)()
