@@ -825,7 +825,7 @@ Library.CreateLoopButton(TreasureHunt,"MineAllChestSandBlock","Mine All Chests [
 			Pos = SandBlocks[i].Position
 			PreviousPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 			pcall(function()
-				while SandBlocks:FindFirstChild(ChestModelName) do
+				while workspace:WaitForChild('SandBlocks'):FindFirstChild(ChestModelName) do
 					local args = {
 						[1] = workspace:WaitForChild("SandBlocks"):WaitForChild(ChestModelName)
 					}
