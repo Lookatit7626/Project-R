@@ -292,28 +292,61 @@ local PS99 = Library.CreateSection(GUI,"Pet Sim 99")
 
 Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 	local suc, err = pcall(function()
+		local plrPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 		local OrbsFolder = game.Workspace['__THINGS'].Orbs:GetChildren()
 		for i = 1, #OrbsFolder do
-			local args = {
-				[1] = {
-					[1] = OrbsFolder[i].Name
+			local Part = nil
+
+			local Model = OrbsFolder[i]:GetDescendants()
+			for j = 1, #Model do
+				if typeof(Model[j]) == "Instance" then
+					Part = Model[j]
+					break
+				end
+			end
+			
+			local pos : Vector3 = Part.Position
+			local mag = Vector3.new(plrPos - pos).Magnitude
+
+			if mag < 50 then
+				local args = {
+					[1] = {
+						[1] = OrbsFolder[i].Name
+					}
 				}
-			}
-			print(OrbsFolder[i].Name)
-			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Orbs: Collect"):FireServer(unpack(args))
+				print(OrbsFolder[i].Name)
+				game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Orbs: Collect"):FireServer(unpack(args))
+			end
 		end
 	end)
 	
 	local suc1, err1 = pcall(function()
+		local plrPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 		local LootbagsFolder = game.Workspace['__THINGS'].Lootbags:GetChildren()
 		for i = 1, #LootbagsFolder do
-			local args = {
-				[1] = {
-					[1] = LootbagsFolder[i].Name
+			
+			local Part = nil
+
+			local Model = LootbagsFolder[i]:GetDescendants()
+			for j = 1, #Model do
+				if typeof(Model[j]) == "Instance" then
+					Part = Model[j]
+					break
+				end
+			end
+
+			local pos : Vector3 = Part.Position
+			local mag = Vector3.new(plrPos - pos).Magnitude
+
+			if mag < 50 then
+				local args = {
+					[1] = {
+						[1] = LootbagsFolder[i].Name
+					}
 				}
-			}
-			print(LootbagsFolder[i].Name)
-			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Lootbags_Claim"):FireServer(unpack(args))
+				print(LootbagsFolder[i].Name)
+				game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Lootbags_Claim"):FireServer(unpack(args))
+			end
 		end
 	end)
 	
@@ -330,35 +363,37 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 		local plrPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 		local BreakablesFolder = game.Workspace['__THINGS'].Breakables:GetChildren()
 		for i = 1, #BreakablesFolder do
-			local Hitbox = nil
-			
-			local Model = BreakablesFolder[i]:GetDescendants()
-			for j = 1, #Model do
-				if Model[j].Name == "Hitbox" then
-					Hitbox = Model[j]
-					break
-				end
-			end
-			
-			if Hitbox ~= nil then
-				local pos : Vector3 = Hitbox.Position
-				local mag = Vector3.new(plrPos - pos).Magnitude
+			coroutine.wrap(function()
+				local Hitbox = nil
 
-				if mag < 50 then
-					local args = {
-						[1] = BreakablesFolder[i].Name
-					}
-					print(BreakablesFolder[i].Name)
-					game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(unpack(args))
+				local Model = BreakablesFolder[i]:GetDescendants()
+				for j = 1, #Model do
+					if Model[j].Name == "Hitbox" then
+						Hitbox = Model[j]
+						break
+					end
 				end
-			else
-				print('Err : Cant find hixbox for coin!')
-			end
+
+				if Hitbox ~= nil then
+					local pos : Vector3 = Hitbox.Position
+					local mag = Vector3.new(plrPos - pos).Magnitude
+
+					if mag < 50 then
+						local args = {
+							[1] = BreakablesFolder[i].Name
+						}
+						print(BreakablesFolder[i].Name)
+						game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(unpack(args))
+					end
+				else
+					print('Err : Cant find hixbox for coin!')
+				end
+			end)()
 		end
 	end)
 	if not suc then
 		print('Farm err: '..err)
 	end
-end,.2)
+end,1)
 
 --Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')
