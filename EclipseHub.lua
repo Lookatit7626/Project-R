@@ -351,6 +351,8 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 					print(BreakablesFolder[i].Name)
 					game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(unpack(args))
 				end
+			else
+				print('Err : Cant find hixbox for coin!')
 			end
 		end
 	end)
