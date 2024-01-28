@@ -308,13 +308,12 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 			local pos : Vector3 = Part.Position
 			local mag = Vector3.new(plrPos - pos).Magnitude
 
-			if mag < 50 then
+			if mag < 45 then
 				local args = {
 					[1] = {
 						[1] = OrbsFolder[i].Name
 					}
 				}
-				print(OrbsFolder[i].Name)
 				game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Orbs: Collect"):FireServer(unpack(args))
 			end
 		end
@@ -338,13 +337,12 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 			local pos : Vector3 = Part.Position
 			local mag = Vector3.new(plrPos - pos).Magnitude
 
-			if mag < 50 then
+			if mag < 45 then
 				local args = {
 					[1] = {
 						[1] = LootbagsFolder[i].Name
 					}
 				}
-				print(LootbagsFolder[i].Name)
 				game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Lootbags_Claim"):FireServer(unpack(args))
 			end
 		end
@@ -378,11 +376,10 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 					local pos : Vector3 = Hitbox.Position
 					local mag = Vector3.new(plrPos - pos).Magnitude
 
-					if mag < 50 then
+					if mag < 45 then
 						local args = {
 							[1] = BreakablesFolder[i].Name
 						}
-						print(BreakablesFolder[i].Name)
 						game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(unpack(args))
 					end
 				else
