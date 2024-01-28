@@ -299,7 +299,7 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 					[1] = OrbsFolder[i].Name
 				}
 			}
-
+			print(OrbsFolder[i].Name)
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Orbs: Collect"):FireServer(unpack(args))
 		end
 	end)
@@ -312,7 +312,7 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 					[1] = LootbagsFolder[i].Name
 				}
 			}
-
+			print(LootbagsFolder[i].Name)
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Lootbags_Claim"):FireServer(unpack(args))
 		end
 	end)
@@ -323,7 +323,6 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 	if not suc then
 		print('Orbs err: '..err)
 	end
-	print('two')
 end,1)
 
 Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
@@ -338,7 +337,7 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 				local args = {
 					[1] = BreakablesFolder[i].Name
 				}
-
+				print(BreakablesFolder[i].Name)
 				game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(unpack(args))
 			end
 		end
@@ -346,7 +345,6 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 	if not suc then
 		print('Farm err: '..err)
 	end
-	print('one')
 end,.2)
 
 --Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')
