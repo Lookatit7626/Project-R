@@ -326,4 +326,27 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 	print('two')
 end,1)
 
+Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
+	local suc, err = pcall(function()
+		local plrPos = game.Players.LocalPlayer.Character.Humanoid.Position
+		local BreakablesFolder = game.Workspace['__THINGS'].Breakables:GetChildren()
+		for i = 1, #BreakablesFolder do
+			local pos : Vector3 = BreakablesFolder[i].Position
+			local mag = Vector3.new(plrPos - pos).Magnitude
+			
+			if mag < 50 then
+				local args = {
+					[1] = BreakablesFolder[i].Name
+				}
+
+				game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(unpack(args))
+			end
+		end
+	end)
+	if not suc then
+		print('Farm err: '..err)
+	end
+	print('one')
+end,.2)
+
 --Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')
