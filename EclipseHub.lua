@@ -291,7 +291,7 @@ end,.05)
 local PS99 = Library.CreateSection(GUI,"Pet Sim 99")
 
 Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
-	pcall(function()
+	local suc, err = pcall(function()
 		local OrbsFolder = game.Workspace['__THINGS'].Orbs:GetChildren()
 		for i = 1, #OrbsFolder do
 			local args = {
@@ -304,7 +304,7 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 		end
 	end)
 	
-	pcall(function()
+	local suc1, err1 = pcall(function()
 		local LootbagsFolder = game.Workspace['__THINGS'].Lootbags:GetChildren()
 		for i = 1, #LootbagsFolder do
 			local args = {
@@ -316,6 +316,14 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 			game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Lootbags_Claim"):FireServer(unpack(args))
 		end
 	end)
+	
+	if not suc1 then
+		print('Lootbag err: '..err1)
+	end
+	if not suc then
+		print('Orbs err: '..err)
+	end
+	print('Two')
 end,1)
 
 --Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')
