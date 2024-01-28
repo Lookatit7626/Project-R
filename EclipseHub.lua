@@ -299,7 +299,7 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 
 			local Model = OrbsFolder[i]:GetDescendants()
 			for j = 1, #Model do
-				if Model[j]:IsA('Instance') then
+				if Model[j]:IsA('Part') then
 					Part = Model[j]
 					break
 				end
@@ -327,7 +327,7 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 
 			local Model = LootbagsFolder[i]:GetDescendants()
 			for j = 1, #Model do
-				if Model[j]:IsA('Instance') then
+				if Model[j]:IsA('Part') then
 					Part = Model[j]
 					break
 				end
@@ -364,7 +364,9 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 
 			local Model = BreakablesFolder[i]:GetDescendants()
 			for j = 1, #Model do
-				if Model[j]:IsA('Instance') then
+				print(Model[j].Name)
+				if Model[j]:IsA('Part') then
+					print('found')
 					Hitbox = Model[j]
 					break
 				end
