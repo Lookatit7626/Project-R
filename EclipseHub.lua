@@ -299,7 +299,7 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 
 			local Model = OrbsFolder[i]:GetDescendants()
 			for j = 1, #Model do
-				if typeof(Model[j]) == "Instance" then
+				if Model[j]:IsA('Instance') then
 					Part = Model[j]
 					break
 				end
@@ -308,7 +308,7 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 			local pos : Vector3 = Part.Position
 			local mag = Vector3.new(plrPos - pos).Magnitude
 
-			if mag < 45 then
+			if mag < 75 then
 				local args = {
 					[1] = {
 						[1] = OrbsFolder[i].Name
@@ -318,7 +318,6 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 			end
 		end
 	end)
-	
 	local suc1, err1 = pcall(function()
 		local plrPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 		local LootbagsFolder = game.Workspace['__THINGS'].Lootbags:GetChildren()
@@ -328,7 +327,7 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 
 			local Model = LootbagsFolder[i]:GetDescendants()
 			for j = 1, #Model do
-				if typeof(Model[j]) == "Instance" then
+				if Model[j]:IsA('Instance') then
 					Part = Model[j]
 					break
 				end
@@ -337,7 +336,7 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 			local pos : Vector3 = Part.Position
 			local mag = Vector3.new(plrPos - pos).Magnitude
 
-			if mag < 45 then
+			if mag < 75 then
 				local args = {
 					[1] = {
 						[1] = LootbagsFolder[i].Name
@@ -365,7 +364,7 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 
 			local Model = BreakablesFolder[i]:GetDescendants()
 			for j = 1, #Model do
-				if typeof(Model[j]) == "Instance" then
+				if Model[j]:IsA('Instance') then
 					Hitbox = Model[j]
 					break
 				end
