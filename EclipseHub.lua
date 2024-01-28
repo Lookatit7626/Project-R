@@ -328,7 +328,7 @@ end,1)
 
 Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 	local suc, err = pcall(function()
-		local plrPos = game.Players.LocalPlayer.Character.Humanoid.Position
+		local plrPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 		local BreakablesFolder = game.Workspace['__THINGS'].Breakables:GetChildren()
 		for i = 1, #BreakablesFolder do
 			local pos : Vector3 = BreakablesFolder[i].Position
