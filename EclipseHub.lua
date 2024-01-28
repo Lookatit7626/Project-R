@@ -323,7 +323,7 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 	if not suc then
 		print('Orbs err: '..err)
 	end
-	print('Two')
+	print('two')
 end,1)
 
 --Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')
