@@ -341,7 +341,7 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 			end
 			
 			if Hitbox ~= nil then
-				local pos : Vector3 = BreakablesFolder[i].Position
+				local pos : Vector3 = Hitbox.Position
 				local mag = Vector3.new(plrPos - pos).Magnitude
 
 				if mag < 50 then
