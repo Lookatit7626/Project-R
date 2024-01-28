@@ -361,36 +361,34 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 		local plrPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 		local BreakablesFolder = game.Workspace['__THINGS'].Breakables:GetChildren()
 		for i = 1, #BreakablesFolder do
-			coroutine.wrap(function()
-				local Hitbox = nil
+			local Hitbox = nil
 
-				local Model = BreakablesFolder[i]:GetDescendants()
-				for j = 1, #Model do
-					if Model[j].Name == "Hitbox" then
-						Hitbox = Model[j]
-						break
-					end
+			local Model = BreakablesFolder[i]:GetDescendants()
+			for j = 1, #Model do
+				if Model[j].Name == "Hitbox" then
+					Hitbox = Model[j]
+					break
 				end
+			end
 
-				if Hitbox ~= nil then
-					local pos : Vector3 = Hitbox.Position
-					local mag = Vector3.new(plrPos - pos).Magnitude
+			if Hitbox ~= nil then
+				local pos : Vector3 = Hitbox.Position
+				local mag = Vector3.new(plrPos - pos).Magnitude
 
-					if mag < 45 then
-						local args = {
-							[1] = BreakablesFolder[i].Name
-						}
-						game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(unpack(args))
-					end
-				else
-					print('Err : Cant find hixbox for coin!')
+				if mag < 35 then
+					local args = {
+						[1] = BreakablesFolder[i].Name
+					}
+					game:GetService("ReplicatedStorage"):WaitForChild("Network"):WaitForChild("Breakables_PlayerDealDamage"):FireServer(unpack(args))
 				end
-			end)()
+			else
+				print('Err : Cant find hixbox for coin!')
+			end
 		end
 	end)
 	if not suc then
 		print('Farm err: '..err)
 	end
-end,1)
+end,.5)
 
 --Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')
