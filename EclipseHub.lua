@@ -365,7 +365,7 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 
 			local Model = BreakablesFolder[i]:GetDescendants()
 			for j = 1, #Model do
-				if Model[j].Name == "Hitbox" then
+				if typeof(Model[j]) == "Instance" then
 					Hitbox = Model[j]
 					break
 				end
