@@ -1,3 +1,4 @@
+-- Welcome to Hydrogen MacOS!
 local Library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Lookatit7626/Project-R/main/GUI%20Library.lua')))()
 local Words = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Lookatit7626/Project-R/main/HateSpeechs.lua')))()
 
@@ -191,7 +192,7 @@ end,"en")
 
 Library.CreateButton(WSS,"Name2","Weight Lifting Sim by Top Games")
 
-local button = Library.CreateLoopButton(WSS,"FarmWin","Farm win (must beat one person first)",function()
+Library.CreateLoopButton(WSS,"FarmWin","Farm win (must beat one person first)",function()
 	local args = {
 		[1] = "Player",
 		[2] = 30
@@ -200,8 +201,58 @@ local button = Library.CreateLoopButton(WSS,"FarmWin","Farm win (must beat one p
 	game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("BattleEvent"):FireServer(unpack(args))
 end,0.001)
 
-local button = Library.CreateLoopButton(WSS,"FarmMuscle","Farm Muscles",function()
+Library.CreateLoopButton(WSS,"FarmMuscle","Farm Muscles",function()
 	game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("AddMuscle"):FireServer()
+end,0.001)
+
+local MonkeySim = Library.CreateSection(GUI,"Monkey Sim")
+
+Library.CreateLoopButton(MonkeySim,"MonkeySim+10k","10k Bananas",function()
+	local args = {
+    		[1] = 10000
+	}
+
+	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("GrabDrops"):FireServer(unpack(args))
+
+end,0.001)
+
+Library.CreateLoopButton(MonkeySim,"MonkeySim+100k","100k Bananas",function()
+	local args = {
+    		[1] = 100000
+	}
+
+	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("GrabDrops"):FireServer(unpack(args))
+
+end,0.001)
+
+Library.CreateLoopButton(MonkeySim,"MonkeySim+Rank","Randomised (1,~100000) Bananas",function()
+	local args = {
+    		[1] = math.random(1,100000)
+	}
+
+	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("GrabDrops"):FireServer(unpack(args))
+
+end,0.0001)
+
+Library.CreateLoopButton(MonkeySim,"MonkeySimDesposit","Despoit",function()
+	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("DepositDrops"):FireServer()
+end,0.001)
+
+Library.CreateLoopButton(MonkeySim,"MonkeySimRate","Auto Increase Rate",function()
+	local args = {
+    		[1] = 1
+	}
+
+	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("BuySpeed"):FireServer(unpack(args))
+
+end,0.001)
+
+Library.CreateLoopButton(MonkeySim,"MonkeySimMax","Auto buy max",function()
+	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("BuyDropperMax"):FireServer()
+end,0.001)
+
+Library.CreateLoopButton(MonkeySim,"MonkeySimMerge","Auto Merge",function()
+	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("MergeDroppers"):FireServer()
 end,0.001)
 
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
