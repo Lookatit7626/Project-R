@@ -6,7 +6,7 @@ local GUI = Library.CreateGUI("Eclipse's HUB","rbxassetid://14497104058")
 
 local Section = Library.CreateSection(GUI,"Home")
 
-Library.CreateButton(Section,"Name","Hello! ,"..game.Players.LocalPlayer.Name)
+Library.CreateButton(Section,"Name","Hello! "..game.Players.LocalPlayer.Name)
 
 Library.CreateButton(Section," ","")
 
