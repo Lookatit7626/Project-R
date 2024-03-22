@@ -6,7 +6,13 @@ local GUI = Library.CreateGUI("Eclipse's HUB","rbxassetid://14497104058")
 
 local Section = Library.CreateSection(GUI,"Home")
 
-Library.CreateButton(Section,"Name","Enforcing State Security GameWide")
+Library.CreateButton(Section,"Name","Hello! ,"..game.Players.LocalPlayer.Name)
+
+Library.CreateButton(Section," ","")
+
+Library.CreateButton(Section,"NameGUI","Above all, Game wide")
+
+Library.CreateButton(Section,"Credits","Created by ECLIPSE, tested by Look At It")
 
 Library.CreateButton(Section,"Delete","Delete Hub",function()
 	Library.CreateNotification("Deleting","Deleting HUB...")
