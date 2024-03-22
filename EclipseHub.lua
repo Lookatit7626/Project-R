@@ -14,6 +14,8 @@ Library.CreateButton(Section,"NameGUI","Above all, Game wide")
 
 Library.CreateButton(Section,"Credits","Created by ECLIPSE, tested by Look At It")
 
+Library.CreateButton(Section," ","")
+
 Library.CreateButton(Section,"Delete","Delete Hub",function()
 	Library.CreateNotification("Deleting","Deleting HUB...")
 	wait(2)
