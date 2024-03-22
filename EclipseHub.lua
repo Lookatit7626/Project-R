@@ -234,8 +234,12 @@ Library.CreateLoopButton(MonkeySim,"MonkeySim+Rank","Randomised (1,~100000) Bana
 
 end,0.0001)
 
-Library.CreateLoopButton(MonkeySim,"MonkeySimDesposit","Despoit",function()
+Library.CreateLoopButton(MonkeySim,"MonkeySimDesposit","Auto Despoit",function()
 	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("DepositDrops"):FireServer()
+end,0.001)
+
+Library.CreateLoopButton(MonkeySim,"MonkeySimRebirth","Auto Rebirth",function()
+	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("DoSacrifice"):FireServer()
 end,0.001)
 
 Library.CreateLoopButton(MonkeySim,"MonkeySimRate","Auto Increase Rate",function()
@@ -442,3 +446,4 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 end,.2)
 
 --Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')
+
