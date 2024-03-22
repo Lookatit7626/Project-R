@@ -307,6 +307,18 @@ Library.CreateLoopButton(MonkeySim,"MonkeySim+Rank","Randomised (1,~100000) Bana
 
 end,0.0001)
 
+Library.CreateButton(MonkeySim,"MonkeySimX3","X3 boost",function()
+    game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("ApplyCode"):FireServer("Boostmeup")
+end)
+
+Library.CreateButton(MonkeySim,"MonkeySimHot","Fire on character",function()
+    game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("ApplyCode"):FireServer("Hot")
+end)
+
+Library.CreateButton(MonkeySim,"MonkeySimBalls","Balls",function()
+    game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("ApplyCode"):FireServer("Balls")
+end)
+
 Library.CreateButton(MonkeySim,"MonkeySimRedeemallcodes","Redeem all code!",function()
     local codes = {
     "/codelist";
