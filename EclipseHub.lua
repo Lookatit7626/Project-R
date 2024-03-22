@@ -109,6 +109,9 @@ Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
 		wait(0.6)
 		AA = Test
 	end)()
+    local Reported = false
+    local succuess = true
+    local error = ""
 	if not Set then
 		Set = true
 		if not Event then
@@ -118,20 +121,31 @@ Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
 					for i, v in next, Words do
 						if string.find(msg, i) then
 							local suc, er = pcall(function()
+                            Reported = true
 								game.Players:ReportAbuse(game.Players:FindFirstChild(plr.name), v, 'using hate speech and making me feel very shamed!')
 							end)
 							if not suc then
 								Library.CreateNotification('Reporting issue!',"Couldn't report due to the reason: " .. er .. ' | AR')
+                                succuess = false
+                                error = er
 								return warn("Couldn't report due to the reason: " .. er .. ' | AR')
-							else
-								Library.CreateNotification('Reported',"Reported a person for : "..v..", Person: "..plr.Name..".")
+			
 							end
 						end
 					end
 				end
+
+                if Reported then
+                    if succuess then
+                        Library.CreateNotification('Reported',"Reported a person for : "..v..", Person: "..plr.Name..".")
+                    else
+                        Library.CreateNotification('Reporting issue!',"Couldn't report due to the reason: " .. error .. ' | AR')
+                    end
+                end
 			end)
 		end
 	end
+    
 	coroutine.wrap(function()
 		wait(1)
 		if AA == Test then
