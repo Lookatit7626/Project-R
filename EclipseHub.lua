@@ -1,4 +1,4 @@
--- Welcome to Hydrogen MacOS!
+
 local Library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Lookatit7626/Project-R/main/GUI%20Library.lua')))()
 local Words = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Lookatit7626/Project-R/main/HateSpeechs.lua')))()
 
@@ -208,7 +208,18 @@ end,0.001)
 local MonkeySim = Library.CreateSection(GUI,"Monkey Sim")
 
 Library.CreateLoopButton(MonkeySim,"MonkeySim+10k","10k Bananas",function()
-	local args = {
+    pcall(function()
+        local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
+        local Drops = workspace.Drops:GetChildren()
+
+        local originPos = plrHRP.Position
+        for i = 1, #Drops do
+            Drops[i].Position = plrHRP.Position
+            wait(0.001)
+        end
+    end)
+
+    local args = {
     		[1] = 10000
 	}
 
@@ -217,7 +228,18 @@ Library.CreateLoopButton(MonkeySim,"MonkeySim+10k","10k Bananas",function()
 end,0.001)
 
 Library.CreateLoopButton(MonkeySim,"MonkeySim+100k","100k Bananas",function()
-	local args = {
+	pcall(function()
+        local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
+        local Drops = workspace.Drops:GetChildren()
+
+        local originPos = plrHRP.Position
+        for i = 1, #Drops do
+            Drops[i].Position = plrHRP.Position
+            wait(0.001)
+        end
+    end)
+    
+    local args = {
     		[1] = 100000
 	}
 
@@ -226,7 +248,18 @@ Library.CreateLoopButton(MonkeySim,"MonkeySim+100k","100k Bananas",function()
 end,0.001)
 
 Library.CreateLoopButton(MonkeySim,"MonkeySim+Rank","Randomised (1,~100000) Bananas",function()
-	local args = {
+	pcall(function()
+        local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
+        local Drops = workspace.Drops:GetChildren()
+
+        local originPos = plrHRP.Position
+        for i = 1, #Drops do
+            Drops[i].Position = plrHRP.Position
+            wait(0.001)
+        end
+    end)
+    
+    local args = {
     		[1] = math.random(1,100000)
 	}
 
@@ -446,4 +479,3 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 end,.2)
 
 --Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')
-
