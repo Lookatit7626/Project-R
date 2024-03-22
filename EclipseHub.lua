@@ -227,7 +227,7 @@ Library.CreateLoopButton(MonkeySim,"MonkeySim+10k","10k Bananas",function()
 
 end,0.001)
 
-Library.CreateLoopButton(MonkeySim,"MonkeySim+100k","100k Bananas",function()
+Library.CreateLoopButton(MonkeySim,"MonkeySim+1m","1mil Bananas",function()
 	pcall(function()
         local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
         local Drops = workspace.Drops:GetChildren()
@@ -240,7 +240,47 @@ Library.CreateLoopButton(MonkeySim,"MonkeySim+100k","100k Bananas",function()
     end)
     
     local args = {
-    		[1] = 100000
+    		[1] = 1000000
+	}
+
+	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("GrabDrops"):FireServer(unpack(args))
+
+end,0.001)
+
+Library.CreateLoopButton(MonkeySim,"MonkeySim+100m","100mil Bananas",function()
+	pcall(function()
+        local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
+        local Drops = workspace.Drops:GetChildren()
+
+        local originPos = plrHRP.Position
+        for i = 1, #Drops do
+            Drops[i].Position = plrHRP.Position
+            wait(0.001)
+        end
+    end)
+    
+    local args = {
+    		[1] = 100000000
+	}
+
+	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("GrabDrops"):FireServer(unpack(args))
+
+end,0.001)
+
+Library.CreateLoopButton(MonkeySim,"MonkeySim+1b","1bil Bananas",function()
+	pcall(function()
+        local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
+        local Drops = workspace.Drops:GetChildren()
+
+        local originPos = plrHRP.Position
+        for i = 1, #Drops do
+            Drops[i].Position = plrHRP.Position
+            wait(0.001)
+        end
+    end)
+    
+    local args = {
+    		[1] = 1000000000
 	}
 
 	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("GrabDrops"):FireServer(unpack(args))
@@ -266,6 +306,61 @@ Library.CreateLoopButton(MonkeySim,"MonkeySim+Rank","Randomised (1,~100000) Bana
 	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("GrabDrops"):FireServer(unpack(args))
 
 end,0.0001)
+
+Library.CreateButton(MonkeySim,"MonkeySimRedeemallcodes","Redeem all code!",function()
+    local codes = {
+    "/codelist";
+    "Arboreal";
+    "Baboon";
+    "Gorilla";
+    "Orangutan";
+    "Primate";
+    "Simian";
+    "bugfixing";
+    "Nevergonnagiveyouup";
+    "Nevergonnaletyoudown";
+    "Nevergonnarunaroundanddesertyou";
+    "Nevergonnamakeyoucry";
+    "Nevergonnasaygoodbye";
+    "Nevergonnatellalieandhurtyou";
+    "Thanks";
+    "Ape";
+    "Bakery";
+    "Plantain";
+    "Tarantula";
+    "September";
+    "Medusa";
+    "BloodForTheBloodGod";
+    "boogers";
+    "bottle";
+    "statues";
+    "Asteroid";
+    "RollTheDice";
+    "142496";
+    "Hot";
+    "Nothing";
+    "Freeslimemonkey";
+    "Cipher";
+    "RIGVSQERGIV";
+    "MonkeyTycoonForever";
+    "Asteroid";
+    "MichaelsaJoestar";
+    "ELSEP03M";
+    "Boostmeup";
+    "Murder";
+    "GOOBLESTHEALIEN";
+    "Nirvana";
+    "Monkey Backwards";
+    "Radiation";
+    "Balls";
+    "LotsOfMonkeys";
+}
+
+for i ,v in pairs(codes) do
+    game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("ApplyCode"):FireServer(v)
+    wait(2)
+end
+end)
 
 Library.CreateLoopButton(MonkeySim,"MonkeySimDesposit","Auto Despoit",function()
 	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("DepositDrops"):FireServer()
