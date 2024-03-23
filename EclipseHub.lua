@@ -24,7 +24,17 @@ end)
 
 local Section2 = Library.CreateSection(GUI,"UniversalScript")
 
-Library.CreateButton(Section2,"Build A Boat","Build a Boat Farm",function() loadstring(game:HttpGet("https://pastebin.com/raw/h9AnD9d1"))() end)
+Library.CreateButton(Section2,"Build A Boat","Build a Boat Farm",function()
+	loadstring(game:HttpGet("https://pastebin.com/raw/h9AnD9d1"))()
+end)
+
+Library.CreateButton(Section2,"Jailbreak Auto V4","Jailbreak Auto V4",function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/Pxsta72/ProjectAuto/main/AutoRobV4Release"))()
+end)
+
+Library.CreateButton(Section2,"Chaos Hub","Chaos Hub",function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/xChaoticVoid/Chaos-Hub-v1/main/ChaosHub.lua"))()
+end)
 
 Library.CreateButton(Section2,"Bedwars","Bedwars",function() loadstring(game:HttpGet("https://raw.githubusercontent.com/AlSploit/AlSploit/main/Bedwars"))() end)
 
