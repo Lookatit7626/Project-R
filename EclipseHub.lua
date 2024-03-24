@@ -612,7 +612,7 @@ Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Heaven","Autofarm Heaven LVL 37
 end,1)
 
 Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Dark Skeleton","Autofarm Dark Skeleton LVL 57.5K",function()
-	killLoop({'Dark Skeleton',"The Bone Lord"})
+	killLoop({'Dark Skeleton',"The Currupted  Bone Lord [FINAL BOSS]"})
 end,1)
 
 local RPGBossSim = Library.CreateSection(GUI,"Legend Bone Sword RPG Bosses") --BOSSES
