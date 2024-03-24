@@ -458,18 +458,28 @@ local function CheckTools()
 	end)
 end
 
+--Doing this to prevent memory leaks! as this is always function
+
+local OriginGravity
+local PlrHRP
+local PreviousPos
+local EnemiesPathGC
+local Char
+local CharGC
+local EnemyList
+
 local function killLoop(list)
 
-	local EnemyList = list
+	EnemyList = list
 	if not Running then
 		Running = true
 		CheckTools()
-		local OriginGravity = game.Workspace.Gravity
-		local PlrHRP = game.Players.LocalPlayer.Character.HumanoidRootPart
-		local PreviousPos = PlrHRP.CFrame
-		local EnemiesPathGC = game:GetService("Workspace").Enemies:GetChildren()
-		local Char = PlrHRP.Parent
-		local CharGC = Char:GetChildren()
+		OriginGravity = game.Workspace.Gravity
+		PlrHRP = game.Players.LocalPlayer.Character.HumanoidRootPart
+		PreviousPos = PlrHRP.CFrame
+		EnemiesPathGC = game:GetService("Workspace").Enemies:GetChildren()
+		Char = PlrHRP.Parent
+		CharGC = Char:GetChildren()
 
 		game.Workspace.Gravity = 0
 
@@ -518,6 +528,7 @@ local function killLoop(list)
 				end
 			end
 		end
+
 		wait(0.1)
 		game.Workspace.Gravity = OriginGravity
 		PlrHRP.CFrame = PreviousPos
@@ -574,7 +585,11 @@ Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Korblox","Autofarm Korblox LVL 
 	killLoop({'Korblox Apprentice',"Wrath of Korblox","Korblox Deathspeaker"})
 end,1)
 
-local RPGBossSim = Library.CreateSection(GUI,"Legend Bone Sword RPG Bosses")
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Flame","Autofarm Flame LVL 500",function()
+	killLoop({'Flame Minion',"Flame Master"})
+end,1)
+
+local RPGBossSim = Library.CreateSection(GUI,"Legend Bone Sword RPG Bosses") --BOSSES
 
 Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm Bone Lord Son","Autofarm Bone lord Son LVL 100",function()
 	killLoop({"The Bone Lord's Son"})
@@ -596,9 +611,18 @@ Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm elijah1113456","Autofarm el
 	killLoop({"elijah1113456"})
 end,1)
 
-Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Korblox","Autofarm Korblox LVL 200",function()
-	killLoop({'Flame Minion',"Flame Master"})
+Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm Builderman","Autofarm Builderman",function()
+	killLoop({"Builderman"})
 end,1)
+
+Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm Giancarlo","Autofarm Giancarlo",function()
+	killLoop({"Giancarlo"})
+end,1)
+
+Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm Scrub","Autofarm Scrub",function()
+	killLoop({"Scrub"})
+end,1)
+
 
 
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
