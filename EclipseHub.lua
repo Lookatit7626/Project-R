@@ -592,6 +592,11 @@ Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm Spate","Autofarm Spate",fun
 	killLoop({"Spate"})
 end,1)
 
+Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm elijah1113456","Autofarm elijah1113456",function()
+	killLoop({"elijah1113456"})
+end,1)
+
+
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
 button = Library.CreateLoopButton(HeavenSword,"Kill All","Kill All (NPCS)",function()
