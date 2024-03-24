@@ -1,3 +1,4 @@
+local RunService = game:GetService("RunService")
 
 local Library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Lookatit7626/Project-R/main/GUI%20Library.lua')))()
 local Words = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Lookatit7626/Project-R/main/HateSpeechs.lua')))()
@@ -127,9 +128,10 @@ Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
 		wait(0.6)
 		AA = Test
 	end)()
-    local Reported = false
-    local succuess = true
-    local error = ""
+	local Reported = false
+	local reson = ""
+	local succuess = true
+	local error = ""
 	if not Set then
 		Set = true
 		if not Event then
@@ -139,31 +141,32 @@ Library.CreateLoopButton(PlayerScript,"AutoReport", "AutoReport", function()
 					for i, v in next, Words do
 						if string.find(msg, i) then
 							local suc, er = pcall(function()
-                            Reported = true
+								Reported = true
+								reson = v
 								game.Players:ReportAbuse(game.Players:FindFirstChild(plr.name), v, 'using hate speech and making me feel very shamed!')
 							end)
 							if not suc then
 								Library.CreateNotification('Reporting issue!',"Couldn't report due to the reason: " .. er .. ' | AR')
-                                succuess = false
-                                error = er
+								succuess = false
+								error = er
 								return warn("Couldn't report due to the reason: " .. er .. ' | AR')
-			
+
 							end
 						end
 					end
 				end
 
-                if Reported then
-                    if succuess then
-                        Library.CreateNotification('Reported',"Reported a person for : "..v..", Person: "..plr.Name..".")
-                    else
-                        Library.CreateNotification('Reporting issue!',"Couldn't report due to the reason: " .. error .. ' | AR')
-                    end
-                end
+				if Reported then
+					if succuess then
+						Library.CreateNotification('Reported',"Reported a person for : "..reson..", Person: "..plr.Name..".")
+					else
+						Library.CreateNotification('Reporting issue!',"Couldn't report due to the reason: " .. error .. ' | AR')
+					end
+				end
 			end)
 		end
 	end
-    
+
 	coroutine.wrap(function()
 		wait(1)
 		if AA == Test then
@@ -240,19 +243,19 @@ end,0.001)
 local MonkeySim = Library.CreateSection(GUI,"Monkey Sim")
 
 Library.CreateLoopButton(MonkeySim,"MonkeySim+10k","10k Bananas",function()
-    pcall(function()
-        local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
-        local Drops = workspace.Drops:GetChildren()
+	pcall(function()
+		local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
+		local Drops = workspace.Drops:GetChildren()
 
-        local originPos = plrHRP.Position
-        for i = 1, #Drops do
-            Drops[i].Position = plrHRP.Position
-            wait(0.001)
-        end
-    end)
+		local originPos = plrHRP.Position
+		for i = 1, #Drops do
+			Drops[i].Position = plrHRP.Position
+			wait(0.001)
+		end
+	end)
 
-    local args = {
-    		[1] = 10000
+	local args = {
+		[1] = 10000
 	}
 
 	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("GrabDrops"):FireServer(unpack(args))
@@ -261,18 +264,18 @@ end,0.001)
 
 Library.CreateLoopButton(MonkeySim,"MonkeySim+1m","1mil Bananas",function()
 	pcall(function()
-        local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
-        local Drops = workspace.Drops:GetChildren()
+		local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
+		local Drops = workspace.Drops:GetChildren()
 
-        local originPos = plrHRP.Position
-        for i = 1, #Drops do
-            Drops[i].Position = plrHRP.Position
-            wait(0.001)
-        end
-    end)
-    
-    local args = {
-    		[1] = 1000000
+		local originPos = plrHRP.Position
+		for i = 1, #Drops do
+			Drops[i].Position = plrHRP.Position
+			wait(0.001)
+		end
+	end)
+
+	local args = {
+		[1] = 1000000
 	}
 
 	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("GrabDrops"):FireServer(unpack(args))
@@ -281,18 +284,18 @@ end,0.001)
 
 Library.CreateLoopButton(MonkeySim,"MonkeySim+100m","100mil Bananas",function()
 	pcall(function()
-        local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
-        local Drops = workspace.Drops:GetChildren()
+		local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
+		local Drops = workspace.Drops:GetChildren()
 
-        local originPos = plrHRP.Position
-        for i = 1, #Drops do
-            Drops[i].Position = plrHRP.Position
-            wait(0.001)
-        end
-    end)
-    
-    local args = {
-    		[1] = 100000000
+		local originPos = plrHRP.Position
+		for i = 1, #Drops do
+			Drops[i].Position = plrHRP.Position
+			wait(0.001)
+		end
+	end)
+
+	local args = {
+		[1] = 100000000
 	}
 
 	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("GrabDrops"):FireServer(unpack(args))
@@ -301,18 +304,18 @@ end,0.001)
 
 Library.CreateLoopButton(MonkeySim,"MonkeySim+1b","1bil Bananas",function()
 	pcall(function()
-        local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
-        local Drops = workspace.Drops:GetChildren()
+		local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
+		local Drops = workspace.Drops:GetChildren()
 
-        local originPos = plrHRP.Position
-        for i = 1, #Drops do
-            Drops[i].Position = plrHRP.Position
-            wait(0.001)
-        end
-    end)
-    
-    local args = {
-    		[1] = 1000000000
+		local originPos = plrHRP.Position
+		for i = 1, #Drops do
+			Drops[i].Position = plrHRP.Position
+			wait(0.001)
+		end
+	end)
+
+	local args = {
+		[1] = 1000000000
 	}
 
 	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("GrabDrops"):FireServer(unpack(args))
@@ -321,18 +324,18 @@ end,0.001)
 
 Library.CreateLoopButton(MonkeySim,"MonkeySim+Rank","Randomised (1,~100000) Bananas",function()
 	pcall(function()
-        local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
-        local Drops = workspace.Drops:GetChildren()
+		local plrHRP = game.Players.LocalPlayer.Character:FindFirstChild('RightLowerLeg')
+		local Drops = workspace.Drops:GetChildren()
 
-        local originPos = plrHRP.Position
-        for i = 1, #Drops do
-            Drops[i].Position = plrHRP.Position
-            wait(0.001)
-        end
-    end)
-    
-    local args = {
-    		[1] = math.random(1,100000)
+		local originPos = plrHRP.Position
+		for i = 1, #Drops do
+			Drops[i].Position = plrHRP.Position
+			wait(0.001)
+		end
+	end)
+
+	local args = {
+		[1] = math.random(1,100000)
 	}
 
 	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("GrabDrops"):FireServer(unpack(args))
@@ -340,70 +343,70 @@ Library.CreateLoopButton(MonkeySim,"MonkeySim+Rank","Randomised (1,~100000) Bana
 end,0.0001)
 
 Library.CreateButton(MonkeySim,"MonkeySimX3","X3 boost",function()
-    game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("ApplyCode"):FireServer("Boostmeup")
+	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("ApplyCode"):FireServer("Boostmeup")
 end)
 
 Library.CreateButton(MonkeySim,"MonkeySimHot","Fire on character",function()
-    game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("ApplyCode"):FireServer("Hot")
+	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("ApplyCode"):FireServer("Hot")
 end)
 
 Library.CreateButton(MonkeySim,"MonkeySimBalls","Balls",function()
-    game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("ApplyCode"):FireServer("Balls")
+	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("ApplyCode"):FireServer("Balls")
 end)
 
 Library.CreateButton(MonkeySim,"MonkeySimRedeemallcodes","Redeem all code!",function()
-    local codes = {
-    "/codelist";
-    "Arboreal";
-    "Baboon";
-    "Gorilla";
-    "Orangutan";
-    "Primate";
-    "Simian";
-    "bugfixing";
-    "Nevergonnagiveyouup";
-    "Nevergonnaletyoudown";
-    "Nevergonnarunaroundanddesertyou";
-    "Nevergonnamakeyoucry";
-    "Nevergonnasaygoodbye";
-    "Nevergonnatellalieandhurtyou";
-    "Thanks";
-    "Ape";
-    "Bakery";
-    "Plantain";
-    "Tarantula";
-    "September";
-    "Medusa";
-    "BloodForTheBloodGod";
-    "boogers";
-    "bottle";
-    "statues";
-    "Asteroid";
-    "RollTheDice";
-    "142496";
-    "Hot";
-    "Nothing";
-    "Freeslimemonkey";
-    "Cipher";
-    "RIGVSQERGIV";
-    "MonkeyTycoonForever";
-    "Asteroid";
-    "MichaelsaJoestar";
-    "ELSEP03M";
-    "Boostmeup";
-    "Murder";
-    "GOOBLESTHEALIEN";
-    "Nirvana";
-    "Monkey Backwards";
-    "Radiation";
-    "Balls";
-    "LotsOfMonkeys";
-}
+	local codes = {
+		"/codelist";
+		"Arboreal";
+		"Baboon";
+		"Gorilla";
+		"Orangutan";
+		"Primate";
+		"Simian";
+		"bugfixing";
+		"Nevergonnagiveyouup";
+		"Nevergonnaletyoudown";
+		"Nevergonnarunaroundanddesertyou";
+		"Nevergonnamakeyoucry";
+		"Nevergonnasaygoodbye";
+		"Nevergonnatellalieandhurtyou";
+		"Thanks";
+		"Ape";
+		"Bakery";
+		"Plantain";
+		"Tarantula";
+		"September";
+		"Medusa";
+		"BloodForTheBloodGod";
+		"boogers";
+		"bottle";
+		"statues";
+		"Asteroid";
+		"RollTheDice";
+		"142496";
+		"Hot";
+		"Nothing";
+		"Freeslimemonkey";
+		"Cipher";
+		"RIGVSQERGIV";
+		"MonkeyTycoonForever";
+		"Asteroid";
+		"MichaelsaJoestar";
+		"ELSEP03M";
+		"Boostmeup";
+		"Murder";
+		"GOOBLESTHEALIEN";
+		"Nirvana";
+		"Monkey Backwards";
+		"Radiation";
+		"Balls";
+		"LotsOfMonkeys";
+	}
 
-for i ,v in pairs(codes) do
-    game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("ApplyCode"):FireServer(v)
-    wait(2)
-end
+	for i ,v in pairs(codes) do
+		game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("ApplyCode"):FireServer(v)
+		wait(2)
+	end
 end)
 
 Library.CreateLoopButton(MonkeySim,"MonkeySimDesposit","Auto Despoit",function()
@@ -416,7 +419,7 @@ end,0.001)
 
 Library.CreateLoopButton(MonkeySim,"MonkeySimRate","Auto Increase Rate",function()
 	local args = {
-    		[1] = 1
+		[1] = 1
 	}
 
 	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("BuySpeed"):FireServer(unpack(args))
@@ -430,6 +433,134 @@ end,0.001)
 Library.CreateLoopButton(MonkeySim,"MonkeySimMerge","Auto Merge",function()
 	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("MergeDroppers"):FireServer()
 end,0.001)
+
+local RPGSim = Library.CreateSection(GUI,"Legend Bone Sword RPG")
+
+local Running = false
+local OffsetCFrame = CFrame.new(-1.2,0,1.7)
+
+
+local function CheckTools()
+	pcall(function()
+		local plr = game.Players.LocalPlayer
+		local char = plr.Character
+		if char.Humanoid.Health > 0 then
+			if not char:FindFirstChildOfClass("Tool") then 
+				local BackPackGC = plr.Backpack:GetChildren()
+				for i = 1,#BackPackGC do
+					if BackPackGC[i]:IsA('Tool') then
+						char.Humanoid:EquipTool(BackPackGC[i])
+						return
+					end
+				end
+			end
+		end
+	end)
+end
+
+local function killLoop(list)
+
+	local EnemyList = list
+	if not Running then
+		Running = true
+		CheckTools()
+		local OriginGravity = game.Workspace.Gravity
+		local PlrHRP = game.Players.LocalPlayer.Character.HumanoidRootPart
+		local PreviousPos = PlrHRP.CFrame
+		local EnemiesPathGC = game:GetService("Workspace").Enemies:GetChildren()
+		local Char = PlrHRP.Parent
+		local CharGC = Char:GetChildren()
+
+		game.Workspace.Gravity = 0
+
+		for i = 1,#EnemiesPathGC do
+			for j ,v in pairs(EnemyList) do
+				if EnemiesPathGC[i].Name == v then
+					local HumanoidInstance
+					local enemy = EnemiesPathGC[i]
+					local enemyGC = enemy:GetChildren()
+
+					for i = 1,#enemyGC do
+						if enemyGC[i]:IsA("Humanoid") then
+							HumanoidInstance = enemyGC[i]
+							break
+						end
+					end
+					if HumanoidInstance then
+						local Kill = true
+						coroutine.wrap(function()
+							while Kill do
+								game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer()
+								wait(.5)
+							end
+						end)()
+						local Running
+						Running = RunService.Heartbeat:Connect(function()
+							local suc, err = pcall(function()
+								if HumanoidInstance.Health > 0 then
+									PlrHRP.CFrame = enemy.Head.CFrame * OffsetCFrame
+									HumanoidInstance.Died:Connect(function()
+										Kill = false
+										Running:Disconnect()
+									end)
+								end
+							end)
+							PlrHRP.Parent.Humanoid.Died:Connect(function()
+								Kill = false
+								Running:Disconnect()
+							end)
+							if not suc then
+								Kill = false
+								Running:Disconnect()
+							end
+						end)
+					end
+				end
+			end
+		end
+		wait(0.1)
+		game.Workspace.Gravity = OriginGravity
+		PlrHRP.CFrame = PreviousPos
+		wait(0.5)
+		Running = false
+	end
+end
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Goblin","Autofarm Goblin LVL 0",function()
+	killLoop({'Goblin',"Goblin Leader"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Mummies","Autofarm Mummies LVL10",function()
+	killLoop({'Sandman',"Mummy"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Ice","Autofarm Ice Guardians LVL 15",function()
+	killLoop({'Ice Guardian',"Frostbite Ice Knight"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Skeletons","Autofarm Skeletons LVL 20",function()
+	killLoop({'Skeleton',"Skeleton King"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Magmas","Autofarm Magmas LVL 30",function()
+	killLoop({'Magma Minion',"Magma Thrasher"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Swamp","Autofarm Swamp LVL 40",function()
+	killLoop({'Swamp Monster',"Swamp Guardian"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Swamp","Autofarm ORC LVL 50",function()
+	killLoop({'Orc',"Orc Leader"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Swamp","Autofarm Cloud LVL 60",function()
+	killLoop({'Cloud Lurker',"Cloud Lord"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Swamp","Autofarm Zombies LVL 70",function()
+	killLoop({'Ghost',"Zombie"})
+end,1)
 
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
@@ -547,7 +678,7 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 	local suc1, err1 = pcall(function()
 		local LootbagsFolder = game.Workspace['__THINGS'].Lootbags:GetChildren()
 		for i = 1, #LootbagsFolder do
-			
+
 			local Part = nil
 
 			local Model = LootbagsFolder[i]:GetDescendants()
@@ -571,7 +702,7 @@ Library.CreateLoopButton(PS99,"Auto Collect","Auto Collect",function()
 			end
 		end
 	end)
-	
+
 	if not suc1 then
 		print('Lootbag err: '..err1)
 	end
@@ -595,7 +726,7 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 					break
 				end
 			end
-			
+
 			if Hitbox ~= nil then
 				local plrPos = game.Players.LocalPlayer.Character.HumanoidRootPart.Position
 				local pos : Vector3 = Hitbox.Position
