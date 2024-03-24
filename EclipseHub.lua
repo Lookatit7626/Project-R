@@ -507,7 +507,7 @@ local function killLoop(list)
 						Running = RunService.Heartbeat:Connect(function()
 							local suc, err = pcall(function()
 								if HumanoidInstance.Health > 0 then
-									PlrHRP.CFrame = enemy.Head.CFrame * CFrame.new(-1.2,4,5) * CFrame.Angles(math.rad(-130),0,0)
+									PlrHRP.CFrame = enemy.Head.CFrame * CFrame.new(-1.2,4,4.5) * CFrame.Angles(math.rad(-130),0,0)
 									HumanoidInstance.Died:Connect(function()
 										Kill = false
 										Running:Disconnect()
@@ -586,6 +586,14 @@ end,1)
 
 Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Flame","Autofarm Flame LVL 500",function()
 	killLoop({'Flame Minion',"Flame Master"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Life Keeper","Autofarm Life Keeper LVL 8k",function()
+	killLoop({'Life Keeper',"Life Keeper Boss"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Light","Autofarm Light LVL 15k",function()
+	killLoop({'Light Knight',"Keeper of all Light"})
 end,1)
 
 Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Spirit","Autofarm Spirit LVL 25K",function()
