@@ -434,7 +434,7 @@ Library.CreateLoopButton(MonkeySim,"MonkeySimMerge","Auto Merge",function()
 	game:GetService("ReplicatedStorage"):WaitForChild("GTycoonClient"):WaitForChild("Remotes"):WaitForChild("MergeDroppers"):FireServer()
 end,0.001)
 
-local RPGSim = Library.CreateSection(GUI,"Legend Bone Sword RPG")
+local RPGSim = Library.CreateSection(GUI,"Legend Bone Sword RPG Farms")
 
 local Running = false
 local OffsetCFrame = CFrame.new(-1.2,0,1.7)
@@ -560,6 +560,36 @@ end,1)
 
 Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Swamp","Autofarm Zombies LVL 70",function()
 	killLoop({'Ghost',"Zombie"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Robot","Autofarm Robot LVL 80",function()
+	killLoop({'Robot',"Malfunctioning Robot"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Vapmire","Autofarm Vapmire LVL 90",function()
+	killLoop({'Vapmire',"Vapmire King"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Korblox","Autofarm Korblox LVL 200",function()
+	killLoop({'Korblox Apprentice',"Wrath of Korblox","Korblox Deathspeaker"})
+end,1)
+
+local RPGBossSim = Library.CreateSection(GUI,"Legend Bone Sword RPG Bosses")
+
+Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm Bone Lord Son","Autofarm Bone lord Son LVL 100",function()
+	killLoop({"The Bone Lord's Son"})
+end,1)
+
+Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm ChrythmVienyx","Autofarm Chrythm and Vienyx",function()
+	killLoop({"Vienyx", "Chrythm"})
+end,1)
+
+Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm BoldsGold","Autofarm BoldsGold",function()
+	killLoop({"BoldsGold"})
+end,1)
+
+Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm Spate","Autofarm Spate",function()
+	killLoop({"Spate"})
 end,1)
 
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
