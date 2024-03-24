@@ -438,8 +438,6 @@ end,0.001)
 local RPGSim = Library.CreateSection(GUI,"Legend Bone Sword RPG Farms")
 
 local Running = false
-local OffsetCFrame = CFrame.new(-1.2,0,1.7)
-
 
 local function CheckTools()
 	pcall(function()
@@ -509,7 +507,7 @@ local function killLoop(list)
 						Running = RunService.Heartbeat:Connect(function()
 							local suc, err = pcall(function()
 								if HumanoidInstance.Health > 0 then
-									PlrHRP.CFrame = enemy.Head.CFrame * OffsetCFrame
+									PlrHRP.CFrame = enemy.Head.CFrame * CFrame.new(-1.2,0,4) * CFrame.Angles(math.rad(-90),0,0)
 									HumanoidInstance.Died:Connect(function()
 										Kill = false
 										Running:Disconnect()
