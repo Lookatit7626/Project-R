@@ -596,6 +596,10 @@ Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm elijah1113456","Autofarm el
 	killLoop({"elijah1113456"})
 end,1)
 
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Korblox","Autofarm Korblox LVL 200",function()
+	killLoop({'Flame Minion',"Flame Master"})
+end,1)
+
 
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
