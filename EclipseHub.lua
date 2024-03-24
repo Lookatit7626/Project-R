@@ -11,9 +11,10 @@ Library.CreateButton(Section,"Name","Hello! "..game.Players.LocalPlayer.Name)
 
 Library.CreateButton(Section," ","")
 
-Library.CreateButton(Section,"NameGUI","Above all, Game wide")
+Library.CreateButton(Section,"Motto","Gaming with ease")
 
-Library.CreateButton(Section,"Credits","Created by ECLIPSE, tested by Look At It")
+Library.CreateButton(Section,"Credits","Engineered by ECLIPSE and Look At It | Tested by Look At It")
+Library.CreateButton(Section,"NameGroup","Eclipse Software")
 
 Library.CreateButton(Section," ","")
 
@@ -589,6 +590,18 @@ Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Flame","Autofarm Flame LVL 500"
 	killLoop({'Flame Minion',"Flame Master"})
 end,1)
 
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Spirit","Autofarm Spirit LVL 25K",function()
+	killLoop({'Spirit',"Spiritual Wisp"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Pumpkins","Autofarm Pumpkins LVL 27.5K",function()
+	killLoop({'Pumpkin Minion',"Horseless Headman"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Heaven","Autofarm Heaven LVL 37.5K",function()
+	killLoop({'Angel',"God"})
+end,1)
+
 local RPGBossSim = Library.CreateSection(GUI,"Legend Bone Sword RPG Bosses") --BOSSES
 
 Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm Bone Lord Son","Autofarm Bone lord Son LVL 100",function()
@@ -621,6 +634,14 @@ end,1)
 
 Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm Scrub","Autofarm Scrub",function()
 	killLoop({"Scrub"})
+end,1)
+
+Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm MoonMan","Autofarm MoonMan",function()
+	killLoop({"MoonMan"})
+end,1)
+
+Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm Ajax","Autofarm Ajax",function()
+	killLoop({"Ajax"})
 end,1)
 
 
