@@ -595,6 +595,10 @@ Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Life Keeper","Autofarm Life Kee
 	killLoop({'Life Keeper',"Life Keeper Boss"})
 end,1)
 
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Flare","Autofarm Flare LVL 12.5k",function()
+	killLoop({'Flare',"The Sun"})
+end,1)
+
 Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Light","Autofarm Light LVL 15k",function()
 	killLoop({'Light Knight',"Keeper of all Light"})
 end,1)
