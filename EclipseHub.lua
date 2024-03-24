@@ -611,6 +611,10 @@ Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Heaven","Autofarm Heaven LVL 37
 	killLoop({'Angel',"God"})
 end,1)
 
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Dark Skeleton","Autofarm Dark Skeleton LVL 57.5K",function()
+	killLoop({'Dark Skeleton',"The Bone Lord"})
+end,1)
+
 local RPGBossSim = Library.CreateSection(GUI,"Legend Bone Sword RPG Bosses") --BOSSES
 
 Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm Bone Lord Son","Autofarm Bone lord Son LVL 100",function()
@@ -653,7 +657,13 @@ Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm Ajax","Autofarm Ajax",funct
 	killLoop({"Ajax"})
 end,1)
 
+Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm Togarmah","Autofarm Togarmah",function()
+	killLoop({"Togarmah"})
+end,1)
 
+Library.CreateLoopButton(RPGBossSim,"RPGSim Autofarm I Bone Lord","Autofarm I Bone Lord",function()
+	killLoop({"I Bone Lord"})
+end,1)
 
 local HeavenSword = Library.CreateSection(GUI,"Heaven Sword")
 
