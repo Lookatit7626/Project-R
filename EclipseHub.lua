@@ -505,7 +505,10 @@ local function killLoop(list)
 							local suc, err = pcall(function()
 								if HumanoidInstance.Health > 0 then
 									PlrHRP.CFrame = enemy.Head.CFrame * CFrame.new(-1.2,4,4.5) * CFrame.Angles(math.rad(-130),0,0)
-								end
+								else
+                                    Kill = false
+                                    Running:Disconnect()
+                                end
 							end)
 							if not suc then
 								Kill = false
@@ -522,7 +525,7 @@ local function killLoop(list)
 						end)
                         while Kill do
 							game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer()
-							wait(.5)
+							wait(.25)
 						end
 					end
 				end
