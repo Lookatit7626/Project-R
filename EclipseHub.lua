@@ -485,7 +485,7 @@ local CharGC
 local EnemyList
 
 local function killLoop(list)
-pcall(function()
+local suc, err = pcall(function()
 
 	EnemyList = list
 	if not Running then
@@ -545,6 +545,7 @@ pcall(function()
                             Kill = false
 						    Running:Disconnect()
                         end
+
                         while Kill do
                             if HumanoidInstance.Health > 0 and PlrHRP.Parent.Humanoid.Health > 0 then
 							    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer()
@@ -566,6 +567,10 @@ pcall(function()
 		Running = false
 	end
 end)
+
+if not suc then
+    Running = false
+end
 end
 
 Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Goblin","Autofarm Goblin LVL 0",function()
