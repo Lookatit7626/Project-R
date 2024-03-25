@@ -485,6 +485,7 @@ local CharGC
 local EnemyList
 
 local function killLoop(list)
+pcall(function()
 
 	EnemyList = list
 	if not Running then
@@ -564,6 +565,7 @@ local function killLoop(list)
 		wait(0.5)
 		Running = false
 	end
+end)
 end
 
 Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Goblin","Autofarm Goblin LVL 0",function()
