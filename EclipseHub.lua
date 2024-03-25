@@ -503,7 +503,7 @@ local function killLoop(list)
 						local Running
 						Running = RunService.Heartbeat:Connect(function()
 							local suc, err = pcall(function()
-								if HumanoidInstance.Health > 0 then
+								if HumanoidInstance.Health > 0 and PlrHRP.Parent.Humanoid.Health > 0 then
 									PlrHRP.CFrame = enemy.Head.CFrame * CFrame.new(-1.2,4,4) * CFrame.Angles(math.rad(-130),0,0)
 								else
                                     Kill = false
@@ -515,18 +515,25 @@ local function killLoop(list)
 								Running:Disconnect()
 							end
 						end)
-                        PlrHRP.Parent.Humanoid.Died:Connect(function()
-							Kill = false
-							Running:Disconnect()
-						end)
-                        HumanoidInstance.Died:Connect(function()
-							Kill = false
-							Running:Disconnect()
-						end)
-                        while Kill do
-							game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer()
-							wait(.25)
-						end
+                        
+                        local suc, err = pcall(function()
+                            PlrHRP.Parent.Humanoid.Died:Connect(function()
+						    	Kill = false
+						    	Running:Disconnect()
+						    end)
+                            HumanoidInstance.Died:Connect(function()
+						    	Kill = false
+						    	Running:Disconnect()
+						    end)
+                            while Kill do
+						    	game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer()
+						    	wait(.25)
+						    end
+                        end)
+                        if not suc then
+                            Kill = false
+						    Running:Disconnect()
+                        end
 					end
 				end
 			end
