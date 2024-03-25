@@ -500,32 +500,30 @@ local function killLoop(list)
 					end
 					if HumanoidInstance then
 						local Kill = true
-						coroutine.wrap(function()
-							while Kill do
-								game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer()
-								wait(.5)
-							end
-						end)()
 						local Running
 						Running = RunService.Heartbeat:Connect(function()
 							local suc, err = pcall(function()
 								if HumanoidInstance.Health > 0 then
 									PlrHRP.CFrame = enemy.Head.CFrame * CFrame.new(-1.2,4,4.5) * CFrame.Angles(math.rad(-130),0,0)
-									HumanoidInstance.Died:Connect(function()
-										Kill = false
-										Running:Disconnect()
-									end)
 								end
-							end)
-							PlrHRP.Parent.Humanoid.Died:Connect(function()
-								Kill = false
-								Running:Disconnect()
 							end)
 							if not suc then
 								Kill = false
 								Running:Disconnect()
 							end
 						end)
+                        PlrHRP.Parent.Humanoid.Died:Connect(function()
+							Kill = false
+							Running:Disconnect()
+						end)
+                        HumanoidInstance.Died:Connect(function()
+							Kill = false
+							Running:Disconnect()
+						end)
+                        while Kill do
+							game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer()
+							wait(.5)
+						end
 					end
 				end
 			end
@@ -855,4 +853,4 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 	end
 end,.2)
 
---Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')
+--Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')w
