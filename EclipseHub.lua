@@ -443,21 +443,35 @@ local RPGSim = Library.CreateSection(GUI,"Legend Bone Sword RPG Farms")
 local Running = false
 
 local function CheckTools()
-	pcall(function()
+    local HighVal = 0
+    local HighTool
+	local suc, err =pcall(function()
 		local plr = game.Players.LocalPlayer
 		local char = plr.Character
 		if char.Humanoid.Health > 0 then
-			if not char:FindFirstChildOfClass("Tool") then 
+			if not char:FindFirstChildOfClass("Tool") then
 				local BackPackGC = plr.Backpack:GetChildren()
 				for i = 1,#BackPackGC do
 					if BackPackGC[i]:IsA('Tool') then
-						char.Humanoid:EquipTool(BackPackGC[i])
-						return
+                        local currentVal = 0
+                        local currentTool = BackPackGC[i]
+                        if currentTool:FindFirstChild('MaxDmg') then
+                            currentVal = currentTool:FindFirstChild('MaxDmg').Value
+                        end
+                        if currentVal >= HighVal then
+                            HighVal = currentVal
+                            HighTool = currentTool
+                        end
 					end
 				end
 			end
 		end
+        char.Humanoid:EquipTool(HighTool)
+		return
 	end)
+    if not suc then
+        print(err)
+    end
 end
 
 --Doing this to prevent memory leaks! as this is always function
@@ -515,25 +529,23 @@ local function killLoop(list)
 								Running:Disconnect()
 							end
 						end)
-                        
-                        local suc, err = pcall(function()
-                            PlrHRP.Parent.Humanoid.Died:Connect(function()
-						    	Kill = false
-						    	Running:Disconnect()
-						    end)
-                            HumanoidInstance.Died:Connect(function()
-						    	Kill = false
-						    	Running:Disconnect()
-						    end)
-                            while Kill do
-						    	game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer()
-						    	wait(.25)
-						    end
-                        end)
-                        if not suc then
-                            Kill = false
-						    Running:Disconnect()
-                        end
+                        PlrHRP.Parent.Humanoid.Died:Connect(function()
+							Kill = false
+							Running:Disconnect()
+						end)
+                        HumanoidInstance.Died:Connect(function()
+							Kill = false
+							Running:Disconnect()
+						end)
+                        while Kill do
+                            if HumanoidInstance.Health > 0 and PlrHRP.Parent.Humanoid.Health > 0 then
+							    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer()
+							else
+                                Kill = false
+							    Running:Disconnect()
+                            end
+                            wait(.25)
+						end
 					end
 				end
 			end
@@ -599,20 +611,8 @@ Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Flame","Autofarm Flame LVL 500"
 	killLoop({'Flame Minion',"Flame Master"})
 end,1)
 
-Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Life Keeper","Autofarm Life Keeper LVL 8k",function()
-	killLoop({'Life Keeper',"Life Keeper Boss"})
-end,1)
-
 Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Flare","Autofarm Flare LVL 12.5k",function()
 	killLoop({'Flare',"The Sun"})
-end,1)
-
-Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Light","Autofarm Light LVL 15k",function()
-	killLoop({'Light Knight',"Keeper of all Light"})
-end,1)
-
-Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Spirit","Autofarm Spirit LVL 25K",function()
-	killLoop({'Spirit',"Spiritual Wisp"})
 end,1)
 
 Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Pumpkins","Autofarm Pumpkins LVL 27.5K",function()
@@ -623,7 +623,19 @@ Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Heaven","Autofarm Heaven LVL 37
 	killLoop({'Angel',"God"})
 end,1)
 
-Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Dark Skeleton","Autofarm Dark Skeleton LVL 57.5K",function()
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Life Keeper","Autofarm Life Keeper LVL 8k [Event]",function()
+	killLoop({'Life Keeper',"Life Keeper Boss"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Light","Autofarm Light LVL 15k [Event]",function()
+	killLoop({'Light Knight',"Keeper of all Light"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Spirit","Autofarm Spirit LVL 25K [Event]",function()
+	killLoop({'Spirit',"Spiritual Wisp"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Dark Skeleton","Autofarm Dark Skeleton LVL 57.5K [Event]",function()
 	killLoop({'Dark Skeleton',"The Currupted  Bone Lord [FINAL BOSS]"})
 end,1)
 
