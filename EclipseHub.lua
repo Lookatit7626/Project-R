@@ -529,14 +529,21 @@ local function killLoop(list)
 								Running:Disconnect()
 							end
 						end)
-                        PlrHRP.Parent.Humanoid.Died:Connect(function()
-							Kill = false
-							Running:Disconnect()
-						end)
-                        HumanoidInstance.Died:Connect(function()
-							Kill = false
-							Running:Disconnect()
-						end)
+                        local suc, err = pcall(function()
+                            PlrHRP.Parent.Humanoid.Died:Connect(function()
+						    	Kill = false
+						    	Running:Disconnect()
+						    end)
+                            HumanoidInstance.Died:Connect(function()
+						    	Kill = false
+						    	Running:Disconnect()
+						    end)
+                        end)
+
+                        if not suc then
+                            Kill = false
+						    Running:Disconnect()
+                        end
                         while Kill do
                             if HumanoidInstance.Health > 0 and PlrHRP.Parent.Humanoid.Health > 0 then
 							    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer()
@@ -615,12 +622,52 @@ Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Flare","Autofarm Flare LVL 12.5
 	killLoop({'Flare',"The Sun"})
 end,1)
 
-Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Pumpkins","Autofarm Pumpkins LVL 27.5K",function()
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Pumpkins","Autofarm Pumpkins LVL 20K",function()
 	killLoop({'Pumpkin Minion',"Horseless Headman"})
 end,1)
 
-Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Heaven","Autofarm Heaven LVL 37.5K",function()
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Maze","Autofarm Maze LVL 25K",function()
+	killLoop({'The Mazemaster'})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Aliens","Autofarm Aliens LVL 27.5K",function()
+	killLoop({'Alien Follower',"Alien Monarch"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Demons","Autofarm Demons LVL 30K",function()
+	killLoop({'Demon',"Devil"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Heaven","Autofarm Heaven LVL 32.5K",function()
 	killLoop({'Angel',"God"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Radioactive","Autofarm Radioactive LVL 35K",function()
+	killLoop({'Radioactive Beast',"Braen, the Corrupt"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Knight of Light","Autofarm Knight of Light LVL 37.5K",function()
+	killLoop({'Knight of Light',"Helge, the Heavenly", "N00b"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Neons","Autofarm Neon LVL 40K",function()
+	killLoop({"Ultimate Neon Boss", "Neon Warrior"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Salt","Autofarm Salts LVL 42.5K",function()
+	killLoop({'Salt Crystalt',"AshedIce, the Saltiest"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Ball of Gold","Autofarm Ball of Gold LVL 45K",function()
+	killLoop({'Ball of Gold',"QuiteFox9496244, the Loyal"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Pomeranian","Autofarm Pomeranian LVL 47.5K",function()
+	killLoop({'Pomeranian',"Rory968, the Pomeranian Ruler"})
+end,1)
+
+Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Skeleton","Autofarm Skeleton LVL 50K",function()
+	killLoop({'Skeleton',"The Bone Lord"})
 end,1)
 
 Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Life Keeper","Autofarm Life Keeper LVL 8k [Event]",function()
@@ -875,4 +922,4 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 	end
 end,.2)
 
---Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')w
+--Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')wwa
