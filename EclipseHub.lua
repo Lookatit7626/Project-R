@@ -3,7 +3,7 @@ local RunService = game:GetService("RunService")
 local Library = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Lookatit7626/Project-R/main/GUI%20Library.lua')))()
 local Words = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Lookatit7626/Project-R/main/HateSpeechs.lua')))()
 
-local GUI = Library.CreateGUI("Eclipse's HUB","rbxassetid://14497104058")
+local GUI = Library.CreateGUI("Eclipse's HUB","rbxassetid://14943920709")
 
 local Section = Library.CreateSection(GUI,"Home")
 
