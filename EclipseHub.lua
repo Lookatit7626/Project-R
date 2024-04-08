@@ -103,7 +103,7 @@ local Enabled = false
 local WFcool = false
 local RSWFConnection
 
-Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.07]",function()
+Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.08]",function()
 	if not WFcool then
 		WFcool = true
 
@@ -128,11 +128,12 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.07]",functio
 						while not plr.Character:FindFirstChild("HumanoidRootPart") do
 							wait(0.01)
 						end
+						rootPart = plr.Character:FindFirstChild("HumanoidRootPart")
 						
-						while plr.Character.Humanoid.Health == 0 do
+						while plr.Character:WaitForChild('Humanoid').Health == 0 do
 							wait(0.01)
 						end
-						rootPart = plr.Character:FindFirstChild("HumanoidRootPart")
+						
 						Library.CreateNotification("Walkfling","WalkFling Reconnected")
 					end
 
@@ -990,3 +991,4 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 end,.2)
 
 --Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')wwa
+
