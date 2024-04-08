@@ -14,18 +14,27 @@ Library.CreateButton(Section,"CreditsSec","-----Credits-----")
 Library.CreateButton(Section,"Credits","Engineered by ECLIPSE and Look At It | Tested by Look At It")
 Library.CreateButton(Section,"NameGroup","Eclipse Software")
 
-Library.CreateButton(Section,"Refresh","---Refresh Hub---",function()
+Library.CreateButton(Section,"CreditsSec","-----Hubs-----")
+
+Library.CreateButton(Section,"Refresh","Refresh Hub",function()
 	Library.CreateNotification("Refreshing","Refreshing HUB...")
 	wait(2)
 	loadstring(game:HttpGet(('https://github.com/Lookatit7626/Project-R/raw/main/EclipseHub.lua')))()
 	GUI:Destroy() 
 end)
 
-Library.CreateButton(Section,"Delete","---Delete Hub---",function()
+Library.CreateButton(Section,"Delete","Delete Hub",function()
 	Library.CreateNotification("Deleting","Deleting HUB...")
 	wait(2)
 	GUI:Destroy() 
 end)
+
+Library.CreateButton(Section,"DebugSec","---Debugging---",function() end)
+
+Library.CreateButton(Section,"DebugConsole","Console",function()
+	game:GetService('StarterGui'):SetCore("DevConsoleVisible", true)
+end)
+
 
 local Section2 = Library.CreateSection(GUI,"UniversalScript")
 
@@ -114,16 +123,20 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V1.10]",functio
 				local rs = game:GetService("RunService")
 				local plr = game.Players.LocalPlayer
 				Library.CreateNotification("Walkfling","WalkFling connected!")
-
-				if not plr.Character then
-					Enabled = false
-				end
 				local rootPart = plr.Character:FindFirstChild("HumanoidRootPart")
 				local dir = 0.1
 
 				while Enabled do
+					
+					while not plr.Character do
+						wait(0.01)
+					end
+					
+					while not plr.Character:FindFirstChild('Humanoid') do
+						wait(0.01)
+					end
 
-					if (not rootPart or rootPart == nil or not rootPart.Parent or rootPart.Parent == nil or plr.Character.Humanoid.Health == 0) then
+					if (not rootPart or rootPart == nil or not rootPart.Parent or rootPart.Parent == nil or plr.Character:WaitForChild('Humanoid').Health == 0) then
 						Library.CreateNotification("Walkfling","WalkFling Player died, trying to reconnect...")
 						
 						while plr.Character:WaitForChild('Humanoid').Health == 0 do
@@ -139,6 +152,12 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V1.10]",functio
 					end
 
 					local suc, err = pcall(function()
+						while not plr.Character:FindFirstChild("HumanoidRootPart") do
+							wait(0.01)
+						end
+						rootPart = plr.Character:FindFirstChild("HumanoidRootPart")
+						
+						
 						rs.Heartbeat:Wait()
 						local velocity = rootPart.Velocity
 						rootPart.Velocity = ((velocity * 150000) + Vector3.new(0, 150000, 0))
@@ -151,6 +170,15 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V1.10]",functio
 					
 					if not suc then
 						Library.CreateNotification("Walkfling","WalkFling has a error, reconnecting...")
+						
+						while not plr.Character do
+							wait(0.01)
+						end
+
+						while not plr.Character:FindFirstChild('Humanoid') do
+							wait(0.01)
+						end
+						
 						while plr.Character:WaitForChild('Humanoid').Health == 0 do
 							wait(0.01)
 						end
@@ -162,9 +190,12 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V1.10]",functio
 
 						Library.CreateNotification("Walkfling","WalkFling Reconnected")
 						print(err)
+					else
+						print('success')
 					end
 				end
 
+				print('Disconnected')
 				Library.CreateNotification("Walkfling","WalkFling Disconnect")
 			end
 		end)()
