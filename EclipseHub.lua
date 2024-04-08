@@ -123,6 +123,7 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling -- []",function()
 					local dir = 0.1
 
 					if Enabled then
+						rs.Heartbeat:Wait()
 						local velocity = rootPart.Velocity
 						rootPart.Velocity = ((velocity * 10000) + Vector3.new(0, 10000, 0))
 						rs.Heartbeat:Wait()
