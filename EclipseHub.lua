@@ -7,14 +7,18 @@ local GUI = Library.CreateGUI("Eclipse's HUB","rbxassetid://14943920709")
 
 local Section = Library.CreateSection(GUI,"Home")
 
-Library.CreateButton(Section,"Name","Hello, "..game.Players.LocalPlayer.Name)
+Library.CreateButton(Section,"Name","Hello! "..game.Players.LocalPlayer.Name)
 
-Library.CreateButton(Section,"CreditsSec","---Credits---")
+Library.CreateButton(Section," ","")
+
+Library.CreateButton(Section,"Motto","Gaming with ease")
 
 Library.CreateButton(Section,"Credits","Engineered by ECLIPSE and Look At It | Tested by Look At It")
 Library.CreateButton(Section,"NameGroup","Eclipse Software")
 
-Library.CreateButton(Section,"Delete","---Delete Hub--",function()
+Library.CreateButton(Section," ","")
+
+Library.CreateButton(Section,"Delete","Delete Hub",function()
 	Library.CreateNotification("Deleting","Deleting HUB...")
 	wait(2)
 	GUI:Destroy() 
@@ -96,7 +100,7 @@ local Enabled = false
 local WFcool = false
 local RSWFConnection
 
-Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.03]",function()
+Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.04]",function()
 	if not WFcool then
 		WFcool = true
 
@@ -120,10 +124,12 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.03]",functio
 				while Enabled do
 
 					if not rootPart then
+						Library.CreateNotification("Walkfling","WalkFling Player died, trying to reconnect...")
 						while not plr.Character:FindFirstChild("HumanoidRootPart") do
 							wait(0.01)
 						end
 						rootPart = plr.Character:FindFirstChild("HumanoidRootPart")
+						Library.CreateNotification("Walkfling","WalkFling Reconnected")
 					end
 
 					rs.Heartbeat:Wait()
