@@ -111,7 +111,7 @@ Library.CreateButton(Section2,"Walkfling","Walkfling",function()
 				local rs = game:GetService("RunService")
 				local plr = game.Players.LocalPlayer
 				local flinging = false
-				Library.CreateNotification("WalkFling Connected!")
+				Library.CreateNotification("Walkfling","WalkFling connected!")
 				RSWFConnection = rs.Heartbeat:Connect(function()
 					if not plr.Character then
 						Enabled = false
@@ -132,7 +132,7 @@ Library.CreateButton(Section2,"Walkfling","Walkfling",function()
 						dir *= -1
 					end
 					if not Enabled then
-						Library.CreateNotification("WalkFling Disconnect")
+						Library.CreateNotification("Walkfling","WalkFling Disconnect")
 						RSWFConnection:Disconnect()
 					end
 				end)
