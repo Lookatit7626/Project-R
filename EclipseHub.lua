@@ -100,7 +100,7 @@ local Enabled = false
 local WFcool = false
 local RSWFConnection
 
-Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.01]",function()
+Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.02]",function()
 	if not WFcool then
 		WFcool = true
 		
@@ -124,7 +124,7 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.01]",functio
 				while rootPart and rootPart.Parent and rootPart.Parent.Parent and Enabled do
 					rs.Heartbeat:Wait()
 					local velocity = rootPart.Velocity
-					rootPart.Velocity = ((velocity * 10000) + Vector3.new(0, 10000, 0))
+					rootPart.Velocity = ((velocity * 100000) + Vector3.new(0, 100000, 0))
 					rs.RenderStepped:Wait()
 					rootPart.Velocity = velocity
 					rs.RenderStepped:Wait()
