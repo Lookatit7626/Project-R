@@ -103,15 +103,15 @@ local RSWFConnection
 Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.02]",function()
 	if not WFcool then
 		WFcool = true
-		
+
 		Enabled = not Enabled
-		
+
 		coroutine.wrap(function()
 			if Enabled then
 				local rs = game:GetService("RunService")
 				local plr = game.Players.LocalPlayer
 				Library.CreateNotification("Walkfling","WalkFling connected!")
-				
+
 				if not plr.Character then
 					Enabled = false
 				end
@@ -120,8 +120,16 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.02]",functio
 					Enabled = false
 				end
 				local dir = 0.1
-				
-				while rootPart and rootPart.Parent and rootPart.Parent.Parent and Enabled do
+
+				while Enabled do
+
+					if not rootPart then
+						while not plr.Character:FindFirstChild("HumanoidRootPart") do
+							wait(0.01)
+						end
+						rootPart = plr.Character:FindFirstChild("HumanoidRootPart")
+					end
+
 					rs.Heartbeat:Wait()
 					local velocity = rootPart.Velocity
 					rootPart.Velocity = ((velocity * 100000) + Vector3.new(0, 100000, 0))
@@ -131,7 +139,7 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.02]",functio
 					rootPart.Velocity = velocity + Vector3.new(0, dir, 0)
 					dir *= -1
 				end
-				
+
 				Library.CreateNotification("Walkfling","WalkFling Disconnect")
 			end
 		end)()
