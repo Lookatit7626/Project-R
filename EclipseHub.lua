@@ -100,7 +100,7 @@ local Enabled = false
 local WFcool = false
 local RSWFConnection
 
-Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.04]",function()
+Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.05]",function()
 	if not WFcool then
 		WFcool = true
 
@@ -123,7 +123,7 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.04]",functio
 
 				while Enabled do
 
-					if not rootPart then
+					if (not rootPart or rootPart == nil or not rootPart.Parent or rootPart.Parent == nil) then
 						Library.CreateNotification("Walkfling","WalkFling Player died, trying to reconnect...")
 						while not plr.Character:FindFirstChild("HumanoidRootPart") do
 							wait(0.01)
