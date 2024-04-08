@@ -9,16 +9,19 @@ local Section = Library.CreateSection(GUI,"Home")
 
 Library.CreateButton(Section,"Name","Hello! "..game.Players.LocalPlayer.Name)
 
-Library.CreateButton(Section," ","")
-
-Library.CreateButton(Section,"Motto","Gaming with ease")
+Library.CreateButton(Section,"CreditsSec","-----Credits-----")
 
 Library.CreateButton(Section,"Credits","Engineered by ECLIPSE and Look At It | Tested by Look At It")
 Library.CreateButton(Section,"NameGroup","Eclipse Software")
 
-Library.CreateButton(Section," ","")
+Library.CreateButton(Section,"Refresh","---Refresh Hub---",function()
+	Library.CreateNotification("Refreshing","Refreshing HUB...")
+	wait(2)
+	loadstring(game:HttpGet(('https://github.com/Lookatit7626/Project-R/raw/main/EclipseHub.lua')))()
+	GUI:Destroy() 
+end)
 
-Library.CreateButton(Section,"Delete","Delete Hub",function()
+Library.CreateButton(Section,"Delete","---Delete Hub---",function()
 	Library.CreateNotification("Deleting","Deleting HUB...")
 	wait(2)
 	GUI:Destroy() 
