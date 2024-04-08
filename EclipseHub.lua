@@ -100,7 +100,7 @@ local Enabled = false
 local WFcool = false
 local RSWFConnection
 
-Library.CreateButton(Section2,"Walkfling","Walkfling",function()
+Library.CreateButton(PlayerScript,"Walkfling","Walkfling -- []",function()
 	if not WFcool then
 		WFcool = true
 		
