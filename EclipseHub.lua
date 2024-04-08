@@ -112,31 +112,28 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling -- []",function()
 				local plr = game.Players.LocalPlayer
 				local flinging = false
 				Library.CreateNotification("Walkfling","WalkFling connected!")
-				RSWFConnection = rs.Heartbeat:Connect(function()
-					if not plr.Character then
-						Enabled = false
-					end
-					local rootPart = plr.Character:FindFirstChild("HumanoidRootPart")
-					if not rootPart then
-						Enabled = false
-					end
-					local dir = 0.1
-
-					if Enabled then
-						rs.Heartbeat:Wait()
-						local velocity = rootPart.Velocity
-						rootPart.Velocity = ((velocity * 10000) + Vector3.new(0, 10000, 0))
-						rs.Heartbeat:Wait()
-						rootPart.Velocity = velocity
-						rs.Heartbeat:Wait()
-						rootPart.Velocity = velocity + Vector3.new(0, dir, 0)
-						dir *= -1
-					end
-					if not Enabled then
-						Library.CreateNotification("Walkfling","WalkFling Disconnect")
-						RSWFConnection:Disconnect()
-					end
-				end)
+				
+				if not plr.Character then
+					Enabled = false
+				end
+				local rootPart = plr.Character:FindFirstChild("HumanoidRootPart")
+				if not rootPart then
+					Enabled = false
+				end
+				local dir = 0.1
+				
+				while flinging and rootPart and rootPart.Parent and rootPart.Parent.Parent and Enabled do
+					rs.Heartbeat:Wait()
+					local velocity = rootPart.Velocity
+					rootPart.Velocity = ((velocity * 10000) + Vector3.new(0, 10000, 0))
+					rs.RenderStepped:Wait()
+					rootPart.Velocity = velocity
+					rs.RenderStepped:Wait()
+					rootPart.Velocity = velocity + Vector3.new(0, dir, 0)
+					dir *= -1
+				end
+				
+				Library.CreateNotification("Walkfling","WalkFling Disconnect")
 			end
 		end)()
 		wait(0.1)
