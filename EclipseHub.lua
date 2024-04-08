@@ -103,7 +103,7 @@ local Enabled = false
 local WFcool = false
 local RSWFConnection
 
-Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.08]",function()
+Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V1.09]",function()
 	if not WFcool then
 		WFcool = true
 
@@ -125,14 +125,15 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.08]",functio
 
 					if (not rootPart or rootPart == nil or not rootPart.Parent or rootPart.Parent == nil or plr.Character.Humanoid.Health == 0) then
 						Library.CreateNotification("Walkfling","WalkFling Player died, trying to reconnect...")
-						while not plr.Character:FindFirstChild("HumanoidRootPart") do
-							wait(0.01)
-						end
-						rootPart = plr.Character:FindFirstChild("HumanoidRootPart")
 						
 						while plr.Character:WaitForChild('Humanoid').Health == 0 do
 							wait(0.01)
 						end
+						
+						while not plr.Character:FindFirstChild("HumanoidRootPart") do
+							wait(0.01)
+						end
+						rootPart = plr.Character:FindFirstChild("HumanoidRootPart")
 						
 						Library.CreateNotification("Walkfling","WalkFling Reconnected")
 					end
@@ -140,7 +141,7 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.08]",functio
 					pcall(function()
 						rs.Heartbeat:Wait()
 						local velocity = rootPart.Velocity
-						rootPart.Velocity = ((velocity * 100000) + Vector3.new(0, 100000, 0))
+						rootPart.Velocity = ((velocity * 150000) + Vector3.new(0, 150000, 0))
 						rs.RenderStepped:Wait()
 						rootPart.Velocity = velocity
 						rs.RenderStepped:Wait()
@@ -991,4 +992,3 @@ Library.CreateLoopButton(PS99,"Auto Farm","Auto Farm",function()
 end,.2)
 
 --Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')wwa
-
