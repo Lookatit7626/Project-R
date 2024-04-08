@@ -103,7 +103,7 @@ local Enabled = false
 local WFcool = false
 local RSWFConnection
 
-Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.05]",function()
+Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.06]",function()
 	if not WFcool then
 		WFcool = true
 
@@ -119,9 +119,6 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.05]",functio
 					Enabled = false
 				end
 				local rootPart = plr.Character:FindFirstChild("HumanoidRootPart")
-				if not rootPart then
-					Enabled = false
-				end
 				local dir = 0.1
 
 				while Enabled do
@@ -135,14 +132,16 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V0.05]",functio
 						Library.CreateNotification("Walkfling","WalkFling Reconnected")
 					end
 
-					rs.Heartbeat:Wait()
-					local velocity = rootPart.Velocity
-					rootPart.Velocity = ((velocity * 100000) + Vector3.new(0, 100000, 0))
-					rs.RenderStepped:Wait()
-					rootPart.Velocity = velocity
-					rs.RenderStepped:Wait()
-					rootPart.Velocity = velocity + Vector3.new(0, dir, 0)
-					dir *= -1
+					pcall(function()
+						rs.Heartbeat:Wait()
+						local velocity = rootPart.Velocity
+						rootPart.Velocity = ((velocity * 100000) + Vector3.new(0, 100000, 0))
+						rs.RenderStepped:Wait()
+						rootPart.Velocity = velocity
+						rs.RenderStepped:Wait()
+						rootPart.Velocity = velocity + Vector3.new(0, dir, 0)
+						dir *= -1
+					end)
 				end
 
 				Library.CreateNotification("Walkfling","WalkFling Disconnect")
