@@ -96,6 +96,53 @@ Library.CreateLoopButton(PlayerScript,"AntiFling", "AntiFling", function()
 	lastpos = primary.CFrame
 end,0.01)
 
+local Enabled = false
+local WFcool = false
+local RSWFConnection
+
+Library.CreateButton(Section2,"Walkfling","Walkfling",function()
+	if not WFcool then
+		WFcool = true
+		
+		Enabled = not Enabled
+		
+		coroutine.wrap(function()
+			if Enabled then
+				local rs = game:GetService("RunService")
+				local plr = game.Players.LocalPlayer
+				local flinging = false
+				Library.CreateNotification("WalkFling Connected!")
+				RSWFConnection = rs.Heartbeat:Connect(function()
+					if not plr.Character then
+						Enabled = false
+					end
+					local rootPart = plr.Character:FindFirstChild("HumanoidRootPart")
+					if not rootPart then
+						Enabled = false
+					end
+					local dir = 0.1
+
+					if Enabled then
+						local velocity = rootPart.Velocity
+						rootPart.Velocity = ((velocity * 10000) + Vector3.new(0, 10000, 0))
+						rs.Heartbeat:Wait()
+						rootPart.Velocity = velocity
+						rs.Heartbeat:Wait()
+						rootPart.Velocity = velocity + Vector3.new(0, dir, 0)
+						dir *= -1
+					end
+					if not Enabled then
+						Library.CreateNotification("WalkFling Disconnect")
+						RSWFConnection:Disconnect()
+					end
+				end)
+			end
+		end)()
+		wait(0.1)
+		WFcool = false
+	end
+end)
+
 Library.CreateButton(PlayerScript,"resetGravity", "Reset Gravity to 196.2 ( Default )", function()
 	game.Workspace.Gravity = 196.2
 end)
@@ -443,8 +490,8 @@ local RPGSim = Library.CreateSection(GUI,"Legend Bone Sword RPG Farms")
 local Running = false
 
 local function CheckTools()
-    local HighVal = 0
-    local HighTool
+	local HighVal = 0
+	local HighTool
 	local suc, err =pcall(function()
 		local plr = game.Players.LocalPlayer
 		local char = plr.Character
@@ -453,25 +500,25 @@ local function CheckTools()
 				local BackPackGC = plr.Backpack:GetChildren()
 				for i = 1,#BackPackGC do
 					if BackPackGC[i]:IsA('Tool') then
-                        local currentVal = 0
-                        local currentTool = BackPackGC[i]
-                        if currentTool:FindFirstChild('MaxDmg') then
-                            currentVal = currentTool:FindFirstChild('MaxDmg').Value
-                        end
-                        if currentVal >= HighVal then
-                            HighVal = currentVal
-                            HighTool = currentTool
-                        end
+						local currentVal = 0
+						local currentTool = BackPackGC[i]
+						if currentTool:FindFirstChild('MaxDmg') then
+							currentVal = currentTool:FindFirstChild('MaxDmg').Value
+						end
+						if currentVal >= HighVal then
+							HighVal = currentVal
+							HighTool = currentTool
+						end
 					end
 				end
 			end
 		end
-        char.Humanoid:EquipTool(HighTool)
+		char.Humanoid:EquipTool(HighTool)
 		return
 	end)
-    if not suc then
-        print(err)
-    end
+	if not suc then
+		print(err)
+	end
 end
 
 --Doing this to prevent memory leaks! as this is always function
@@ -485,92 +532,92 @@ local CharGC
 local EnemyList
 
 local function killLoop(list)
-local suc, err = pcall(function()
+	local suc, err = pcall(function()
 
-	EnemyList = list
-	if not Running then
-		Running = true
-		CheckTools()
-		OriginGravity = game.Workspace.Gravity
-		PlrHRP = game.Players.LocalPlayer.Character.HumanoidRootPart
-		PreviousPos = PlrHRP.CFrame
-		EnemiesPathGC = game:GetService("Workspace").Enemies:GetChildren()
-		Char = PlrHRP.Parent
-		CharGC = Char:GetChildren()
+		EnemyList = list
+		if not Running then
+			Running = true
+			CheckTools()
+			OriginGravity = game.Workspace.Gravity
+			PlrHRP = game.Players.LocalPlayer.Character.HumanoidRootPart
+			PreviousPos = PlrHRP.CFrame
+			EnemiesPathGC = game:GetService("Workspace").Enemies:GetChildren()
+			Char = PlrHRP.Parent
+			CharGC = Char:GetChildren()
 
-		game.Workspace.Gravity = 0
+			game.Workspace.Gravity = 0
 
-		for i = 1,#EnemiesPathGC do
-			for j ,v in pairs(EnemyList) do
-				if EnemiesPathGC[i].Name == v then
-					local HumanoidInstance
-					local enemy = EnemiesPathGC[i]
-					local enemyGC = enemy:GetChildren()
+			for i = 1,#EnemiesPathGC do
+				for j ,v in pairs(EnemyList) do
+					if EnemiesPathGC[i].Name == v then
+						local HumanoidInstance
+						local enemy = EnemiesPathGC[i]
+						local enemyGC = enemy:GetChildren()
 
-					for i = 1,#enemyGC do
-						if enemyGC[i]:IsA("Humanoid") then
-							HumanoidInstance = enemyGC[i]
-							break
+						for i = 1,#enemyGC do
+							if enemyGC[i]:IsA("Humanoid") then
+								HumanoidInstance = enemyGC[i]
+								break
+							end
 						end
-					end
-					if HumanoidInstance then
-						local Kill = true
-						local Running
-						Running = RunService.Heartbeat:Connect(function()
-							local suc, err = pcall(function()
-								if HumanoidInstance.Health > 0 and PlrHRP.Parent.Humanoid.Health > 0 then
-									PlrHRP.CFrame = enemy.Head.CFrame * CFrame.new(-1.2,4,4) * CFrame.Angles(math.rad(-130),0,0)
-								else
-                                    Kill = false
-                                    Running:Disconnect()
-                                end
+						if HumanoidInstance then
+							local Kill = true
+							local Running
+							Running = RunService.Heartbeat:Connect(function()
+								local suc, err = pcall(function()
+									if HumanoidInstance.Health > 0 and PlrHRP.Parent.Humanoid.Health > 0 then
+										PlrHRP.CFrame = enemy.Head.CFrame * CFrame.new(-1.2,4,4) * CFrame.Angles(math.rad(-130),0,0)
+									else
+										Kill = false
+										Running:Disconnect()
+									end
+								end)
+								if not suc then
+									Kill = false
+									Running:Disconnect()
+								end
 							end)
+							local suc, err = pcall(function()
+								PlrHRP.Parent.Humanoid.Died:Connect(function()
+									Kill = false
+									Running:Disconnect()
+								end)
+								HumanoidInstance.Died:Connect(function()
+									Kill = false
+									Running:Disconnect()
+								end)
+							end)
+
 							if not suc then
 								Kill = false
 								Running:Disconnect()
 							end
-						end)
-                        local suc, err = pcall(function()
-                            PlrHRP.Parent.Humanoid.Died:Connect(function()
-						    	Kill = false
-						    	Running:Disconnect()
-						    end)
-                            HumanoidInstance.Died:Connect(function()
-						    	Kill = false
-						    	Running:Disconnect()
-						    end)
-                        end)
 
-                        if not suc then
-                            Kill = false
-						    Running:Disconnect()
-                        end
-
-                        while Kill do
-                            if HumanoidInstance.Health > 0 and PlrHRP.Parent.Humanoid.Health > 0 then
-							    game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer()
-							else
-                                Kill = false
-							    Running:Disconnect()
-                            end
-                            wait(.25)
+							while Kill do
+								if HumanoidInstance.Health > 0 and PlrHRP.Parent.Humanoid.Health > 0 then
+									game:GetService("ReplicatedStorage"):WaitForChild("Remotes"):WaitForChild("UseItem"):FireServer()
+								else
+									Kill = false
+									Running:Disconnect()
+								end
+								wait(.25)
+							end
 						end
 					end
 				end
 			end
-		end
 
-		wait(0.1)
-		game.Workspace.Gravity = OriginGravity
-		PlrHRP.CFrame = PreviousPos
-		wait(0.5)
+			wait(0.1)
+			game.Workspace.Gravity = OriginGravity
+			PlrHRP.CFrame = PreviousPos
+			wait(0.5)
+			Running = false
+		end
+	end)
+
+	if not suc then
 		Running = false
 	end
-end)
-
-if not suc then
-    Running = false
-end
 end
 
 Library.CreateLoopButton(RPGSim,"RPGSim Autofarm Goblin","Autofarm Goblin LVL 0",function()
