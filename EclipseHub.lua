@@ -152,6 +152,13 @@ Library.CreateButton(PlayerScript,"Walkfling","Walkfling Player [V1.10]",functio
 					end
 
 					local suc, err = pcall(function()
+						while not plr.Character:FindFirstChild('Humanoid') do
+							wait(0.01)
+						end
+						
+						while plr.Character:WaitForChild('Humanoid').Health == 0 do
+							wait(0.01)
+						end
 						while not plr.Character:FindFirstChild("HumanoidRootPart") do
 							wait(0.01)
 						end
