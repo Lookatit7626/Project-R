@@ -207,6 +207,9 @@ Library.CreateButton(PlayerScript,"InvisibleFling","Invisible Fling [Testing Pha
 		Enabled = not Enabled
 
 		coroutine.wrap(function()
+			local bg
+			local bv
+			local invisflingStepped
 			if Enabled then
 				local rs = game:GetService("RunService")
 				local plr = game.Players.LocalPlayer
@@ -240,8 +243,6 @@ Library.CreateButton(PlayerScript,"InvisibleFling","Invisible Fling [Testing Pha
 						rootPart = plr.Character:FindFirstChild("HumanoidRootPart")
 
 						Humanoid = plr.Character:WaitForChild('Humanoid')
-
-						Library.CreateNotification("Invisible Fling","Invisible Fling Reconnected")
 					end
 
 					local suc, err = pcall(function()
@@ -262,10 +263,6 @@ Library.CreateButton(PlayerScript,"InvisibleFling","Invisible Fling [Testing Pha
 						Humanoid = plr.Character:WaitForChild('Humanoid')
 
 						local Died = false
-						Humanoid.Died:Connect(function()
-							Died = true
-						end)
-
 						local function fly()
 							local loaded = false
 							coroutine.wrap(function()
@@ -312,12 +309,12 @@ Library.CreateButton(PlayerScript,"InvisibleFling","Invisible Fling [Testing Pha
 								local maxspeed = 50
 								local speed = 0
 
-								local bg = Instance.new("BodyGyro", UpperTorso)
+								bg = Instance.new("BodyGyro", UpperTorso)
 								bg.P = 9e4
 								bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
 								bg.cframe = UpperTorso.CFrame
 
-								local bv = Instance.new("BodyVelocity", UpperTorso)
+								bv = Instance.new("BodyVelocity", UpperTorso)
 								bv.velocity = Vector3.new(0,0.1,0)
 								bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
 
@@ -437,7 +434,6 @@ Library.CreateButton(PlayerScript,"InvisibleFling","Invisible Fling [Testing Pha
 
 						root.Transparency = 0
 						root.Color = Color3.new(1, 0.0784619, 0)
-						local invisflingStepped
 						invisflingStepped = RunService.Stepped:Connect(function()
 							if plr.Character and getRoot(plr.Character) then
 								getRoot(plr.Character).CanCollide = false
@@ -458,26 +454,49 @@ Library.CreateButton(PlayerScript,"InvisibleFling","Invisible Fling [Testing Pha
 						bambam.Location = getRoot(plr.Character).Position
 
 						Library.CreateNotification("Invisible Fling","Invisible Fling Connected! if you can't move on mobile, please use the Arceus X v3 Mobile fly!")
-
-
+						
 						Humanoid.Died:Connect(function()
 							Died = true
 						end)
 						
-						Library.CreateNotification("IF", "Player Died")
+						root.Destroying:Connect(function()
+							Died = true
+						end)
 						
-						while (not Died) and Enabled do
-							wait(0.01)
+						while not Died do
+							if not plr.Character or not plr.Character:FindFirstChild('Humanoid') or root == nil then
+								Died = true
+							else
+								if plr.Character:FindFirstChild('Humanoid').Health == 0 then
+									Died = true
+								else
+									print(plr.Character:FindFirstChild('Humanoid').Health)
+								end
+							end
+							wait(0.1)
+						end
+						
+						if bv ~= nil then
+							bv:Destroy()
+						end
+						if bg ~= nil then
+							bg:Destroy()
 						end
 
-						Library.CreateNotification("Invisible Fling","Invisible Fling Shutting down..!")
+						pcall(function()
+							invisflingStepped:Disconnect()
+						end)
 
-						invisflingStepped:Disconnect()
+						pcall(function()
+							swimbeat:Disconnect()
+						end)
 						game.Workspace.Gravity = oldgrav
-						swimbeat:Disconnect()
-
-						game.Players.LocalPlayer:WaitForChild('Humanoid').Health = 0 
+						
+						pcall(function()
+							plr.Character.HumanoidRootPart.CFrame = CFrame.new(0,-999999999999,0)
+						end)
 					end)
+					
 
 
 					if not suc then
@@ -486,15 +505,17 @@ Library.CreateButton(PlayerScript,"InvisibleFling","Invisible Fling [Testing Pha
 
 					wait(0.001)
 				end
-
-				print('Disconnected')
 				Library.CreateNotification("Invisible Fling","Invisible Fling Disconnect")
 
 			else 
 				Library.CreateNotification("Invisible Fling","Invisible Fling Attempting to disconnect...")
+				
 				coroutine.wrap(function()
-					game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Dead)
+					pcall(function()
+						plr.Character.Humanoid.Health = 0
+					end)
 				end)()
+				
 				local plr = game.Players.LocalPlayer
 				local hum = plr.Character:WaitForChild('Humanoid')
 				hum:SetStateEnabled(Enum.HumanoidStateType.Climbing,true)
@@ -514,7 +535,27 @@ Library.CreateButton(PlayerScript,"InvisibleFling","Invisible Fling [Testing Pha
 				hum:SetStateEnabled(Enum.HumanoidStateType.Swimming,true)
 				hum:ChangeState(Enum.HumanoidStateType.RunningNoPhysics)
 
-				game.Players.LocalPlayer:WaitForChild('Humanoid').Health = 0 
+				plr.Character.Humanoid.Health = 0
+				if bv ~= nil then
+					bv:Destroy()
+				end
+				if bg ~= nil then
+					bg:Destroy()
+				end
+
+				pcall(function()
+					invisflingStepped:Disconnect()
+				end)
+				
+				pcall(function()
+					swimbeat:Disconnect()
+				end)
+				
+				game.Workspace.Gravity = oldgrav
+
+				pcall(function()
+					plr.Character.HumanoidRootPart.CFrame = CFrame.new(0,-999999999999,0)
+				end)
 			end
 		end)()
 		wait(0.1)
