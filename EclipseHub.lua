@@ -469,8 +469,6 @@ Library.CreateButton(PlayerScript,"InvisibleFling","Invisible Fling [Testing Pha
 							else
 								if plr.Character:FindFirstChild('Humanoid').Health == 0 then
 									Died = true
-								else
-									print(plr.Character:FindFirstChild('Humanoid').Health)
 								end
 							end
 							wait(0.1)
@@ -512,7 +510,7 @@ Library.CreateButton(PlayerScript,"InvisibleFling","Invisible Fling [Testing Pha
 				
 				coroutine.wrap(function()
 					pcall(function()
-						plr.Character.Humanoid.Health = 0
+						game.Players.LocalPlayer.Character.Humanoid.Health = 0
 					end)
 				end)()
 				
