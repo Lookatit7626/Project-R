@@ -12,7 +12,7 @@ Library.CreateButton(Section,"Name","Hello! "..game.Players.LocalPlayer.Name)
 Library.CreateButton(Section,"CreditsSec","-----Credits-----")
 
 Library.CreateButton(Section,"Credits","Engineered by ECLIPSE and [Redacted] | Tested by Twilight")
-Library.CreateButton(Section,"NameGroup","Eclipse Software - V43.5D")
+Library.CreateButton(Section,"NameGroup","Eclipse Software - V2.3")
 
 Library.CreateButton(Section,"CreditsSec","-----Settings-----")
 
