@@ -500,8 +500,8 @@ local module = {
 		Sections001.Size = UDim2.new(0, 245, 0, 165)
 		Sections001.ZIndex = 3
 		Sections001.CanvasSize = UDim2.new(0, 0, 0, 0)
-		Sections001.ScrollBarThickness = 10
-		Sections001.Visible = true
+		Sections001.ScrollBarThickness = 0
+		Sections001.Visible = false
 		Sections001.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
 		UIListLayout_2.Parent = Sections001
@@ -547,7 +547,7 @@ local module = {
 			local script = Instance.new('LocalScript', Button_2)
 			pcall(function()
 				local suc, err = pcall(function()
-					script.Parent.MouseButton1Down:Connect(callback)
+					script.Parent.MouseButton1Click:Connect(callback)
 				end)
 			end)
 		end
@@ -633,7 +633,7 @@ local module = {
 					end
 				end)()
 
-				script.Parent.MouseButton1Down:Connect(function()
+				script.Parent.MouseButton1Click:Connect(function()
 					if script.Parent.Parent.Status.BackgroundColor3 == Color3.fromRGB(93, 0, 2) then
 						script.Parent.Parent.Status.BackgroundColor3 = Color3.fromRGB(70, 162, 0)
 					else
@@ -695,7 +695,7 @@ local module = {
 			local script = Instance.new('LocalScript', Button_4)
 			pcall(function()
 				local suc, err = pcall(function()
-					script.Parent.MouseButton1Down:Connect(function()
+					script.Parent.MouseButton1Click:Connect(function()
 						callback(TextBox.Text)	
 					end)
 				end)
@@ -809,7 +809,7 @@ local module = {
 			local script = Instance.new('LocalScript', Button_5)
 			pcall(function()
 				local suc, err = pcall(function()
-					script.Parent.MouseButton1Down:Connect(function()
+					script.Parent.MouseButton1Click:Connect(function()
 						callback(math.round(SliderButton_2.Position.X.Offset/130 * maxValue))	
 					end)
 				end)
