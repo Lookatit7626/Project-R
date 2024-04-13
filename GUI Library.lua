@@ -403,7 +403,7 @@ local module = {
 		SectionChoser.Size = UDim2.new(0, 70, 0, 165)
 		SectionChoser.ZIndex = 3
 		SectionChoser.CanvasSize = UDim2.new(0, 0, 0, 0)
-		SectionChoser.ScrollBarThickness = 1
+		SectionChoser.ScrollBarThickness = 0
 		SectionChoser.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
 		UIListLayout.Parent = SectionChoser
@@ -500,7 +500,7 @@ local module = {
 		Sections001.Size = UDim2.new(0, 245, 0, 165)
 		Sections001.ZIndex = 3
 		Sections001.CanvasSize = UDim2.new(0, 0, 0, 0)
-		Sections001.ScrollBarThickness = 0
+		Sections001.ScrollBarThickness = 0.6
 		Sections001.Visible = false
 		Sections001.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
