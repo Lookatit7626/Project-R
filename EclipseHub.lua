@@ -721,6 +721,9 @@ function ESP(plr)
 						addedFunc:Disconnect()
 					end
 				end)
+				
+				
+				
 				teamChange = plr:GetPropertyChangedSignal("TeamColor"):Connect(function()
 					if ESPenabled then
 						espLoopFunc:Disconnect()
@@ -743,10 +746,21 @@ function ESP(plr)
 								TextLabel.Text = 'Name: '..plr.Name..' | Health: '..round(plr.Character:FindFirstChildOfClass('Humanoid').Health, 1)..' | Studs: '..pos
 							end
 						end
+						if not game.Players:FindFirstChild(plr.Name) then
+							pcall(function()
+								ESPholder:Destroy()
+							end)
+							teamChange:Disconnect()
+							addedFunc:Disconnect()
+							espLoopFunc:Disconnect()
+						end
 					else
 						teamChange:Disconnect()
 						addedFunc:Disconnect()
 						espLoopFunc:Disconnect()
+						pcall(function()
+							ESPholder:Destroy()
+						end)
 					end
 				end
 				espLoopFunc = RunService.RenderStepped:Connect(espLoop)
