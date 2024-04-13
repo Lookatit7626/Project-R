@@ -500,8 +500,8 @@ local module = {
 		Sections001.Size = UDim2.new(0, 245, 0, 165)
 		Sections001.ZIndex = 3
 		Sections001.CanvasSize = UDim2.new(0, 0, 0, 0)
-		Sections001.ScrollBarThickness = 0.6
-		Sections001.Visible = false
+		Sections001.ScrollBarThickness = 10
+		Sections001.Visible = true
 		Sections001.AutomaticCanvasSize = Enum.AutomaticSize.Y
 
 		UIListLayout_2.Parent = Sections001
