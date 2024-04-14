@@ -734,15 +734,69 @@ function ESP(plr)
 				end)
 				
 				local Foundone = false
+				local FoundoneESP = nil
 				for i,v in pairs(COREGUI:GetChildren()) do
 					if v.Name == plr.Name..'_ESP' then
 						if not Foundone then
+							if not v:FindFirstChild('BillboardGui') then
+								espLoopFunc:Disconnect()
+								teamChange:Disconnect()
+								ESPholder:Destroy()
+								repeat wait(1) until getRoot(plr.Character) and plr.Character:FindFirstChildOfClass("Humanoid")
+								while not plr.Character do
+									wait(0.01)
+								end
+								if ESPholder then
+									ESPholder:Destroy()
+								end
+								ESP(plr)
+								addedFunc:Disconnect()
+							end
+							
 							Foundone = true
+							FoundoneESP = v
 						else
-							v:Destroy()
+							if not v:FindFirstChild('BillboardGui') then
+								espLoopFunc:Disconnect()
+								teamChange:Disconnect()
+								ESPholder:Destroy()
+								repeat wait(1) until getRoot(plr.Character) and plr.Character:FindFirstChildOfClass("Humanoid")
+								while not plr.Character do
+									wait(0.01)
+								end
+								if ESPholder then
+									ESPholder:Destroy()
+								end
+								ESP(plr)
+								addedFunc:Disconnect()
+							end
+							
+							if v.BillboardGui.Adornee ~= plr.Character.Head then
+								v:Destroy()
+							end
+							if FoundoneESP.BillboardGui.Adornee ~= plr.Character.Head then
+								FoundoneESP:Destroy()
+							end 
 						end
 					end
 				end
+				
+				if not COREGUI:FindFirstChild(plr.Name.."_ESP") then
+					espLoopFunc:Disconnect()
+					teamChange:Disconnect()
+					ESPholder:Destroy()
+					repeat wait(1) until getRoot(plr.Character) and plr.Character:FindFirstChildOfClass("Humanoid")
+					while not plr.Character do
+						wait(0.01)
+					end
+					if ESPholder then
+						ESPholder:Destroy()
+					end
+					ESP(plr)
+					addedFunc:Disconnect()
+				end
+				
+				
 				
 				teamChange = plr:GetPropertyChangedSignal("TeamColor"):Connect(function()
 					if ESPenabled then
