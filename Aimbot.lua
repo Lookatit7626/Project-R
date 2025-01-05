@@ -95,7 +95,7 @@ local function getClosestPlayerInRing(trg_part)
 						end
 					end
 					
-					if PlayerTeam == Players.LocalPlayer.Team then
+					if PlayerTeam.Name == Players.LocalPlayer.Team.Name then
 					  HaveConfigured = true
 				    ToProceed = false
 				  end
