@@ -94,13 +94,16 @@ local function getClosestPlayerInRing(trg_part)
 							HaveConfigured = true
 						end
 					end
+					
+					if PlayerTeam == Players.LocalPlayer.Team then
+					  HaveConfigured = true
+				    ToProceed = false
+				  end
 				end
 
 				if UseEnemySettings and not HaveConfigured and PlayerTeam then
-					print(TeamsTable[player.Team.Name])
 					if TeamsTable[player.Team.Name] then
 						if TeamsTable[player.Team.Name].ENEMY then
-							print("To kill")
 							ToProceed = true
 							HaveConfigured = true
 						else
@@ -108,6 +111,12 @@ local function getClosestPlayerInRing(trg_part)
 							HaveConfigured = true
 						end
 					end
+				end
+				
+				if TeamCheckSettings then
+				  if #(LPCamera:GetPartsObscuringTarget({player.Character.Head.Position}, player.Character:GetDescendants())) > 0 then
+				    ToProceed = false
+				  end
 				end
 
 				if distance < lastAB and isVisible and distance < RadiusSize and PlayerDis < MaxDistance and player.Character.Humanoid.Health > 0 and ToProceed then
@@ -315,16 +324,16 @@ TeamCheck.BackgroundTransparency = 0.8500000238418579;
 TeamCheck.Position = UDim2.new(0.0591715984, 0, 0.27598694, 0);
 TeamCheck.BackgroundColor3 = Color3.new(1, 1, 1);
 TeamCheck.TextColor3 = Color3.new(1, 1, 1);
-TeamCheck.Text = "Team check : Disabled";
+TeamCheck.Text = "Wall check : Disabled";
 TeamCheck.TextWrapped = true;
 TeamCheck.TextScaled = true;
 TeamCheck.Parent = Background;
 TeamCheck.MouseButton1Click:Connect(function()
 	TeamCheckSettings = not TeamCheckSettings
 	if TeamCheckSettings then
-		TeamCheck.Text = "Team check : Enabled";
+		TeamCheck.Text = "Wall check : Enabled";
 	else
-		TeamCheck.Text = "Team check : Disabled";
+		TeamCheck.Text = "Wall check : Disabled";
 	end
 end)
 
