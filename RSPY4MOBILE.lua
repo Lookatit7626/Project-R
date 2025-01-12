@@ -1914,7 +1914,7 @@ if not getgenv().SimpleSpyExecuted then
         end
         codebox = Highlight.new(CodeBox)
         logthread(spawn(function()
-            local suc,err = pcall(game.HttpGet,game,"https://raw.githubusercontent.com/infyiff/backup/main/SimpleSpyV3/update.txt")
+            local suc,err = pcall(game.HttpGet,game,"This is an old verison of Remotespy for Mobile, modified by Eclipse,\n the previous one did not have Function info, so i replaced it\nGo to : https://github.com/78n/SimpleSpy for the updated verison.")
             codebox:setRaw((suc and err) or "")
         end))
         getgenv().SimpleSpy = SimpleSpy
