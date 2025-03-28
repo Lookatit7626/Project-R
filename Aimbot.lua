@@ -77,60 +77,64 @@ local function getClosestPlayerInRing(trg_part)
 	lastAB = math.huge
 	for _, player in ipairs(Players:GetPlayers()) do
 		if player ~= Players.LocalPlayer then
-			part = player.Character and player.Character:FindFirstChild(trg_part)
-			if part then
-				HaveConfigured = false
-				ToProceed = true
-				ePos, isVisible = LPCamera:WorldToViewportPoint(part.Position)
-				distance = (Vector2.new(ePos.x, ePos.y) - playerMousePos).Magnitude
-				PlayerDis = (Players.LocalPlayer.Character.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).Magnitude
-
-				--TeamCheck
-				PlayerTeam = player.Team
-				
-				if UseFriendlySettings and not HaveConfigured and PlayerTeam then
-				  if PlayerTeam == Players.LocalPlayer.Team then
-					  HaveConfigured = true
-				    ToProceed = false
-				  end
-				  
-					if TeamsTable[player.Team.Name] then
-						if TeamsTable[player.Team.Name].FRIENDLY then
-							ToProceed = false
-							HaveConfigured = true
-						end
-					end
-				end
-
-				if UseEnemySettings and not HaveConfigured and PlayerTeam then
-					if TeamsTable[player.Team.Name] then
-						if TeamsTable[player.Team.Name].ENEMY then
-							ToProceed = true
-							HaveConfigured = true
-						else
-							ToProceed = false
-							HaveConfigured = true
-						end
-					end
-				end
-				
-				if TeamCheckSettings then
-				  local BlacklistSearchWC = player.Character:GetDescendants()
-				  for _, Value in pairs(Players.LocalPlayer.Character:GetDescendants()) do
-						BlacklistSearchWC[#BlacklistSearchWC + 1] = Value
-					end
-				  
-				  
-				  if #(LPCamera:GetPartsObscuringTarget({player.Character.Head.Position}, BlacklistSearchWC )) > 0 then
-				    ToProceed = false
-				  end
-				end
-
-				if distance < lastAB and isVisible and distance < RadiusSize and PlayerDis < MaxDistance and player.Character.Humanoid.Health > 0 and ToProceed then
-					lastAB = distance
-					nearest = player
-				end
-			end
+			pcall(function()
+			
+  			part = player.Character and player.Character:FindFirstChild(trg_part)
+  			if part then
+  				HaveConfigured = false
+  				ToProceed = true
+  				ePos, isVisible = LPCamera:WorldToViewportPoint(part.Position)
+  				distance = (Vector2.new(ePos.x, ePos.y) - playerMousePos).Magnitude
+  				PlayerDis = (Players.LocalPlayer.Character.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).Magnitude
+  
+  				--TeamCheck
+  				PlayerTeam = player.Team
+  				
+  				if UseFriendlySettings and not HaveConfigured and PlayerTeam then
+  				  if PlayerTeam == Players.LocalPlayer.Team then
+  					  HaveConfigured = true
+  				    ToProceed = false
+  				  end
+  				  
+  					if TeamsTable[player.Team.Name] then
+  						if TeamsTable[player.Team.Name].FRIENDLY then
+  							ToProceed = false
+  							HaveConfigured = true
+  						end
+  					end
+  				end
+  
+  				if UseEnemySettings and not HaveConfigured and PlayerTeam then
+  					if TeamsTable[player.Team.Name] then
+  						if TeamsTable[player.Team.Name].ENEMY then
+  							ToProceed = true
+  							HaveConfigured = true
+  						else
+  							ToProceed = false
+  							HaveConfigured = true
+  						end
+  					end
+  				end
+  				
+  				if TeamCheckSettings then
+  				  local BlacklistSearchWC = player.Character:GetDescendants()
+  				  for _, Value in pairs(Players.LocalPlayer.Character:GetDescendants()) do
+  						BlacklistSearchWC[#BlacklistSearchWC + 1] = Value
+  					end
+  				  
+  				  
+  				  if #(LPCamera:GetPartsObscuringTarget({player.Character.Head.Position}, BlacklistSearchWC )) > 0 then
+  				    ToProceed = false
+  				  end
+  				end
+  
+  				if distance < lastAB and isVisible and distance < RadiusSize and PlayerDis < MaxDistance and player.Character.Humanoid.Health > 0 and ToProceed then
+  					lastAB = distance
+  					nearest = player
+  				end
+  			end
+			  
+			end)
 		end
 	end
 
@@ -144,6 +148,9 @@ RunService.RenderStepped:Connect(function()
 		ABBB, AEEEERRR = pcall(function()
 			updateDrawings()
 			closest = getClosestPlayerInRing("Head")
+			if closest == nil then
+			  closest = getClosestPlayerInRing("HumanoidRootPart")
+			end
 			if closest and closest.Character:FindFirstChild("Head") then
 				lookAt(closest.Character.Head.Position)
 				FOVring.Color = Color3.fromRGB(0, 200, 0)
