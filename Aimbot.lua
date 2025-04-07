@@ -2,15 +2,18 @@
 --OPEN SOURCED FOR SKIDS
 --PLEASE GIVE CREDIT
 
-
 local TeamsTable = {}
 
 local LPCamera = game.Workspace.CurrentCamera
 local Players = game:GetService('Players')
 local RunService = game:GetService('RunService')
 
+local PlayerVeloOffset = false
+local PlayerVeloOffsetTime = 800
 local RadiusSize = 100
 local MaxDistance = math.huge
+
+local AutoShootBool = false
 
 local EnabledAimbotMode = false
 
@@ -143,6 +146,11 @@ end
 
 local ABBB, AEEEERRR
 local closest
+local PVOffSetVe = 0
+local PVDis = 0
+local TimeImpact = 0
+local ePosForCheck, isVisibleCheck
+local PlayerMousePosFromCharacter
 RunService.RenderStepped:Connect(function()
 	if EnabledAimbotMode then
 		ABBB, AEEEERRR = pcall(function()
@@ -152,11 +160,37 @@ RunService.RenderStepped:Connect(function()
 			  closest = getClosestPlayerInRing("HumanoidRootPart")
 			end
 			if closest and closest.Character:FindFirstChild("Head") then
-				lookAt(closest.Character.Head.Position)
+			  
+				if PlayerVeloOffset then
+				  playerMousePos = LPCamera.ViewportSize / 2
+				  PVDis = (Players.LocalPlayer.Character.HumanoidRootPart.Position - closest.Character.HumanoidRootPart.Position).Magnitude
+				  PVOffSetVe = closest.Character.Head.Velocity
+				  TimeImpact = PVDis/PlayerVeloOffsetTime
+				  
+				  ePosForCheck, isVisibleCheck = LPCamera:WorldToViewportPoint(closest.Character.Head.Position + PVOffSetVe * TimeImpact)
+				  PlayerMousePosFromCharacter = (Vector2.new(ePosForCheck.x, ePosForCheck.y) - playerMousePos).Magnitude
+				  
+				  if PlayerMousePosFromCharacter > (RadiusSize * 5/6) or not isVisibleCheck then
+				    lookAt(closest.Character.Head.Position + ( RadiusSize * 5/6 / PVOffSetVe ) )
+				  else
+				    lookAt(closest.Character.Head.Position + PVOffSetVe * TimeImpact)
+				  end
+				  
+				else
+				  lookAt(closest.Character.Head.Position)
+				end
 				FOVring.Color = Color3.fromRGB(0, 200, 0)
 				Health.Color = Color3.fromRGB(0, 200, 0)
 				Health.Visible = true
 				Health.Text = "Health : "..closest.Character:FindFirstChild("Humanoid").Health
+				
+				if AutoShootBool then
+				  --keypress("0x01")
+				  keypress(Enum.KeyCode["F"])
+				  --keypress("0x01")
+				  --mousemoveabs(playerMousePos.x, playerMousePos.y)  
+				  --mouse1click()
+				end
 			else
 				Health.Visible = false
 				FOVring.Color = Color3.fromRGB(255, 0, 0)
@@ -180,7 +214,10 @@ local EnemyScroll = Instance.new("ScrollingFrame");
 local UseFriendly = Instance.new("TextButton");
 local UseEnemy = Instance.new("TextButton");
 local TeamCheck = Instance.new("TextButton");
+local TeamCheck2 = Instance.new("TextButton");
+local AutoShoot = Instance.new("TextButton");
 local MaxDis_2 = Instance.new("TextBox");
+local TeamCheck2TextBox = Instance.new("TextBox");
 local RadiusText = Instance.new("TextLabel");
 local Radius_2 = Instance.new("TextBox");
 local FrameLine = Instance.new("Frame");
@@ -236,7 +273,7 @@ MaxDisText.Size = UDim2.new(0, 99, 0, 15);
 MaxDisText.BorderColor3 = Color3.new(0, 0, 0);
 MaxDisText.BorderSizePixel = 0;
 MaxDisText.BackgroundTransparency = 0.800000011920929;
-MaxDisText.Position = UDim2.new(0.565088749, 0, 0.270467281, 0);
+MaxDisText.Position = UDim2.new(0.565088749, 0, 0.300467281, 0);
 MaxDisText.BackgroundColor3 = Color3.new(1, 1, 1);
 MaxDisText.TextColor3 = Color3.new(1, 1, 1);
 MaxDisText.Text = "Max Distance : ";
@@ -250,7 +287,7 @@ EnableAB.Size = UDim2.new(0, 126, 0, 15);
 EnableAB.BorderColor3 = Color3.new(0, 0, 0);
 EnableAB.BorderSizePixel = 0;
 EnableAB.BackgroundTransparency = 0.8500000238418579;
-EnableAB.Position = UDim2.new(0.0591715984, 0, 0.0662368611, 0);
+EnableAB.Position = UDim2.new(0.0591715984, 0, 0.05, 0);
 EnableAB.BackgroundColor3 = Color3.new(1, 1, 1);
 EnableAB.TextColor3 = Color3.new(1, 1, 1);
 EnableAB.Text = "Aimbot : Disabled";
@@ -289,7 +326,7 @@ UseFriendly.Size = UDim2.new(0, 126, 0, 15);
 UseFriendly.BorderColor3 = Color3.new(0, 0, 0);
 UseFriendly.BorderSizePixel = 0;
 UseFriendly.BackgroundTransparency = 0.8500000238418579;
-UseFriendly.Position = UDim2.new(0.0591715984, 0, 0.402940989, 0);
+UseFriendly.Position = UDim2.new(0.0591715984, 0, 0.432940989, 0);
 UseFriendly.BackgroundColor3 = Color3.new(1, 1, 1);
 UseFriendly.TextColor3 = Color3.new(1, 1, 1);
 UseFriendly.Text = "Disabled Friendly";
@@ -312,7 +349,7 @@ UseEnemy.Size = UDim2.new(0, 126, 0, 15);
 UseEnemy.BorderColor3 = Color3.new(0, 0, 0);
 UseEnemy.BorderSizePixel = 0;
 UseEnemy.BackgroundTransparency = 0.8500000238418579;
-UseEnemy.Position = UDim2.new(0.565088749, 0, 0.402940989, 0);
+UseEnemy.Position = UDim2.new(0.565088749, 0, 0.432940989, 0);
 UseEnemy.BackgroundColor3 = Color3.new(1, 1, 1);
 UseEnemy.TextColor3 = Color3.new(1, 1, 1);
 UseEnemy.Text = "Disabled Enemy";
@@ -329,13 +366,13 @@ UseEnemy.MouseButton1Click:Connect(function()
 end)
 
 
-TeamCheck.Name = "TeamCheck";
+TeamCheck.Name = "WallCheck";
 TeamCheck.AutoButtonColor = true;
 TeamCheck.Size = UDim2.new(0, 126, 0, 15);
 TeamCheck.BorderColor3 = Color3.new(0, 0, 0);
 TeamCheck.BorderSizePixel = 0;
 TeamCheck.BackgroundTransparency = 0.8500000238418579;
-TeamCheck.Position = UDim2.new(0.0591715984, 0, 0.27598694, 0);
+TeamCheck.Position = UDim2.new(0.0591715984, 0, 0.30598694, 0);
 TeamCheck.BackgroundColor3 = Color3.new(1, 1, 1);
 TeamCheck.TextColor3 = Color3.new(1, 1, 1);
 TeamCheck.Text = "Wall check : Disabled";
@@ -351,12 +388,79 @@ TeamCheck.MouseButton1Click:Connect(function()
 	end
 end)
 
+TeamCheck2.Name = "VeloCheck";
+TeamCheck2.Size = UDim2.new(0, 99, 0, 15);
+TeamCheck2.AutoButtonColor = true;
+TeamCheck2.BorderColor3 = Color3.new(0, 0, 0);
+TeamCheck2.BorderSizePixel = 0;
+TeamCheck2.BackgroundTransparency = 0.8500000238418579;
+TeamCheck2.Position = UDim2.new(0.565088749, 0, 0.17598694, 0); --30598694
+TeamCheck2.BackgroundColor3 = Color3.new(1, 1, 1);
+TeamCheck2.TextColor3 = Color3.new(1, 1, 1);
+TeamCheck2.Text = "Velocity offset : Disabled";
+TeamCheck2.TextWrapped = true;
+TeamCheck2.TextScaled = true;
+TeamCheck2.Parent = Background;
+TeamCheck2.MouseButton1Click:Connect(function()
+	PlayerVeloOffset = not PlayerVeloOffset
+	if PlayerVeloOffset then
+		TeamCheck2.Text = "Velocity offset : Enabled";
+	else
+		TeamCheck2.Text = "Velocity offset : Disabled";
+	end
+end)
+
+AutoShoot.Name = "AutoShoot";
+AutoShoot.Size = UDim2.new(0, 126, 0, 15);
+AutoShoot.AutoButtonColor = true;
+AutoShoot.BorderColor3 = Color3.new(0, 0, 0);
+AutoShoot.BorderSizePixel = 0;
+AutoShoot.BackgroundTransparency = 0.8500000238418579;
+AutoShoot.Position = UDim2.new(0.0591715984, 0, 0.17598694, 0); --30598694
+AutoShoot.BackgroundColor3 = Color3.new(1, 1, 1);
+AutoShoot.TextColor3 = Color3.new(1, 1, 1);
+AutoShoot.Text = "AutoShoot : False";
+AutoShoot.TextWrapped = true;
+AutoShoot.TextScaled = true;
+AutoShoot.Visible = false;
+AutoShoot.Parent = Background;
+AutoShoot.MouseButton1Click:Connect(function()
+	AutoShootBool = not AutoShootBool
+	if AutoShootBool then
+		AutoShoot.Text = "AutoShoot : Enabled";
+	else
+		AutoShoot.Text = "AutoShoot : Disabled";
+	end
+end)
+
+if game.PlaceId == 2210085102 then
+  AutoShoot.Visible = true
+end
+
+TeamCheck2TextBox.Name = "OffSetTime";
+TeamCheck2TextBox.Size = UDim2.new(0, 27, 0, 15);
+TeamCheck2TextBox.BorderColor3 = Color3.new(0, 0, 0);
+TeamCheck2TextBox.BorderSizePixel = 0;
+TeamCheck2TextBox.BackgroundTransparency = 0.800000011920929;
+TeamCheck2TextBox.Position = UDim2.new(0.857988179, 0, 0.17598694, 0);
+TeamCheck2TextBox.BackgroundColor3 = Color3.new(1, 1, 1);
+TeamCheck2TextBox.CursorPosition = -1;
+TeamCheck2TextBox.TextColor3 = Color3.new(1, 1, 1);
+TeamCheck2TextBox.Text = "800";
+TeamCheck2TextBox.Parent = Background;
+TeamCheck2TextBox.FocusLost:Connect(function()
+	PlayerVeloOffsetTime = tonumber(TeamCheck2TextBox.Text) or 100
+end)
+
+
+--TeamCheck2TextBox
+
 MaxDis_2.Name = "MaxDis";
 MaxDis_2.Size = UDim2.new(0, 27, 0, 15);
 MaxDis_2.BorderColor3 = Color3.new(0, 0, 0);
 MaxDis_2.BorderSizePixel = 0;
 MaxDis_2.BackgroundTransparency = 0.800000011920929;
-MaxDis_2.Position = UDim2.new(0.857988179, 0, 0.270467281, 0);
+MaxDis_2.Position = UDim2.new(0.857988179, 0, 0.300467281, 0);
 MaxDis_2.BackgroundColor3 = Color3.new(1, 1, 1);
 MaxDis_2.CursorPosition = -1;
 MaxDis_2.TextColor3 = Color3.new(1, 1, 1);
@@ -371,7 +475,7 @@ RadiusText.Size = UDim2.new(0, 99, 0, 15);
 RadiusText.BorderColor3 = Color3.new(0, 0, 0);
 RadiusText.BorderSizePixel = 0;
 RadiusText.BackgroundTransparency = 0.800000011920929;
-RadiusText.Position = UDim2.new(0.565088749, 0, 0.0662369505, 0);
+RadiusText.Position = UDim2.new(0.565088749, 0, 0.05, 0);
 RadiusText.BackgroundColor3 = Color3.new(1, 1, 1);
 RadiusText.TextColor3 = Color3.new(1, 1, 1);
 RadiusText.Text = "Radius : ";
@@ -384,7 +488,7 @@ Radius_2.Size = UDim2.new(0, 27, 0, 15);
 Radius_2.BorderColor3 = Color3.new(0, 0, 0);
 Radius_2.BorderSizePixel = 0;
 Radius_2.BackgroundTransparency = 0.800000011920929;
-Radius_2.Position = UDim2.new(0.857988179, 0, 0.0662369505, 0);
+Radius_2.Position = UDim2.new(0.857988179, 0, 0.05, 0);
 Radius_2.BackgroundColor3 = Color3.new(1, 1, 1);
 Radius_2.CursorPosition = -1;
 Radius_2.TextColor3 = Color3.new(1, 1, 1);
@@ -402,6 +506,7 @@ FrameLine.BorderSizePixel = 0;
 FrameLine.Position = UDim2.new(0, 0, 0.215269893, 0);
 FrameLine.BackgroundColor3 = Color3.new(0, 0, 0);
 FrameLine.Parent = Background;
+FrameLine.Visible = false
 
 UIAspectRatioConstraint.Name = "UIAspectRatioConstraint";
 UIAspectRatioConstraint.AspectRatio = 10;
@@ -433,7 +538,7 @@ for _ ,Team in pairs(game:GetService('Teams'):GetChildren()) do
 	EnemyScrollButton.BorderColor3 = Color3.new(0, 0, 0);
 	EnemyScrollButton.BorderSizePixel = 0;
 	EnemyScrollButton.BackgroundTransparency = 0.8500000238418579;
-	EnemyScrollButton.Position = UDim2.new(0.0591715984, 0, 0.0662368611, 0);
+	EnemyScrollButton.Position = UDim2.new(0.0591715984, 0, 0.05, 0);
 	EnemyScrollButton.BackgroundColor3 = Color3.new(1, 1, 1);
 	EnemyScrollButton.TextColor3 = Color3.new(1, 1, 1);
 	EnemyScrollButton.Text = Team.Name;
@@ -456,7 +561,7 @@ for _ ,Team in pairs(game:GetService('Teams'):GetChildren()) do
 	FriendlyScrollButton.BorderColor3 = Color3.new(0, 0, 0);
 	FriendlyScrollButton.BorderSizePixel = 0;
 	FriendlyScrollButton.BackgroundTransparency = 0.8500000238418579;
-	FriendlyScrollButton.Position = UDim2.new(0.0591715984, 0, 0.0662368611, 0);
+	FriendlyScrollButton.Position = UDim2.new(0.0591715984, 0, 0.05, 0);
 	FriendlyScrollButton.BackgroundColor3 = Color3.new(1, 1, 1);
 	FriendlyScrollButton.TextColor3 = Color3.new(1, 1, 1);
 	FriendlyScrollButton.Text = Team.Name;
