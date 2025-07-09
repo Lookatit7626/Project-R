@@ -2,7 +2,7 @@
 --OPEN SOURCED FOR SKIDS
 --PLEASE GIVE CREDIT
 
-print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:4532")
+print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:6542")
 
 local TeamsTable = {}
 
@@ -129,8 +129,8 @@ local function getClosestPlayerInRing(trg_part)
 
 					if TeamCheckSettings then
 						local BlacklistSearchWC = player.Character:GetDescendants()
-						for _, Value in pairs(Players.LocalPlayer.Character:GetDescendants()) do
-							BlacklistSearchWC[#BlacklistSearchWC + 1] = Value
+						for _, Value in pairs( Players.LocalPlayer.Character:GetDescendants() ) do
+							table.insert(BlacklistSearchWC,Value)
 						end
 
 
