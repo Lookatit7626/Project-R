@@ -7,6 +7,7 @@ local TeamsTable = {}
 local LPCamera = game.Workspace.CurrentCamera
 local Players = game:GetService('Players')
 local RunService = game:GetService('RunService')
+local UserInputSer = game:GetService('UserInputService')
 
 local PlayerVeloOffset = false
 local PlayerVeloOffsetTime = 800
@@ -81,62 +82,62 @@ local function getClosestPlayerInRing(trg_part)
 	for _, player in ipairs(Players:GetPlayers()) do
 		if player ~= Players.LocalPlayer then
 			pcall(function()
-			
-  			part = player.Character and player.Character:FindFirstChild(trg_part)
-  			if part then
-  				HaveConfigured = false
-  				ToProceed = true
-  				ePos, isVisible = LPCamera:WorldToViewportPoint(part.Position)
-  				distance = (Vector2.new(ePos.x, ePos.y) - playerMousePos).Magnitude
-  				PlayerDis = (Players.LocalPlayer.Character.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).Magnitude
-  
-  				--TeamCheck
-  				PlayerTeam = player.Team
-  				
-  				if UseFriendlySettings and not HaveConfigured and PlayerTeam then
-  				  if PlayerTeam == Players.LocalPlayer.Team then
-  					  HaveConfigured = true
-  				    ToProceed = false
-  				  end
-  				  
-  					if TeamsTable[player.Team.Name] then
-  						if TeamsTable[player.Team.Name].FRIENDLY then
-  							ToProceed = false
-  							HaveConfigured = true
-  						end
-  					end
-  				end
-  
-  				if UseEnemySettings and not HaveConfigured and PlayerTeam then
-  					if TeamsTable[player.Team.Name] then
-  						if TeamsTable[player.Team.Name].ENEMY then
-  							ToProceed = true
-  							HaveConfigured = true
-  						else
-  							ToProceed = false
-  							HaveConfigured = true
-  						end
-  					end
-  				end
-  				
-  				if TeamCheckSettings then
-  				  local BlacklistSearchWC = player.Character:GetDescendants()
-  				  for _, Value in pairs(Players.LocalPlayer.Character:GetDescendants()) do
-  						BlacklistSearchWC[#BlacklistSearchWC + 1] = Value
-  					end
-  				  
-  				  
-  				  if #(LPCamera:GetPartsObscuringTarget({player.Character.Head.Position}, BlacklistSearchWC )) > 0 then
-  				    ToProceed = false
-  				  end
-  				end
-  
-  				if distance < lastAB and isVisible and distance < RadiusSize and PlayerDis < MaxDistance and player.Character.Humanoid.Health > 0 and ToProceed then
-  					lastAB = distance
-  					nearest = player
-  				end
-  			end
-			  
+
+				part = player.Character and player.Character:FindFirstChild(trg_part)
+				if part then
+					HaveConfigured = false
+					ToProceed = true
+					ePos, isVisible = LPCamera:WorldToViewportPoint(part.Position)
+					distance = (Vector2.new(ePos.x, ePos.y) - playerMousePos).Magnitude
+					PlayerDis = (Players.LocalPlayer.Character.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).Magnitude
+
+					--TeamCheck
+					PlayerTeam = player.Team
+
+					if UseFriendlySettings and not HaveConfigured and PlayerTeam then
+						if PlayerTeam == Players.LocalPlayer.Team then
+							HaveConfigured = true
+							ToProceed = false
+						end
+
+						if TeamsTable[player.Team.Name] then
+							if TeamsTable[player.Team.Name].FRIENDLY then
+								ToProceed = false
+								HaveConfigured = true
+							end
+						end
+					end
+
+					if UseEnemySettings and not HaveConfigured and PlayerTeam then
+						if TeamsTable[player.Team.Name] then
+							if TeamsTable[player.Team.Name].ENEMY then
+								ToProceed = true
+								HaveConfigured = true
+							else
+								ToProceed = false
+								HaveConfigured = true
+							end
+						end
+					end
+
+					if TeamCheckSettings then
+						local BlacklistSearchWC = player.Character:GetDescendants()
+						for _, Value in pairs(Players.LocalPlayer.Character:GetDescendants()) do
+							BlacklistSearchWC[#BlacklistSearchWC + 1] = Value
+						end
+
+
+						if #(LPCamera:GetPartsObscuringTarget({player.Character.Head.Position}, BlacklistSearchWC )) > 0 then
+							ToProceed = false
+						end
+					end
+
+					if distance < lastAB and isVisible and distance < RadiusSize and PlayerDis < MaxDistance and player.Character.Humanoid.Health > 0 and ToProceed then
+						lastAB = distance
+						nearest = player
+					end
+				end
+
 			end)
 		end
 	end
@@ -157,39 +158,39 @@ RunService.RenderStepped:Connect(function()
 			updateDrawings()
 			closest = getClosestPlayerInRing("Head")
 			if closest == nil then
-			  closest = getClosestPlayerInRing("HumanoidRootPart")
+				closest = getClosestPlayerInRing("HumanoidRootPart")
 			end
 			if closest and closest.Character:FindFirstChild("Head") then
-			  
+
 				if PlayerVeloOffset then
-				  playerMousePos = LPCamera.ViewportSize / 2
-				  PVDis = (Players.LocalPlayer.Character.HumanoidRootPart.Position - closest.Character.HumanoidRootPart.Position).Magnitude
-				  PVOffSetVe = closest.Character.Head.Velocity
-				  TimeImpact = PVDis/PlayerVeloOffsetTime
-				  
-				  ePosForCheck, isVisibleCheck = LPCamera:WorldToViewportPoint(closest.Character.Head.Position + PVOffSetVe * TimeImpact)
-				  PlayerMousePosFromCharacter = (Vector2.new(ePosForCheck.x, ePosForCheck.y) - playerMousePos).Magnitude
-				  
-				  if PlayerMousePosFromCharacter > (RadiusSize * 5/6) or not isVisibleCheck then
-				    lookAt(closest.Character.Head.Position + ( RadiusSize * 5/6 / PVOffSetVe ) )
-				  else
-				    lookAt(closest.Character.Head.Position + PVOffSetVe * TimeImpact)
-				  end
-				  
+					playerMousePos = LPCamera.ViewportSize / 2
+					PVDis = (Players.LocalPlayer.Character.HumanoidRootPart.Position - closest.Character.HumanoidRootPart.Position).Magnitude
+					PVOffSetVe = closest.Character.Head.Velocity
+					TimeImpact = PVDis/PlayerVeloOffsetTime
+
+					ePosForCheck, isVisibleCheck = LPCamera:WorldToViewportPoint(closest.Character.Head.Position + PVOffSetVe * TimeImpact)
+					PlayerMousePosFromCharacter = (Vector2.new(ePosForCheck.x, ePosForCheck.y) - playerMousePos).Magnitude
+
+					if PlayerMousePosFromCharacter > (RadiusSize * 5/6) or not isVisibleCheck then
+						lookAt(closest.Character.Head.Position + ( RadiusSize * 5/6 / PVOffSetVe ) )
+					else
+						lookAt(closest.Character.Head.Position + PVOffSetVe * TimeImpact)
+					end
+
 				else
-				  lookAt(closest.Character.Head.Position)
+					lookAt(closest.Character.Head.Position)
 				end
 				FOVring.Color = Color3.fromRGB(0, 200, 0)
 				Health.Color = Color3.fromRGB(0, 200, 0)
 				Health.Visible = true
 				Health.Text = "Health : "..closest.Character:FindFirstChild("Humanoid").Health
-				
+
 				if AutoShootBool then
-				  --keypress("0x01")
-				  keypress(Enum.KeyCode["F"])
-				  --keypress("0x01")
-				  --mousemoveabs(playerMousePos.x, playerMousePos.y)  
-				  --mouse1click()
+					--keypress("0x01")
+					keypress(Enum.KeyCode["F"])
+					--keypress("0x01")
+					--mousemoveabs(playerMousePos.x, playerMousePos.y)  
+					--mouse1click()
 				end
 			else
 				Health.Visible = false
@@ -294,7 +295,10 @@ EnableAB.Text = "Aimbot : Disabled";
 EnableAB.TextWrapped = true;
 EnableAB.TextScaled = true;
 EnableAB.Parent = Background;
-EnableAB.MouseButton1Click:Connect(function()
+
+
+
+local function ToEnable()
 	EnabledAimbotMode = not EnabledAimbotMode
 	if EnabledAimbotMode then
 		FOVring.Visible = true
@@ -303,6 +307,9 @@ EnableAB.MouseButton1Click:Connect(function()
 		FOVring.Visible = false
 		EnableAB.Text = "Aimbot : Disabled";
 	end
+end
+EnableAB.MouseButton1Click:Connect(function()
+	ToEnable()
 end)
 
 EnemyScroll.Name = "EnemyScroll";
@@ -434,7 +441,7 @@ AutoShoot.MouseButton1Click:Connect(function()
 end)
 
 if game.PlaceId == 2210085102 then
-  AutoShoot.Visible = true
+	AutoShoot.Visible = true
 end
 
 TeamCheck2TextBox.Name = "OffSetTime";
@@ -530,7 +537,7 @@ for _ ,Team in pairs(game:GetService('Teams'):GetChildren()) do
 		['FRIENDLY'] = false;
 		['ENEMY'] = false;
 	}
-	
+
 	local EnemyScrollButton = Instance.new("TextButton");
 	EnemyScrollButton.Name = "Team_"..Team.Name;
 	EnemyScrollButton.AutoButtonColor = true;
@@ -553,7 +560,7 @@ for _ ,Team in pairs(game:GetService('Teams'):GetChildren()) do
 			EnemyScrollButton.TextColor3 = Color3.new(1,1,1)
 		end
 	end)
-	
+
 	local FriendlyScrollButton = Instance.new("TextButton");
 	FriendlyScrollButton.Name = "Team_"..Team.Name;
 	FriendlyScrollButton.AutoButtonColor = true;
@@ -576,5 +583,79 @@ for _ ,Team in pairs(game:GetService('Teams'):GetChildren()) do
 			FriendlyScrollButton.TextColor3 = Color3.new(1,1,1)
 		end
 	end)
-	
+
 end
+
+local ControlDown = false
+local EnableDown = false
+local ToOpenDown = false
+local ToDrag = false
+
+
+local MouseIsOnGUI = false
+local PlayerMouse =  Players.LocalPlayer:GetMouse()
+local IntXMouse, IntYMouse, IntXYPosTopbar
+
+Topbar.MouseEnter:Connect(function()
+	MouseIsOnGUI = true
+end)
+
+Topbar.MouseLeave:Connect(function()
+	MouseIsOnGUI = false
+end)
+
+UserInputSer.InputBegan:Connect(function(inoutObj, IsTyping)
+	if IsTyping then
+		return
+	end
+
+	if inoutObj.KeyCode == Enum.KeyCode.LeftAlt then
+		ControlDown = true
+	end
+	if inoutObj.KeyCode == Enum.KeyCode.E then
+		EnableDown = true
+	end
+	if inoutObj.KeyCode == Enum.KeyCode.Q then
+		ToOpenDown = true
+	end
+	if inoutObj.UserInputType == Enum.UserInputType.MouseButton1 then
+		ToDrag = true
+	end
+	
+	
+	if ControlDown and EnableDown then
+		ToEnable()
+		EnableDown = false
+	end
+	if ControlDown and ToOpenDown then
+		Topbar.Visible = not Topbar.Visible
+		ToOpenDown = false
+	end
+	if ControlDown and ToDrag then
+		if Topbar.Visible and MouseIsOnGUI then
+			IntXMouse, IntYMouse = PlayerMouse.X, PlayerMouse.Y
+			IntXYPosTopbar = Topbar.Position
+			repeat
+				Topbar.Position = IntXYPosTopbar - UDim2.new(0, IntXMouse - PlayerMouse.X, 0, IntYMouse - PlayerMouse.Y)
+				RunService.RenderStepped:Wait()
+			until not ToDrag or not Topbar.Visible
+			ToDrag = false
+		end
+	end
+	
+end)
+
+UserInputSer.InputEnded:Connect(function(inoutObj, IsTyping)
+	if inoutObj.KeyCode == Enum.KeyCode.LeftAlt then
+		ControlDown = false
+	end
+	if inoutObj.KeyCode == Enum.KeyCode.E then
+		EnableDown = false
+	end
+	if inoutObj.KeyCode == Enum.KeyCode.Q then
+		ToOpenDown = false
+	end
+	if inoutObj.UserInputType == Enum.UserInputType.MouseButton1 then
+		ToDrag = false
+	end
+end)
