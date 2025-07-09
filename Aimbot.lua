@@ -605,10 +605,6 @@ Topbar.MouseLeave:Connect(function()
 end)
 
 UserInputSer.InputBegan:Connect(function(inoutObj, IsTyping)
-	if IsTyping then
-		return
-	end
-
 	if inoutObj.KeyCode == Enum.KeyCode.LeftAlt then
 		ControlDown = true
 	end
