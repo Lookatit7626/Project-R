@@ -2,7 +2,7 @@
 --OPEN SOURCED FOR SKIDS
 --PLEASE GIVE CREDIT
 
-print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:96419")
+print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:75342")
 
 local TeamsTable = {}
 
@@ -197,7 +197,9 @@ RunService.RenderStepped:Connect(function()
 
 
 					local LPCamera = game.Workspace.CurrentCamera
-					game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 1, true, nil, 0)
+					game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, true, game, 1)
+					task.wait()
+					game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, false, game, 1)
 				end
 			else
 				Health.Visible = false
