@@ -2,7 +2,7 @@
 --OPEN SOURCED FOR SKIDS
 --PLEASE GIVE CREDIT
 
-print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:4019")
+print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:4532")
 
 local TeamsTable = {}
 
@@ -44,8 +44,8 @@ Health.Font = Drawing.Fonts.System -- Monospace, UI, System, Plex
 Health.Transparency = .2
 Health.Visible = false
 
-local mousemoveabsFunc = mousemoveabs
-if mousemoveabsFunc == nil then
+local mouse1clickFunc = mouse1click
+if mouse1clickFunc == nil then
 	warn("mousemoveabs is not a function on your executor!")
 end
 
@@ -192,12 +192,8 @@ RunService.RenderStepped:Connect(function()
 				Health.Visible = true
 				Health.Text = "Health : "..closest.Character:FindFirstChild("Humanoid").Health
 
-				if AutoShootBool then
-					--keypress("0x01")
-					keypress(Enum.KeyCode["F"])
-					--keypress("0x01")
-					--mousemoveabs(playerMousePos.x, playerMousePos.y)  
-					--mouse1click()
+				if AutoShootBool and mouse1clickFunc ~= nil then
+					mouse1clickFunc()
 				end
 			else
 				Health.Visible = false
@@ -303,21 +299,12 @@ EnableAB.TextWrapped = true;
 EnableAB.TextScaled = true;
 EnableAB.Parent = Background;
 
-local AllowMouseRepos = false
 
 local function ToEnable()
 	EnabledAimbotMode = not EnabledAimbotMode
 	if EnabledAimbotMode then
 		FOVring.Visible = true
 		EnableAB.Text = "Aimbot : Enabled";
-		if mousemoveabsFunc ~= nil and AllowMouseRepos then
-			coroutine.wrap(function()
-				repeat
-					mousemoveabsFunc((LPCamera.ViewportSize / 2).X, (LPCamera.ViewportSize / 2).Y)
-					RunService.RenderStepped:Wait()
-				until not EnabledAimbotMode
-			end)()
-		end
 	else
 		FOVring.Visible = false
 		EnableAB.Text = "Aimbot : Disabled";
@@ -327,11 +314,6 @@ EnableAB.MouseButton1Click:Connect(function()
 	ToEnable()
 end)
 
-Players.LocalPlayer:GetMouse().Button1Down:Connect(function()
-	if AllowMouseRepos and mousemoveabsFunc ~= nil then
-		mousemoveabsFunc((LPCamera.ViewportSize / 2).X, (LPCamera.ViewportSize / 2).Y)
-	end
-end)
 
 EnemyScroll.Name = "EnemyScroll";
 EnemyScroll.Active = true;
@@ -447,21 +429,22 @@ AutoShoot.BackgroundTransparency = 0.8500000238418579;
 AutoShoot.Position = UDim2.new(0.0591715984, 0, 0.17598694, 0); --30598694
 AutoShoot.BackgroundColor3 = Color3.new(1, 1, 1);
 AutoShoot.TextColor3 = Color3.new(1, 1, 1);
-AutoShoot.Text = "Cente mouse Pos. : False";
+AutoShoot.Text = "AutoShoot : False";
 AutoShoot.TextWrapped = true;
 AutoShoot.TextScaled = true;
 AutoShoot.Visible = true;
 AutoShoot.Parent = Background;
+
 AutoShoot.MouseButton1Click:Connect(function()
-	AllowMouseRepos = not AllowMouseRepos
-	if AllowMouseRepos then
-		AutoShoot.Text = "Cente mouse Pos. : Enabled";
+	AutoShootBool = not AutoShootBool
+	if AutoShootBool then
+		AutoShoot.Text = "AutoShoot : Enabled";
 	else
-		AutoShoot.Text = "Cente mouse Pos. : Disabled";
+		AutoShoot.Text = "AutoShoot : Disabled";
 	end
 end)
 
-if mousemoveabsFunc == nil then
+if mouse1clickFunc == nil then
 	AutoShoot.Visible = false
 end
 
