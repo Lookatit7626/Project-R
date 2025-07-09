@@ -2,7 +2,7 @@
 --OPEN SOURCED FOR SKIDS
 --PLEASE GIVE CREDIT
 
-print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:6542")
+print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:96419")
 
 local TeamsTable = {}
 
@@ -44,7 +44,7 @@ Health.Font = Drawing.Fonts.System -- Monospace, UI, System, Plex
 Health.Transparency = .2
 Health.Visible = false
 
-local mouse1clickFunc = mouse1click
+local mouse1clickFunc = ""
 if mouse1clickFunc == nil then
 	warn("mousemoveabs is not a function on your executor!")
 end
@@ -193,7 +193,11 @@ RunService.RenderStepped:Connect(function()
 				Health.Text = "Health : "..closest.Character:FindFirstChild("Humanoid").Health
 
 				if AutoShootBool and mouse1clickFunc ~= nil then
-					mouse1clickFunc()
+
+
+
+					local LPCamera = game.Workspace.CurrentCamera
+					game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 1, true, nil, 0)
 				end
 			else
 				Health.Visible = false
