@@ -2,6 +2,8 @@
 --OPEN SOURCED FOR SKIDS
 --PLEASE GIVE CREDIT
 
+print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:3019")
+
 local TeamsTable = {}
 
 local LPCamera = game.Workspace.CurrentCamera
@@ -41,6 +43,11 @@ Health.Size = 20
 Health.Font = Drawing.Fonts.System -- Monospace, UI, System, Plex
 Health.Transparency = .2
 Health.Visible = false
+
+local mousemoveabsFunc = mousemoveabs
+if mousemoveabsFunc == nil then
+	warn("mousemoveabs is not a function on your executor!")
+end
 
 local camViewportSize
 local function updateDrawings()
@@ -303,6 +310,12 @@ local function ToEnable()
 	if EnabledAimbotMode then
 		FOVring.Visible = true
 		EnableAB.Text = "Aimbot : Enabled";
+		if mousemoveabsFunc ~= nil then
+			repeat
+				mousemoveabsFunc((LPCamera.ViewportSize / 2).X, (LPCamera.ViewportSize / 2).Y)
+				RunService.RenderStepped:Wait()
+			until not EnabledAimbotMode
+		end
 	else
 		FOVring.Visible = false
 		EnableAB.Text = "Aimbot : Disabled";
