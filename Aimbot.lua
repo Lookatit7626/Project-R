@@ -2,7 +2,7 @@
 --OPEN SOURCED FOR SKIDS
 --PLEASE GIVE CREDIT
 
-print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:3019")
+print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:4019")
 
 local TeamsTable = {}
 
@@ -303,18 +303,20 @@ EnableAB.TextWrapped = true;
 EnableAB.TextScaled = true;
 EnableAB.Parent = Background;
 
-
+local AllowMouseRepos = false
 
 local function ToEnable()
 	EnabledAimbotMode = not EnabledAimbotMode
 	if EnabledAimbotMode then
 		FOVring.Visible = true
 		EnableAB.Text = "Aimbot : Enabled";
-		if mousemoveabsFunc ~= nil then
-			repeat
-				mousemoveabsFunc((LPCamera.ViewportSize / 2).X, (LPCamera.ViewportSize / 2).Y)
-				RunService.RenderStepped:Wait()
-			until not EnabledAimbotMode
+		if mousemoveabsFunc ~= nil and AllowMouseRepos then
+			coroutine.wrap(function()
+				repeat
+					mousemoveabsFunc((LPCamera.ViewportSize / 2).X, (LPCamera.ViewportSize / 2).Y)
+					RunService.RenderStepped:Wait()
+				until not EnabledAimbotMode
+			end)()
 		end
 	else
 		FOVring.Visible = false
@@ -323,6 +325,12 @@ local function ToEnable()
 end
 EnableAB.MouseButton1Click:Connect(function()
 	ToEnable()
+end)
+
+Players.LocalPlayer:GetMouse().Button1Down:Connect(function()
+	if AllowMouseRepos and mousemoveabsFunc ~= nil then
+		mousemoveabsFunc((LPCamera.ViewportSize / 2).X, (LPCamera.ViewportSize / 2).Y)
+	end
 end)
 
 EnemyScroll.Name = "EnemyScroll";
@@ -439,22 +447,22 @@ AutoShoot.BackgroundTransparency = 0.8500000238418579;
 AutoShoot.Position = UDim2.new(0.0591715984, 0, 0.17598694, 0); --30598694
 AutoShoot.BackgroundColor3 = Color3.new(1, 1, 1);
 AutoShoot.TextColor3 = Color3.new(1, 1, 1);
-AutoShoot.Text = "AutoShoot : False";
+AutoShoot.Text = "Cente mouse Pos. : False";
 AutoShoot.TextWrapped = true;
 AutoShoot.TextScaled = true;
-AutoShoot.Visible = false;
+AutoShoot.Visible = true;
 AutoShoot.Parent = Background;
 AutoShoot.MouseButton1Click:Connect(function()
-	AutoShootBool = not AutoShootBool
-	if AutoShootBool then
-		AutoShoot.Text = "AutoShoot : Enabled";
+	AllowMouseRepos = not AllowMouseRepos
+	if AllowMouseRepos then
+		AutoShoot.Text = "Cente mouse Pos. : Enabled";
 	else
-		AutoShoot.Text = "AutoShoot : Disabled";
+		AutoShoot.Text = "Cente mouse Pos. : Disabled";
 	end
 end)
 
-if game.PlaceId == 2210085102 then
-	AutoShoot.Visible = true
+if mousemoveabsFunc == nil then
+	AutoShoot.Visible = false
 end
 
 TeamCheck2TextBox.Name = "OffSetTime";
