@@ -2,7 +2,7 @@
 --OPEN SOURCED FOR SKIDS
 --PLEASE GIVE CREDIT
 
-print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:83451")
+print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:12124")
 
 local TeamsTable = {}
 
@@ -80,6 +80,8 @@ local ePos, isVisible
 local PlayerTeam = nil
 local ToProceed = true
 local HaveConfigured = false
+
+local BlacklistSearchWC
 local function getClosestPlayerInRing(trg_part)
 	--SettingsToggleMode = "None" -- Both/Friendly/Enemy
 
@@ -129,9 +131,17 @@ local function getClosestPlayerInRing(trg_part)
 					end
 
 					if TeamCheckSettings then
-						local BlacklistSearchWC = player.Character:GetDescendants()
+						BlacklistSearchWC = {}
+						for _, Value in pairs( player.Character:GetDescendants() ) do
+							if Value:IsA('BasePart') or Value:IsA('MeshPart') or Value:IsA('Part') then
+								table.insert(BlacklistSearchWC,Value)
+							end
+						end
+						
 						for _, Value in pairs( Players.LocalPlayer.Character:GetDescendants() ) do
-							table.insert(BlacklistSearchWC,Value)
+							if Value:IsA('BasePart') or Value:IsA('MeshPart') or Value:IsA('Part') then
+								table.insert(BlacklistSearchWC,Value)
+							end
 						end
 
 						if #(LPCamera:GetPartsObscuringTarget({player.Character.Head.Position}, BlacklistSearchWC )) > 0 then
@@ -222,6 +232,8 @@ RunService.RenderStepped:Connect(function()
 				else
 					lookAt(ToLookPart.Position)
 				end
+				
+				
 				FOVring.Color = Color3.fromRGB(0, 200, 0)
 				Health.Color = Color3.fromRGB(0, 200, 0)
 				Health.Visible = true
