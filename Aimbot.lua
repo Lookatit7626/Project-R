@@ -2,7 +2,7 @@
 --OPEN SOURCED FOR SKIDS
 --PLEASE GIVE CREDIT
 
-print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:12124")
+print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:974346")
 
 local TeamsTable = {}
 
@@ -69,6 +69,27 @@ local function lookAt(target)
 	LPCamera.CFrame = newCFrame
 end
 
+local function CheckForOb(Blacklist, PosToCheck)
+	
+	if not Players.LocalPlayer.Character then
+		return false
+	end
+	
+	if not Players.LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+		return false
+	end
+	
+	local raycastParams = RaycastParams.new()
+	raycastParams.FilterType = Enum.RaycastFilterType.Exclude
+	raycastParams.FilterDescendantsInstances = Blacklist
+	raycastParams.IgnoreWater = true
+	raycastParams.RespectCanCollide = true
+	
+	local raycastResult = workspace:Raycast(LPCamera.CFrame.Position, (PosToCheck - LPCamera.CFrame.Position), raycastParams) -- casts ray from camera to player
+
+	return not (raycastResult == nil)
+end
+
 local nearest = nil
 local lastAB = math.huge
 local playerMousePos = LPCamera.ViewportSize / 2
@@ -130,7 +151,7 @@ local function getClosestPlayerInRing(trg_part)
 						end
 					end
 
-					if TeamCheckSettings then
+					if TeamCheckSettings and ToProceed and isVisible then
 						BlacklistSearchWC = {}
 						for _, Value in pairs( player.Character:GetDescendants() ) do
 							if Value:IsA('BasePart') or Value:IsA('MeshPart') or Value:IsA('Part') then
@@ -144,7 +165,8 @@ local function getClosestPlayerInRing(trg_part)
 							end
 						end
 
-						if #(LPCamera:GetPartsObscuringTarget({player.Character.Head.Position}, BlacklistSearchWC )) > 0 then
+						--if #(LPCamera:GetPartsObscuringTarget({player.Character.Head.Position}, BlacklistSearchWC )) > 0 then
+						if CheckForOb(BlacklistSearchWC, player.Character.Head.Position) then
 							ToProceed = false
 						end
 					end
