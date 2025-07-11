@@ -2,7 +2,7 @@
 --OPEN SOURCED FOR SKIDS
 --PLEASE GIVE CREDIT
 
-print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:974346")
+print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:554321")
 
 local TeamsTable = {}
 
@@ -151,29 +151,32 @@ local function getClosestPlayerInRing(trg_part)
 						end
 					end
 
-					if TeamCheckSettings and ToProceed and isVisible then
-						BlacklistSearchWC = {}
-						for _, Value in pairs( player.Character:GetDescendants() ) do
-							if Value:IsA('BasePart') or Value:IsA('MeshPart') or Value:IsA('Part') then
-								table.insert(BlacklistSearchWC,Value)
-							end
-						end
-						
-						for _, Value in pairs( Players.LocalPlayer.Character:GetDescendants() ) do
-							if Value:IsA('BasePart') or Value:IsA('MeshPart') or Value:IsA('Part') then
-								table.insert(BlacklistSearchWC,Value)
-							end
-						end
-
-						--if #(LPCamera:GetPartsObscuringTarget({player.Character.Head.Position}, BlacklistSearchWC )) > 0 then
-						if CheckForOb(BlacklistSearchWC, player.Character.Head.Position) then
-							ToProceed = false
-						end
-					end
-
 					if distance < lastAB and isVisible and distance < RadiusSize and PlayerDis < MaxDistance and player.Character.Humanoid.Health > 0 and ToProceed then
-						lastAB = distance
-						nearest = player
+					
+						if TeamCheckSettings then
+							BlacklistSearchWC = {}
+							for _, Value in pairs( player.Character:GetDescendants() ) do
+								if Value:IsA('BasePart') or Value:IsA('MeshPart') or Value:IsA('Part') then
+									table.insert(BlacklistSearchWC,Value)
+								end
+							end
+
+							for _, Value in pairs( Players.LocalPlayer.Character:GetDescendants() ) do
+								if Value:IsA('BasePart') or Value:IsA('MeshPart') or Value:IsA('Part') then
+									table.insert(BlacklistSearchWC,Value)
+								end
+							end
+
+							--if #(LPCamera:GetPartsObscuringTarget({player.Character.Head.Position}, BlacklistSearchWC )) > 0 then
+							if CheckForOb(BlacklistSearchWC, player.Character.Head.Position) then
+								ToProceed = false
+							end
+						end
+					
+						if ToProceed then
+							lastAB = distance
+							nearest = player
+						end
 					end
 				end
 
