@@ -6,6 +6,7 @@ print("___NPC AIMBOT BY ECLIPSE / ICARUS, ___ V:554321")
 
 local NPCPlayers = {}
 
+local alreadyProcessing = false
 coroutine.wrap(function()
 	local function RegisterNPC(char)
 		if game:GetService('Players'):GetPlayerFromCharacter(char) ~= nil then
@@ -21,19 +22,41 @@ coroutine.wrap(function()
 
 		local DestroyingCharSignal
 		local DescendantRemovingSignal
+		local CharDiedSignal
+		local Died = false
 
-		DescendantRemovingSignal = char.DescendantRemoving:Connect(function(part)
+		local function ToDoOnceDied()
+			if Died then
+				return
+			end
+			Died = true
 			table.remove(NPCPlayers,table.find(NPCPlayers,char))
 
 			DestroyingCharSignal:Disconnect()
 			DescendantRemovingSignal:Disconnect()
+			CharDiedSignal:Disconnect()
+			alreadyProcessing = false
+		end
+		
+		
+		
+		DescendantRemovingSignal = char.DescendantRemoving:Connect(function(part)
+			ToDoOnceDied()
 		end)
 		DestroyingCharSignal = char.Destroying:Connect(function()
-			table.remove(NPCPlayers,table.find(NPCPlayers,char))
-
-			DestroyingCharSignal:Disconnect()
-			DescendantRemovingSignal:Disconnect()
+			ToDoOnceDied()
 		end)
+		CharDiedSignal = char.Humanoid.Died:Connect(function()
+			ToDoOnceDied()
+		end)
+		
+		repeat
+			if table.find(NPCPlayers,char) == nil then
+				table.insert(NPCPlayers,char)
+			end
+			
+			task.wait(.1)
+		until Died
 	end
 
 	local function AttemptingToCheck(part)
@@ -435,7 +458,7 @@ HeadshotsOnly.BorderSizePixel = 0
 HeadshotsOnly.Position = UDim2.new(0.0599520542, 0, 0.692345738, 0)
 HeadshotsOnly.Size = UDim2.new(0.394568086, 0, 0.0863309354, 0)
 HeadshotsOnly.Font = Enum.Font.SourceSansBold
-HeadshotsOnly.Text = "Only headshot : Disabled"
+HeadshotsOnly.Text = "Only headshot : True"
 HeadshotsOnly.TextColor3 = Color3.fromRGB(255, 255, 255)
 HeadshotsOnly.TextScaled = true
 HeadshotsOnly.TextSize = 14.000
@@ -449,7 +472,7 @@ OnlyBodyShot.BorderSizePixel = 0
 OnlyBodyShot.Position = UDim2.new(0.545145273, 0, 0.692345738, 0)
 OnlyBodyShot.Size = UDim2.new(0.394568086, 0, 0.0863309354, 0)
 OnlyBodyShot.Font = Enum.Font.SourceSansBold
-OnlyBodyShot.Text = "Only bodyshot : Disabled"
+OnlyBodyShot.Text = "Only body shot : False"
 OnlyBodyShot.TextColor3 = Color3.fromRGB(255, 255, 255)
 OnlyBodyShot.TextScaled = true
 OnlyBodyShot.TextSize = 14.000
