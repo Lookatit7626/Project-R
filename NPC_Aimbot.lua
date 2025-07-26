@@ -16,8 +16,6 @@ coroutine.wrap(function()
 		if table.find(NPCPlayers,char) ~= nil then
 			return
 		end
-		
-		print(char.Name)
 
 		table.insert(NPCPlayers,char)
 
