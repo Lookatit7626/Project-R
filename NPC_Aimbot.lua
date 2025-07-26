@@ -52,7 +52,7 @@ coroutine.wrap(function()
 		
 		coroutine.wrap(function()
 			repeat
-				if table.find(NPCPlayers,char) == nil then
+				if table.find(NPCPlayers,char) == nil and not Died then
 					table.insert(NPCPlayers,char)
 				end
 
