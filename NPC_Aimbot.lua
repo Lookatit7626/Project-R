@@ -2,20 +2,22 @@
 --OPEN SOURCED FOR SKIDS
 --PLEASE GIVE CREDIT
 
-print("___NPC AIMBOT BY ECLIPSE / ICARUS, ___ V:554321")
+print("___NPC AIMBOT BY ECLIPSE / ICARUS, ___ V:2313112")
 
 local NPCPlayers = {}
 
 local alreadyProcessing = false
 coroutine.wrap(function()
 	local function RegisterNPC(char)
-		if game:GetService('Players'):GetPlayerFromCharacter(char) ~= nil then
+		if game:GetService('Players'):FindFirstChild(char.Name) ~= nil then
 			return
 		end
 
-		if table.find(NPCPlayers,char) then
+		if table.find(NPCPlayers,char) ~= nil then
 			return
 		end
+		
+		print(char.Name)
 
 		table.insert(NPCPlayers,char)
 
@@ -50,37 +52,45 @@ coroutine.wrap(function()
 			ToDoOnceDied()
 		end)
 		
-		repeat
-			if table.find(NPCPlayers,char) == nil then
-				table.insert(NPCPlayers,char)
-			end
-			
-			task.wait(.1)
-		until Died
+		coroutine.wrap(function()
+			repeat
+				if table.find(NPCPlayers,char) == nil then
+					table.insert(NPCPlayers,char)
+				end
+
+				task.wait(.1)
+			until Died
+		end)()
 	end
 
 	local function AttemptingToCheck(part)
-		if part:IsA("BasePart") then else return end
-		if part:FindFirstChildOfClass("Humanoid") then
-			RegisterNPC(part)
+		local continue = true
+		
+		pcall(function()
+			if part:FindFirstChildOfClass("Humanoid") then
+				continue = false
+				RegisterNPC(part)
+				return
+			end
+		end)
+		
+		if not continue then
 			return
 		end
-		if part.Parent:FindFirstChildOfClass("Humanoid") then
-			RegisterNPC(part.Parent)
-			return
-		end
-		if part.Parent.Parent:FindFirstChildOfClass("Humanoid") then
-			RegisterNPC(part.Parent.Parent)
-			return
-		end
+		pcall(function()
+			if part.Parent:FindFirstChildOfClass("Humanoid") then
+				continue = false
+				RegisterNPC(part.Parent)
+				return
+			end
+		end)
 	end
 
 	workspace.DescendantAdded:Connect(function(part)
 		AttemptingToCheck(part)
 	end)
-
-	local TimeToPause = 0
-	for i,v in pairs(workspace:GetDescendants()) do
+	
+	for i,v in pairs(workspace:GetDescendants() ) do
 		AttemptingToCheck(v)
 	end
 
@@ -195,6 +205,11 @@ local function getClosestPlayerInRing(trg_part)
 		if player ~= Players.LocalPlayer then
 			pcall(function()
 				part = player:FindFirstChild(trg_part)
+				
+				if part == nil and trg_part == nil then
+					part = player.PrimaryPart or player:FindFirstChildOfClass('BasePart')
+				end
+				
 				if part then
 					HaveConfigured = false
 					ToProceed = true
@@ -264,6 +279,9 @@ RunService.RenderStepped:Connect(function()
 			if closest == nil then
 				closest = getClosestPlayerInRing("HumanoidRootPart")
 			end
+			if closest == nil then
+				closest = getClosestPlayerInRing()
+			end
 			if closest and closest:FindFirstChild("Head") then
 
 				if OnlyHeadShotBool then
@@ -271,13 +289,13 @@ RunService.RenderStepped:Connect(function()
 				else
 
 					if OnlyBodyShotBool then
-						ToLookPart = closest:FindFirstChild("Torso") or closest:FindFirstChild("UpperTorso") or closest:FindFirstChild("HumanoidRootPart")
+						ToLookPart = closest:FindFirstChild("Torso") or closest:FindFirstChild("UpperTorso") or closest:FindFirstChild("HumanoidRootPart") or closest:FindFirstChildOfClass('BasePart')
 					else
 
 						if CharacterChosenTargetCharName ~= closest.Name then
 							CharacterChosenTargetCharName = closest.Name
 							if math.random(100) > 15 then
-								ToLookPart = closest:FindFirstChild("Torso") or closest:FindFirstChild("UpperTorso") or closest:FindFirstChild("HumanoidRootPart")
+								ToLookPart = closest:FindFirstChild("Torso") or closest:FindFirstChild("UpperTorso") or closest:FindFirstChild("HumanoidRootPart") or closest:FindFirstChildOfClass('BasePart')
 							else
 								ToLookPart = closest.Head
 							end
