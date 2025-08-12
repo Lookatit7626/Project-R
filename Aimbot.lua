@@ -8,6 +8,7 @@ local TeamsTable = {}
 
 local LPCamera = game.Workspace.CurrentCamera
 local Players = game:GetService('Players')
+local lp = Players.LocalPlayer
 local RunService = game:GetService('RunService')
 local UserInputSer = game:GetService('UserInputService')
 
@@ -67,6 +68,7 @@ local function lookAt(target)
 	lookVector = (target - LPCamera.CFrame.Position).unit
 	newCFrame = CFrame.new(LPCamera.CFrame.Position, LPCamera.CFrame.Position + lookVector)
 	LPCamera.CFrame = newCFrame
+	lp.Character.HumanoidRootPart.CFrame = CFrame.lookAt(lp.Character.HumanoidRootPart.Position, Vector3.new(target.X, lp.Character.HumanoidRootPart.Position.Y, target.Z))
 end
 
 local function CheckForOb(Blacklist, PosToCheck)
