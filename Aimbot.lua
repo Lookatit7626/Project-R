@@ -268,7 +268,7 @@ RunService.RenderStepped:Connect(function()
 
 				if AutoShootBool then
 					game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, true, game, 1)
-					task.wait(0.05)
+					RunService.RenderStepped:Wait()
 					game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, false, game, 1)
 				end
 			else
