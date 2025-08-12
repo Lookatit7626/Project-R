@@ -14,7 +14,7 @@ local UserInputSer = game:GetService('UserInputService')
 
 local PlayerVeloOffset = false
 local PlayerVeloOffsetTime = 800
-local RadiusSize = 100
+local RadiusSize = 150
 local MaxDistance = math.huge
 
 local AutoShootBool = false
