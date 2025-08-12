@@ -266,7 +266,7 @@ RunService.RenderStepped:Connect(function()
 				Health.Visible = true
 				Health.Text = "Health : "..closest.Character:FindFirstChild("Humanoid").Health
 
-				if AutoShootBool and mouse1clickFunc ~= nil then
+				if AutoShootBool then
 					game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, true, game, 1)
 					task.wait(0.05)
 					game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, false, game, 1)
