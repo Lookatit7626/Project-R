@@ -268,6 +268,7 @@ RunService.RenderStepped:Connect(function()
 
 				if AutoShootBool then
 					coroutine.wrap(function()
+						print("lets go")
 						game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, true, game, 1)
 						task.wait(0.025)
 						game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, false, game, 1)
