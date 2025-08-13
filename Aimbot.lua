@@ -46,12 +46,6 @@ Health.Font = Drawing.Fonts.System -- Monospace, UI, System, Plex
 Health.Transparency = .2
 Health.Visible = false
 
-
-local mouse1clickFunc = ""
-if mouse1clickFunc == nil then
-	warn("mousemoveabs is not a function on your executor!")
-end
-
 local camViewportSize
 local function updateDrawings()
 	camViewportSize = LPCamera.ViewportSize
@@ -64,11 +58,20 @@ end
 local lookVector
 local newCFrame
 
+local HRP
 local function lookAt(target)
-	lookVector = (target - LPCamera.CFrame.Position).unit
-	newCFrame = CFrame.new(LPCamera.CFrame.Position, LPCamera.CFrame.Position + lookVector)
-	LPCamera.CFrame = newCFrame
-	lp.Character.HumanoidRootPart.CFrame = CFrame.lookAt(lp.Character.HumanoidRootPart.Position, Vector3.new(target.X, lp.Character.HumanoidRootPart.Position.Y, target.Z))
+	pcall(function()
+		lookVector = (target - LPCamera.CFrame.Position).unit
+		newCFrame = CFrame.new(LPCamera.CFrame.Position, LPCamera.CFrame.Position + lookVector)
+		LPCamera.CFrame = newCFrame
+
+
+
+		HRP = lp.Character:FindFirstChild("HumanoidRootPart")
+		if HRP then
+			HRP.CFrame = CFrame.lookAt(HRP.Position, Vector3.new(target.X, HRP.Position.Y, target.Z))
+		end
+	end)
 end
 
 local function CheckForOb(Blacklist, PosToCheck)
@@ -265,14 +268,10 @@ RunService.RenderStepped:Connect(function()
 				Health.Color = Color3.fromRGB(0, 200, 0)
 				Health.Visible = true
 				Health.Text = "Health : "..closest.Character:FindFirstChild("Humanoid").Health
-
 				if AutoShootBool then
-					coroutine.wrap(function()
-						print("lets go")
-						game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, true, game, 1)
-						task.wait(0.025)
-						game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, false, game, 1)
-					end)()
+					game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, true, game, 1)
+					task.wait(0.1)
+					game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, false, game, 1)
 				end
 			else
 				Health.Visible = false
@@ -580,10 +579,6 @@ AutoShoot.MouseButton1Click:Connect(function()
 		AutoShoot.Text = "AutoShoot : Disabled";
 	end
 end)
-
-if mouse1clickFunc == nil then
-	AutoShoot.Visible = false
-end
 
 TeamCheck2TextBox.Name = "OffSetTime";
 TeamCheck2TextBox.Size = UDim2.new(0, 27, 0, 15);
