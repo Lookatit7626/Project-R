@@ -2,7 +2,7 @@
 --OPEN SOURCED FOR SKIDS
 --PLEASE GIVE CREDIT
 
-print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:554321")
+print("___AIMBOT BY ECLIPSE / ICARUS, ___ V:2134213")
 
 local TeamsTable = {}
 
