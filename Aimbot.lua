@@ -267,9 +267,11 @@ RunService.RenderStepped:Connect(function()
 				Health.Text = "Health : "..closest.Character:FindFirstChild("Humanoid").Health
 
 				if AutoShootBool then
-					game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, true, game, 1)
-					RunService.RenderStepped:Wait()
-					game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, false, game, 1)
+					coroutine.wrap(function()
+						game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, true, game, 1)
+						task.wait()
+						game:GetService("VirtualInputManager"):SendMouseButtonEvent( (LPCamera.ViewportSize/2).X,  (LPCamera.ViewportSize/2).Y, 0, false, game, 1)
+					end)()
 				end
 			else
 				Health.Visible = false
