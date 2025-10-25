@@ -1,7 +1,7 @@
--- Gui to Lua
--- Version: 3.2
+-- CREATED BY ICARUS
+-- DO NOT SKID PLS
 
--- Instances:
+
 local lplr = game:GetService("Players").LocalPlayer
 local PathFindingService = game:GetService("PathfindingService")
 local TweenService = game:GetService("TweenService")
