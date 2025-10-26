@@ -1,7 +1,7 @@
--- CREATED BY ICARUS
--- DO NOT SKID PLS
+-- Gui to Lua
+-- Version: 3.2
 
-
+-- Instances:
 local lplr = game:GetService("Players").LocalPlayer
 local PathFindingService = game:GetService("PathfindingService")
 local TweenService = game:GetService("TweenService")
@@ -107,7 +107,9 @@ Main.BorderColor3 = Color3.fromRGB(0, 0, 0)
 Main.BorderSizePixel = 0
 Main.Position = UDim2.new(0.51065892, 0, 0.441527426, 0)
 Main.Size = UDim2.new(0.302325577, 0, 0.275954634, 0)
-Main.Visible = true
+Main.Visible = false
+Main.Active = true
+Main.Draggable = true
 
 local DraggingButtonDown = false
 
@@ -429,10 +431,9 @@ local FireServerEvent = loadstring(game:HttpGet("https://raw.githubusercontent.c
 if FireServerEvent == nil then
 	warn("THIS IS NIL")
 	GUI:Destroy()
-end
-
-if FireServerEvent == nil then
-	error("can't find it")
+	error("ERROR : NIL")
+else
+	Main.Visible = true
 end
 
 local function CheckForWhich(id)
