@@ -586,9 +586,9 @@ end)()
 
 while task.wait(0.1) do
 	task.wait(1)
-	print("DEBUG : REMOVE BEFORE GOING #0")
+	--print("DEBUG : REMOVE BEFORE GOING #0")
 	local ALLSUC, ALLERR = pcall(function()
-		print("DEBUG : REMOVE BEFORE GOING #1")
+		--print("DEBUG : REMOVE BEFORE GOING #1")
 		if AutoCashierBool or AutoCookBool or AutoBoxBool or AutoDeliverBool or AutoSupplyBool then
 			if OriginalCFrame == nil then
 				print("DEBUG : SAVED SPOT")
@@ -602,8 +602,8 @@ while task.wait(0.1) do
 			end
 			return
 		end
-		print("DEBUG : REMOVE BEFORE GOING #2")
-		print("RAN")
+		--print("DEBUG : REMOVE BEFORE GOING #2")
+		--print("RAN")
 
 		if AutoCashierBool then
 			if TeleportOrWalkBool and CurrentWalkPosition ~= "Cashier" then
