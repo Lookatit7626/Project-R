@@ -572,12 +572,13 @@ if not SUC then
 end
 
 local function ToAnchorOrNot(Part,bool)
-    game:GetService("ReplicatedStorage"):WaitForChild("Communication"):WaitForChild("Events"):WaitForChild(""):FireServer(unpack({
-	    Part,
-	    "Anchored",
-	    bool
-    }))
-
+    pcall(function()
+        game:GetService("ReplicatedStorage"):WaitForChild("Communication"):WaitForChild("Events"):WaitForChild(""):FireServer(unpack({
+            Part,
+            "Anchored",
+            bool
+        }))
+    end)
 end
 
 local ALLSUC, ALLERR
