@@ -571,6 +571,15 @@ if not SUC then
 	warn("ERROR WHEN LOADING SAVE : ", ERR)
 end
 
+local function ToAnchorOrNot(Part,bool)
+    game:GetService("ReplicatedStorage"):WaitForChild("Communication"):WaitForChild("Events"):WaitForChild(""):FireServer(unpack({
+	    Part,
+	    "Anchored",
+	    bool
+    }))
+
+end
+
 local ALLSUC, ALLERR
 
 coroutine.wrap(function()
@@ -897,9 +906,11 @@ while task.wait(0.1) do
 												Oven.Door.ClickDetector.Detector:FireServer()
 												task.wait(2)
 											end
-
+                                            ToAnchorOrNot(Dough,true)
+                                            task.wait()
 											FireServerEvent(nil,"UpdateProperty",Dough,"CFrame",Oven.Bottom.CFrame * CFrame.new(0,.5,0))
-
+                                            task.wait()
+                                            ToAnchorOrNot(Dough,false)
 
 											local ResettedValue = false
 											local WaitingForFoodTimeOut = 0
@@ -960,8 +971,12 @@ while task.wait(0.1) do
 									end
 								until Dough == nil or ChosenPizza[Dough] == nil or Dough.Color == Color3.fromRGB(218, 133, 65)
 								task.wait(0.25)
+                                ToAnchorOrNot(Dough,true)
+                                task.wait()
 								FireServerEvent(nil,"UpdateProperty",Dough,"CFrame", CFrame.new(53, 4.2, 37.5, 1, 0, 0, 0, 1, 0, 0, 0, 1))
-								task.wait(2)
+                                task.wait()
+								ToAnchorOrNot(Dough,false)
+                                task.wait(2)
 							end)()
 						end
 					end
@@ -1468,4 +1483,3 @@ while task.wait(0.1) do
 		warn("AN ERROR HAS OCCURED : ", ALLERR)
 	end
 end
-
