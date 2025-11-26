@@ -107,11 +107,7 @@ local PlayerTeam = nil
 local ToProceed = true
 local HaveConfigured = false
 
-local LplrChar
-local SelChar
 local BlacklistSearchWC
-local Suc, err
-local ErrorCount = 0
 local function getClosestPlayerInRing(trg_part)
 	--SettingsToggleMode = "None" -- Both/Friendly/Enemy
 
@@ -122,19 +118,14 @@ local function getClosestPlayerInRing(trg_part)
 	lastAB = math.huge
 	for _, player in ipairs(Players:GetPlayers()) do
 		if player ~= Players.LocalPlayer then
-			Suc, err = pcall(function()
+			pcall(function()
 				part = player.Character and player.Character:FindFirstChild(trg_part)
-				if part == nil and workspace:FindFirstChild(player.Name) then
-					part = workspace:FindFirstChild(player.Name) and workspace:FindFirstChild(player.Name):FindFirstChild(trg_part)
-				end
 				if part then
 					HaveConfigured = false
 					ToProceed = true
 					ePos, isVisible = LPCamera:WorldToViewportPoint(part.Position)
 					distance = (Vector2.new(ePos.x, ePos.y) - playerMousePos).Magnitude
-					LplrChar = Players.LocalPlayer.Character or workspace:FindFirstChild(Players.LocalPlayer.Name)
-					SelChar = Players.LocalPlayer.Character or workspace:FindFirstChild(player.Name)
-					PlayerDis = (LplrChar.HumanoidRootPart.Position - SelChar.HumanoidRootPart.Position).Magnitude
+					PlayerDis = (Players.LocalPlayer.Character.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).Magnitude
 
 					--TeamCheck
 					PlayerTeam = player.Team
@@ -182,7 +173,7 @@ local function getClosestPlayerInRing(trg_part)
 							end
 
 							--if #(LPCamera:GetPartsObscuringTarget({player.Character.Head.Position}, BlacklistSearchWC )) > 0 then
-							if CheckForOb(BlacklistSearchWC, SelChar.Head.Position) then
+							if CheckForOb(BlacklistSearchWC, player.Character.Head.Position) then
 								ToProceed = false
 							end
 						end
@@ -195,15 +186,6 @@ local function getClosestPlayerInRing(trg_part)
 				end
 
 			end)
-			if not Suc then
-				if not ErrorCount > 15 then
-					warn("An error has occured: ",err)
-					ErrorCount += 1
-					if ErrorCount > 15 then
-						warn("Error will be slienced (15 Limit)")
-					end
-				end
-			end
 		end
 	end
 
@@ -237,17 +219,11 @@ RunService.RenderStepped:Connect(function()
 			if closest and closest.Character:FindFirstChild("Head") then
 
 				if OnlyHeadShotBool then
-					ToLookPart = closest.Character:FindFirstChild("Head") or closest.Character:FindFirstChild("HumanoidRootPart")
-					if ToLookPart == nil and workspace:FindFirstChild(closest.Name) then
-						ToLookPart = workspace:FindFirstChild(closest.Name):FindFirstChild("Head") or workspace:FindFirstChild(closest.Name):FindFirstChild("HumanoidRootPart")
-					end
+					ToLookPart = closest.Character.Head or closest.Character:FindFirstChild("HumanoidRootPart")
 				else
 
 					if OnlyBodyShotBool then
 						ToLookPart = closest.Character:FindFirstChild("Torso") or closest.Character:FindFirstChild("UpperTorso") or closest.Character:FindFirstChild("HumanoidRootPart")
-						if ToLookPart == nil and workspace:FindFirstChild(closest.Name) then
-							ToLookPart = workspace:FindFirstChild(closest.Name):FindFirstChild("Torso") or workspace:FindFirstChild(closest.Name):FindFirstChild("UpperTorso") or workspace:FindFirstChild(closest.Name):FindFirstChild("HumanoidRootPart")
-						end
 					else
 
 						if CharacterChosenTargetCharName ~= closest.Name then
