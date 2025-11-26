@@ -219,11 +219,17 @@ RunService.RenderStepped:Connect(function()
 			if closest and closest.Character:FindFirstChild("Head") then
 
 				if OnlyHeadShotBool then
-					ToLookPart = closest.Character:FindFirstChild("Head")  or closest.Character:FindFirstChild("HumanoidRootPart")
+					ToLookPart = closest.Character:FindFirstChild("Head") or closest.Character:FindFirstChild("HumanoidRootPart")
+					if ToLookPart == nil and workspace:FindFirstChild(closest.Name) then
+						ToLookPart = workspace:FindFirstChild(closest.Name):FindFirstChild("Head") or workspace:FindFirstChild(closest.Name):FindFirstChild("HumanoidRootPart")
+					end
 				else
 
 					if OnlyBodyShotBool then
 						ToLookPart = closest.Character:FindFirstChild("Torso") or closest.Character:FindFirstChild("UpperTorso") or closest.Character:FindFirstChild("HumanoidRootPart")
+						if ToLookPart == nil and workspace:FindFirstChild(closest.Name) then
+							ToLookPart = workspace:FindFirstChild(closest.Name):FindFirstChild("Torso") or workspace:FindFirstChild(closest.Name):FindFirstChild("UpperTorso") or workspace:FindFirstChild(closest.Name):FindFirstChild("HumanoidRootPart")
+						end
 					else
 
 						if CharacterChosenTargetCharName ~= closest.Name then
