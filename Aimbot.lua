@@ -110,6 +110,8 @@ local HaveConfigured = false
 local LplrChar
 local SelChar
 local BlacklistSearchWC
+local Suc, err
+local ErrorCount = 0
 local function getClosestPlayerInRing(trg_part)
 	--SettingsToggleMode = "None" -- Both/Friendly/Enemy
 
@@ -120,7 +122,7 @@ local function getClosestPlayerInRing(trg_part)
 	lastAB = math.huge
 	for _, player in ipairs(Players:GetPlayers()) do
 		if player ~= Players.LocalPlayer then
-			pcall(function()
+			Suc, err = pcall(function()
 				part = player.Character and player.Character:FindFirstChild(trg_part)
 				if part == nil and workspace:FindFirstChild(player.Name) then
 					part = workspace:FindFirstChild(player.Name) and workspace:FindFirstChild(player.Name):FindFirstChild(trg_part)
@@ -193,6 +195,15 @@ local function getClosestPlayerInRing(trg_part)
 				end
 
 			end)
+			if not Suc then
+				if not ErrorCount > 15 then
+					warn("An error has occured: ",err)
+					ErrorCount += 1
+					if ErrorCount > 15 then
+						warn("Error will be slienced (15 Limit)")
+					end
+				end
+			end
 		end
 	end
 
