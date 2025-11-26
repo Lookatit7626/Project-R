@@ -219,7 +219,7 @@ RunService.RenderStepped:Connect(function()
 			if closest and closest.Character:FindFirstChild("Head") then
 
 				if OnlyHeadShotBool then
-					ToLookPart = closest.Character.Head
+					ToLookPart = closest.Character:FindFirstChild("Head")  or closest.Character:FindFirstChild("HumanoidRootPart")
 				else
 
 					if OnlyBodyShotBool then
