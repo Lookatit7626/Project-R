@@ -107,6 +107,8 @@ local PlayerTeam = nil
 local ToProceed = true
 local HaveConfigured = false
 
+local LplrChar
+local SelChar
 local BlacklistSearchWC
 local function getClosestPlayerInRing(trg_part)
 	--SettingsToggleMode = "None" -- Both/Friendly/Enemy
@@ -120,12 +122,17 @@ local function getClosestPlayerInRing(trg_part)
 		if player ~= Players.LocalPlayer then
 			pcall(function()
 				part = player.Character and player.Character:FindFirstChild(trg_part)
+				if part == nil and workspace:FindFirstChild(player.Name) then
+					part = workspace:FindFirstChild(player.Name) and workspace:FindFirstChild(player.Name):FindFirstChild(trg_part)
+				end
 				if part then
 					HaveConfigured = false
 					ToProceed = true
 					ePos, isVisible = LPCamera:WorldToViewportPoint(part.Position)
 					distance = (Vector2.new(ePos.x, ePos.y) - playerMousePos).Magnitude
-					PlayerDis = (Players.LocalPlayer.Character.HumanoidRootPart.Position - player.Character.HumanoidRootPart.Position).Magnitude
+					LplrChar = Players.LocalPlayer.Character or workspace:FindFirstChild(Players.LocalPlayer.Name)
+					SelChar = Players.LocalPlayer.Character or workspace:FindFirstChild(player.Name)
+					PlayerDis = (LplrChar.HumanoidRootPart.Position - SelChar.HumanoidRootPart.Position).Magnitude
 
 					--TeamCheck
 					PlayerTeam = player.Team
@@ -173,7 +180,7 @@ local function getClosestPlayerInRing(trg_part)
 							end
 
 							--if #(LPCamera:GetPartsObscuringTarget({player.Character.Head.Position}, BlacklistSearchWC )) > 0 then
-							if CheckForOb(BlacklistSearchWC, player.Character.Head.Position) then
+							if CheckForOb(BlacklistSearchWC, SelChar.Head.Position) then
 								ToProceed = false
 							end
 						end
