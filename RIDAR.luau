@@ -2,6 +2,10 @@
 -- Version: 3.2
 
 -- Instances:
+local NAME_GUI = "RIDAR"
+if game.CoreGui:FindFirstChild(NAME_GUI) then
+	return warn("THERE IS ALREADY A ",NAME_GUI,"!")
+end
 
 local ScreenGui = Instance.new("ScreenGui")
 local Audio = Instance.new("Folder")
@@ -26,7 +30,7 @@ local CurrentCamera = game.Workspace.CurrentCamera
 --Properties:
 
 ScreenGui.Parent = game.CoreGui
-ScreenGui.Name = "RIDAR"
+ScreenGui.Name = NAME_GUI
 ScreenGui.DisplayOrder = 10000000
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
