@@ -253,6 +253,10 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 			Audio.ButtonPressed:Play()
 			Audio.ButtonPressed.Ended:Wait()
 			task.wait(1)
+			TriggerError("D1 AUDIO TESTING / PING SOUND", false,false)
+			Audio.Ping:Play()
+			Audio.Ping.Ended:Wait()
+			task.wait(1)
 			TriggerError("D1 AUDIO TESTING / RINGING_LOOP SOUND", false,false)
 			Audio.RingingLoop:Play()
 			task.wait(2)
@@ -430,6 +434,7 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 			StoredCharacter = {}
 			StoredCharacter2 = {}
 			ClearEveryTwentyInterval = 0
+			AlreadyPing = true
 		end
 
 		character = player.Character
