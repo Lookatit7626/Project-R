@@ -45,6 +45,7 @@ CreateAudioFile("DebugAlert", "rbxassetid://9113462101")
 CreateAudioFile("ErrorSound", "rbxassetid://106019244766279")
 CreateAudioFile("Ringing", "rbxassetid://87085224980395")
 CreateAudioFile("RingingLoop", "rbxassetid://87085224980395")
+CreateAudioFile("Ping", "rbxassetid://136773762677501")
 
 Frame.Parent = ScreenGui
 Frame.AnchorPoint = Vector2.new(1, 1)
@@ -142,6 +143,7 @@ UICorner_2.Parent = Grid
 
 -- Scripts:
 
+local AlreadyPing = false
 local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript 
 	local script = LeScript
 
@@ -212,12 +214,13 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 	end
 
 	UIS.InputBegan:Connect(function(inputobj, IsChat)
-		--if IsChat then return end
+		if IsChat then return end
+		if ScreenGui == nil then return end
 		HoldingDownList[inputobj.keyCode] = true
 	end)
 
 	UIS.InputEnded:Connect(function(inputobj, IsChat)
-		if IsChat then return end
+		--if IsChat then return end
 		HoldingDownList[inputobj.keyCode] = false
 	end)
 
@@ -419,6 +422,7 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 	while task.wait() do
 		if Off then continue end
 		if Errored then continue end
+		AlreadyPing = false
 
 		ClearEveryTwentyInterval += 1
 		if ClearEveryTwentyInterval > 20 then
@@ -474,6 +478,11 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 
 					if ToCoolDownRate > 5 then
 						return warn("AN ERROR HAS OCCURED [HPF], NOTE : ToCoolDownRate OVERFLOWED")
+					end
+
+					if not AlreadyPing then
+						AlreadyPing = true
+						Audio.Ping:Play()
 					end
 
 					local part = Instance.new('Part')
