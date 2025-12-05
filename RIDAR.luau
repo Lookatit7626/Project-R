@@ -1,5 +1,5 @@
--- Gui to Lua
--- Version: 3.2
+-- NO SKIIDING
+--GIVE CREDITS
 
 -- Instances:
 local NAME_GUI = "RIDAR"
