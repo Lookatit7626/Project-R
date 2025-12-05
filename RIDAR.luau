@@ -4,7 +4,7 @@
 -- Instances:
 local NAME_GUI = "RIDAR"
 if game.CoreGui:FindFirstChild(NAME_GUI) then
-	return warn("THERE IS ALREADY A ",NAME_GUI,"!")
+	return error("THERE IS ALREADY A ",NAME_GUI,"!")
 end
 
 local ScreenGui = Instance.new("ScreenGui")
