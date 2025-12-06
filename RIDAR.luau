@@ -178,8 +178,7 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 
 	-----// VARIABLES //-----
 	local player = PLRS.LocalPlayer;
-	repeat RUN.RenderStepped:Wait() until player.Character
-	local character = player.Character;
+	local character
 
 	local screen = script.Parent;
 	local viewport = ViewportFrame
@@ -367,6 +366,7 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 			DoneKeybindList = {}
 			StoredParts_1 = {}
 			StoredParts_2 = {}
+			character = nil
 
 			Audio.DebugAlert.Ended:Wait()
 			task.wait()
@@ -405,6 +405,12 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 			DoneKeybindList = {}
 		end
 	end)
+
+	repeat 
+		RUN.RenderStepped:Wait() 
+		Arrow.Rotation += 13.577
+	until player.Character
+	character = player.Character;
 
 	-----// CODE //-----
 
