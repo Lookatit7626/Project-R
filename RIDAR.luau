@@ -22,7 +22,7 @@ local ERRORTEXT = Instance.new("TextLabel")
 local LeScript = Instance.new('LocalScript', ScreenGui)
 local Grid = Instance.new("ImageLabel")
 local UICorner_2 = Instance.new("UICorner")
-
+local Info = Instance.new("TextLabel")
 local UICorner_3 = Instance.new("UICorner")
 
 local CurrentCamera = game.Workspace.CurrentCamera
@@ -137,17 +137,35 @@ Grid.Position = UDim2.new(0.5, 0, 0.5, 0)
 Grid.Size = UDim2.new(0.899999976, 0, 0.899999976, 0)
 Grid.Visible = false
 Grid.Image = "rbxassetid://130813632439126"
-Grid.ImageColor3 = Color3.fromRGB(6, 125, 2)
+Grid.ImageColor3 = Color3.fromRGB(3, 72, 1)
 Grid.ScaleType = Enum.ScaleType.Tile
-Grid.TileSize = UDim2.new(0.5, 0, 0.5, 0)
+Grid.TileSize = UDim2.new(0.3, 0, 0.3, 0)
 Grid.ZIndex = -10
 
 UICorner_2.CornerRadius = UDim.new(1, 0)
 UICorner_2.Parent = Grid
 
+Info.Name = "Info"
+Info.Parent = Frame
+Info.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Info.BackgroundTransparency = 1.000
+Info.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Info.BorderSizePixel = 0
+Info.Position = UDim2.new(0.016483048, 0, 0.99794507, 0)
+Info.Size = UDim2.new(0.979020953, 0, 0.0815850794, 0)
+Info.Font = Enum.Font.Unknown
+Info.Text = "[0,0,0] | 0000"
+Info.TextColor3 = Color3.fromRGB(255, 255, 255)
+Info.TextScaled = true
+Info.TextSize = 14.000
+Info.TextStrokeTransparency = 0.000
+Info.TextWrapped = true
+
 -- Scripts:
 
 local AlreadyPing = false
+local CurrentWalkSpeed = 0
+local SpeedOffset = 2
 local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript 
 	local script = LeScript
 
@@ -155,7 +173,8 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 
 	-----// SERVICES //-----
 	local PLRS = game:GetService("Players") 
-	local RUN = game:GetService("RunService") 
+	local RUN = game:GetService("RunService")
+	local LIGHT = game:GetService("Lighting")
 
 	-----// VARIABLES //-----
 	local player = PLRS.LocalPlayer;
@@ -218,7 +237,7 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 	end
 
 	UIS.InputBegan:Connect(function(inputobj, IsChat)
-		if IsChat then return end
+		--if IsChat then return end
 		if ScreenGui == nil then return end
 		HoldingDownList[inputobj.keyCode] = true
 	end)
@@ -275,9 +294,9 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 
 			DoneKeybindList["Destroy"] = true
 			Off = true
-			
+
 			task.wait(0.1)
-			
+
 			pcall(function()
 				for _, child in pairs(viewport:GetChildren()) do
 					if child:IsA("BasePart") then child:Destroy() end
@@ -442,12 +461,23 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 		end
 
 		character = player.Character
+		CurrentWalkSpeed = tonumber(character.Humanoid.WalkSpeed) or CurrentWalkSpeed
 
 		for i = 1, 12 do
 			local y = math.abs(i/7 - 1)
 			Line.Position = UDim2.new(0,0,y,0)
 			task.wait()
 		end
+
+		pcall(function()
+			local COORDS4INFO = character:FindFirstChild("HumanoidRootPart") or character.PrimaryPart
+			local xx,yy,zz = -1,-1,-1
+			if COORDS4INFO then
+				COORDS4INFO = COORDS4INFO.Position
+				xx,yy,zz = COORDS4INFO.X, COORDS4INFO.Y, COORDS4INFO.Z
+			end
+			Info.Text = string.format("[%s, %s, %s]   %sH",math.round(xx),math.round(yy),math.round(zz),LIGHT.TimeOfDay)
+		end)
 
 		local currentPos = character.HumanoidRootPart.Position;
 		local r3 = Region3.new(Vector3.new(currentPos.X - sizeX, currentPos.Y - sizeY, currentPos.Z - sizeZ), Vector3.new(currentPos.X + sizeX, currentPos.Y + sizeY, currentPos.Z + sizeZ)) 
@@ -504,14 +534,22 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 					part.Transparency = 0
 					part.Material = Enum.Material.Neon
 					if PLRS:GetPlayerFromCharacter(obj.Parent) == nil then
-						part.BrickColor = BrickColor.new("Bright blue")
+						if obj.AssemblyLinearVelocity.Magnitude < CurrentWalkSpeed then
+							part.BrickColor = BrickColor.new("Bright blue")
+						else
+							part.BrickColor = BrickColor.new("Neon orange")
+						end
 					else
-						part.BrickColor = BrickColor.new("Sea green")
+						if obj.AssemblyLinearVelocity.Magnitude < CurrentWalkSpeed + SpeedOffset then
+							part.BrickColor = BrickColor.new("Sea green")
+						else
+							part.BrickColor = BrickColor.new("Bright reddish violet")
+						end
 					end
 					StoredCharacter[obj.Parent] = part
 					StoredCharacter2[part] = obj.Parent
 				elseif StoredCharacter[obj.Parent] ~= nil then
-					
+
 					repeat
 						List = HighestPointOfModel(obj.Parent)
 						Height, Part = List[1], List[2]
@@ -523,6 +561,20 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 					end
 
 					StoredCharacter[obj.Parent].Position = Vector3.new(Part.Position.X,Height + 75,Part.Position.Z)
+
+					if PLRS:GetPlayerFromCharacter(obj.Parent) == nil then
+						if obj.AssemblyLinearVelocity.Magnitude < CurrentWalkSpeed then
+							StoredCharacter[obj.Parent].BrickColor = BrickColor.new("Bright blue")
+						else
+							StoredCharacter[obj.Parent].BrickColor = BrickColor.new("Neon orange")
+						end
+					else
+						if obj.AssemblyLinearVelocity.Magnitude < CurrentWalkSpeed + SpeedOffset then
+							StoredCharacter[obj.Parent].BrickColor = BrickColor.new("Sea green")
+						else
+							StoredCharacter[obj.Parent].BrickColor = BrickColor.new("Bright reddish violet")
+						end
+					end
 				end
 				if obj.Parent and not obj.Parent:FindFirstChildOfClass("Humanoid") and not OnlyHumanoids then
 					if StoredParts_1[obj] ~= nil then
