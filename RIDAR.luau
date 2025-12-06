@@ -443,8 +443,8 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 
 		character = player.Character
 
-		for i = 1, 10 do
-			local y = math.abs(i/6 - 1)
+		for i = 1, 12 do
+			local y = math.abs(i/7 - 1)
 			Line.Position = UDim2.new(0,0,y,0)
 			task.wait()
 		end
