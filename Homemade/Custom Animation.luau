@@ -159,6 +159,10 @@ local UIS = game:GetService("UserInputService")
 local RUN = game:GetService("RunService")
 local lplr = game:GetService("Players").LocalPlayer
 
+repeat
+    task.wait()
+until lplr.Character
+
 local IsR15 = lplr.Character:FindFirstChildOfClass('Humanoid').RigType == Enum.HumanoidRigType.R15
 local humanoid = lplr.Character.Humanoid
 
