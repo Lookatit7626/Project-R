@@ -44,11 +44,11 @@ local Animations = {
 	["R15"] = {
 		["HEIL"] = {
 			["ID"] = "rbxassetid://2459124514";
-			["TimePos"] = .07;
+			["TimePos"] = .1;
 			["ToTimePos"] = nil;
 			["FullAnimation"] = false;
 			["Looped"] = false;
-			["AnimationSpeed"] = nil;
+			["AnimationSpeed"] = 0.25;
 		};
 		["HYPE DANCE"] = {
 			["ID"] = "rbxassetid://10714369624";
@@ -80,7 +80,7 @@ local Animations = {
 			["ToTimePos"] = nil;
 			["FullAnimation"] = true;
 			["Looped"] = true;
-			["AnimationSpeed"] = nil;
+			["AnimationSpeed"] = 2;
 		};
 		["TRUMP DANCE"] = {
 			["ID"] = "rbxassetid://16553163212";
@@ -156,6 +156,7 @@ UIListLayout.Padding = UDim.new(0, 1)
 
 
 local UIS = game:GetService("UserInputService")
+local RUN = game:GetService("RunService")
 local lplr = game:GetService("Players").LocalPlayer
 
 local IsR15 = lplr.Character:FindFirstChildOfClass('Humanoid').RigType == Enum.HumanoidRigType.R15
@@ -237,7 +238,7 @@ local PreviousCharacter = nil
 local TrackToUse
 while true do -- Full animation
 	task.wait()
-	if not ToDo or SelectedTrackData == nil then continue end
+	if not ToDo or SelectedTrackButton == nil then continue end
 
 	if PreviousCharacter ~= lplr.Character or SelectedTrackData ~= CacheSelectedTrackData or TrackToUse == nil then
 		if not Animator then
@@ -266,7 +267,7 @@ while true do -- Full animation
 		while ToDo do
 			
 			--TrackToUse:Play()
-			task.wait()
+			RUN.RenderStepped:Wait()
 			if CacheSelectedTrackData.TimePos then
 				TrackToUse.TimePosition = CacheSelectedTrackData.TimePos
 			end
@@ -275,12 +276,12 @@ while true do -- Full animation
 			
 			if CacheSelectedTrackData.ToTimePos ~= nil then
 				repeat
-					task.wait()
+					RUN.RenderStepped:Wait()
 				until (CacheSelectedTrackData.ToTimePos or TrackToUse.Length) < TrackToUse.TimePosition or not ToDo
 			else
 				if CacheSelectedTrackData.FullAnimation then
 					repeat
-						task.wait()
+						RUN.RenderStepped:Wait()
 					until TrackToUse.IsPlaying == false or not ToDo
 				end
 			end
