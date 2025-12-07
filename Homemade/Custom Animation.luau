@@ -230,7 +230,7 @@ else
 	end
 end
 
-local Animator
+--local Animator
 local Animation
 local PreviousCharacter = nil
 
@@ -241,7 +241,7 @@ while true do -- Full animation
 
 	if PreviousCharacter ~= lplr.Character or SelectedTrackData ~= CacheSelectedTrackData or TrackToUse == nil then
 		if not Animator then
-			Animator = Instance.new("Animator")
+			--Animator = Instance.new("Animator")
 		end
 		if Animation then
 			Animation:Destroy()
@@ -252,12 +252,12 @@ while true do -- Full animation
 		PreviousCharacter = lplr.Character
 		CacheSelectedTrackData = SelectedTrackData
 		
-		Animator.Parent = PreviousCharacter:FindFirstChildOfClass("Humanoid")
-		Animation.Parent = Animator
+		--Animator.Parent = PreviousCharacter:FindFirstChildOfClass("Humanoid")
+		Animation.Parent = PreviousCharacter:FindFirstChildOfClass("Humanoid")
 		
 		Animation.AnimationId = CacheSelectedTrackData.ID
 		
-		TrackToUse = Animator:LoadAnimation(Animation)
+		TrackToUse = PreviousCharacter:FindFirstChildOfClass("Humanoid"):LoadAnimation(Animation)
 		TrackToUse.Looped = CacheSelectedTrackData.Looped
 		TrackToUse.Priority = Enum.AnimationPriority.Action2
 	end
