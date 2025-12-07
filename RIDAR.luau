@@ -189,8 +189,8 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 	local camera = Instance.new("Camera", viewport) 
 
 
-	local SsizeX, SsizeY, SsizeZ = 100, 1200, 100;
-	local BsizeX, BsizeY, BsizeZ = 225, 2250, 225;
+	local SsizeX, SsizeY, SsizeZ = 115, 1200, 115;
+	local BsizeX, BsizeY, BsizeZ = 195, 2000, 195;
 
 	local sizeX, sizeY, sizeZ = SsizeX, SsizeY, SsizeZ;
 
@@ -209,6 +209,7 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 	local Off = false
 	local BigSizeBool = false
 	local OnlyHumanoids = false
+	local OnlyBlackAndWhite = false
 
 	local ERRTXT = screen.Frame.ERRORTEXT
 	local SelfTick
@@ -401,6 +402,21 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 				sizeY = SsizeY
 				sizeZ = SsizeZ
 			end
+		elseif HoldingDownList[Enum.KeyCode.LeftAlt] and HoldingDownList[Enum.KeyCode.LeftShift] and HoldingDownList[Enum.KeyCode.M] then
+			local Name = "BlackAndWhite"
+			if DoneKeybindList[Name] then
+				return
+			end
+			DoneKeybindList[Name] = true
+
+			ListOfDataStored_MAXHEIGHT = {}
+			StoredCharacter = {}
+			StoredCharacter2 = {}
+			HoldingDownList = {}
+			StoredParts_1 = {}
+			StoredParts_2 = {}
+
+			OnlyBlackAndWhite = not OnlyBlackAndWhite
 		else
 			DoneKeybindList = {}
 		end
@@ -408,7 +424,7 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 
 	repeat 
 		RUN.RenderStepped:Wait() 
-		Arrow.Rotation += 13.577
+		Arrow.Rotation += 37.577
 	until player.Character
 	character = player.Character;
 
@@ -467,6 +483,9 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 		end
 
 		character = player.Character
+		if not character:FindFirstChild("Humanoid") then
+			return
+		end
 		CurrentWalkSpeed = tonumber(character.Humanoid.WalkSpeed) or CurrentWalkSpeed
 
 		for i = 1, 12 do
@@ -585,10 +604,25 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 				if obj.Parent and not obj.Parent:FindFirstChildOfClass("Humanoid") and not OnlyHumanoids then
 					if StoredParts_1[obj] ~= nil then
 						StoredParts_1[obj].Position = obj.Position
+						StoredParts_1[obj].Size = obj.Size
+
+						if OnlyBlackAndWhite then
+							local Grey = (0.299 * obj.Color.R) + (0.587 * obj.Color.G )+ ( 0.114 * obj.Color.B)
+							StoredParts_1[obj].Color = Color3.new(Grey,Grey,Grey)
+						end
 					else
 						local _c = obj:Clone();
 						if _c then
 							_c.Parent = viewport;
+							
+							if OnlyBlackAndWhite then
+								local Grey = (0.299 * _c.Color.R) + (0.587 * _c.Color.G )+ ( 0.114 * _c.Color.B)
+								_c.Color = Color3.new(Grey,Grey,Grey)
+								if _c:FindFirstChildOfClass("Texture") then
+									_c:FindFirstChildOfClass("Texture"):Destroy()
+								end
+								_c.Material = Enum.Material.SmoothPlastic
+							end
 
 							StoredParts_1[obj] = _c
 							StoredParts_2[_c] = obj
