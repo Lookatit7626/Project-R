@@ -256,7 +256,7 @@ local RUN = game:GetService("RunService")
 local lplr = game:GetService("Players").LocalPlayer
 
 repeat
-    task.wait()
+	task.wait()
 until lplr.Character
 
 local IsR15 = lplr.Character:FindFirstChildOfClass('Humanoid').RigType == Enum.HumanoidRigType.R15
@@ -302,7 +302,7 @@ local function createButton(i,v)
 	TextButton.TextSize = 14.000
 	TextButton.TextWrapped = true
 	TextButton.TextXAlignment = Enum.TextXAlignment.Left
-	
+
 	TextButton.MouseButton1Click:Connect(function()
 		if SelectedTrackButton == TextButton then
 			SelectedTrackButton = nil
@@ -338,23 +338,20 @@ while true do -- Full animation
 	if not ToDo or SelectedTrackButton == nil then continue end
 
 	if PreviousCharacter ~= lplr.Character or SelectedTrackData ~= CacheSelectedTrackData or TrackToUse == nil then
-		if not Animator then
-			--Animator = Instance.new("Animator")
-		end
 		if Animation then
 			Animation:Destroy()
 		end
-		
+
 		Animation = Instance.new("Animation")
-		
+
 		PreviousCharacter = lplr.Character
 		CacheSelectedTrackData = SelectedTrackData
-		
+
 		--Animator.Parent = PreviousCharacter:FindFirstChildOfClass("Humanoid")
 		Animation.Parent = PreviousCharacter:FindFirstChildOfClass("Humanoid")
-		
+
 		Animation.AnimationId = CacheSelectedTrackData.ID
-		
+
 		TrackToUse = PreviousCharacter:FindFirstChildOfClass("Humanoid"):LoadAnimation(Animation)
 		TrackToUse.Looped = CacheSelectedTrackData.Looped
 		TrackToUse.Priority = Enum.AnimationPriority.Action2
@@ -362,15 +359,15 @@ while true do -- Full animation
 	if ToDo and CacheSelectedTrackData then
 		TrackToUse:Play()
 		while ToDo do
-			
+
 			--TrackToUse:Play()
 			RUN.RenderStepped:Wait()
 			if CacheSelectedTrackData.TimePos then
 				TrackToUse.TimePosition = CacheSelectedTrackData.TimePos
 			end
-			
+
 			TrackToUse:AdjustSpeed(CacheSelectedTrackData.AnimationSpeed or 1)
-			
+
 			if CacheSelectedTrackData.ToTimePos ~= nil then
 				repeat
 					RUN.RenderStepped:Wait()
@@ -382,7 +379,7 @@ while true do -- Full animation
 					until TrackToUse.IsPlaying == false or not ToDo
 				end
 			end
-			
+
 			--print(Track.TimePosition)
 		end
 		TrackToUse:Stop()
