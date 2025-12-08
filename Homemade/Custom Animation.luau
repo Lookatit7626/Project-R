@@ -105,7 +105,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = nil;
-		};
+		};-- 
 		["HYPERFAST LEGSSS"] = {
 			["ID"] = "rbxassetid://10714371264";
 			["TimePos"] = 1;
@@ -122,9 +122,26 @@ local Animations = {
 			["Looped"] = true;
 			["AnimationSpeed"] = 1.3;
 		}; --73785690856046
+		["MACARENA"] = {
+			["ID"] = "rbxassetid://89558401923098";
+			["TimePos"] = nil;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 1.3;
+		}; --73785690856046
+		["ISHOWSPEED DANCE"] = {
+			["ID"] = "rbxassetid://126378844669776";
+			["TimePos"] = nil;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 2;
+		}; --73785690856046
 
 	}
 }
+
 
 
 local Animation = Instance.new("ScreenGui")
