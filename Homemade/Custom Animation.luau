@@ -56,6 +56,14 @@ local Animations = {
 			["Looped"] = true;
 			["AnimationSpeed"] = 1.7;
 		}; -- rbxassetid://rbxassetid://429703734
+		["CARAMELLDANSEN R6"] = {
+			["ID"] = "rbxassetid://102908521825429";
+			["TimePos"] = nil;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 1.3;
+		};
 	};
 	["R15"] = {
 		["HEIL"] = {
@@ -138,11 +146,49 @@ local Animations = {
 			["Looped"] = true;
 			["AnimationSpeed"] = 2;
 		}; --73785690856046
+		["67"] = {
+			["ID"] = "rbxassetid://120852662885277";
+			["TimePos"] = nil;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 1;
+		}; --73785690856046
+		["TANK"] = {
+			["ID"] = "rbxassetid://115951523870527";
+			["TimePos"] = 0;
+			["ToTimePos"] = .26;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 1;
+		}; --73785690856046
+		["RACE CAR"] = {
+			["ID"] = "rbxassetid://72382226286301";
+			["TimePos"] = 0;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 1;
+		}; --73785690856046
+		["HELICOPTER"] = {
+			["ID"] = "rbxassetid://76510079095692";
+			["TimePos"] = 0;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 2.5;
+		}; --73785690856046
+		["SITTING POSE"] = {
+			["ID"] = "rbxassetid://85961795938515";
+			["TimePos"] = 0;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 1;
+		}; --73785690856046
 
 	}
 }
-
-
 
 local Animation = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
@@ -195,7 +241,7 @@ ScrollingFrame.BackgroundTransparency = 1.000
 ScrollingFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 ScrollingFrame.BorderSizePixel = 0
 ScrollingFrame.Position = UDim2.new(0.0492041516, 0, 0.152941227, 0)
-ScrollingFrame.Size = UDim2.new(0.893, 0,0.835, 0)
+ScrollingFrame.Size = UDim2.new(0.893, 0,0.8, 0)
 ScrollingFrame.CanvasSize = UDim2.new(0,0,0,0)
 ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
 ScrollingFrame.ScrollBarThickness = 6
@@ -224,13 +270,10 @@ local CacheSelectedTrackData
 local ToDo = false
 local LShiftDown = false
 UIS.InputBegan:Connect(function(InputObj, Chatted)
-	if Chatted then
-		return
-	end
 	if InputObj.KeyCode == Enum.KeyCode.LeftShift then
 		LShiftDown = true
 	end
-	if InputObj.KeyCode == Enum.KeyCode.H then
+	if InputObj.KeyCode == Enum.KeyCode.H and not Chatted then
 		ToDo = true
 	end
 end)
