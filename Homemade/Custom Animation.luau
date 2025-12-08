@@ -32,23 +32,39 @@ local Animations = {
 			["Looped"] = true;
 			["AnimationSpeed"] = 6;
 		};
-		["DANCE? BUT 3"] = {
+		["(FOOTBALLER) DANCE"] = {
 			["ID"] = "rbxassetid://101862746";
 			["TimePos"] = nil;
 			["ToTimePos"] = nil;
 			["FullAnimation"] = true;
 			["Looped"] = true;
-			["AnimationSpeed"] = 1.7;
+			["AnimationSpeed"] = 1.25;
 		};
+		["(Dance1) DANCE"] = {
+			["ID"] = "rbxassetid://182491037";
+			["TimePos"] = nil;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 1.7;
+		}; -- rbxassetid://rbxassetid://429703734
+		["(Charlieston) DANCE"] = {
+			["ID"] = "rbxassetid://429703734";
+			["TimePos"] = nil;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 1.7;
+		}; -- rbxassetid://rbxassetid://429703734
 	};
 	["R15"] = {
 		["HEIL"] = {
 			["ID"] = "rbxassetid://2459124514";
-			["TimePos"] = .1;
+			["TimePos"] = .07;
 			["ToTimePos"] = nil;
 			["FullAnimation"] = false;
 			["Looped"] = false;
-			["AnimationSpeed"] = 0.25;
+			["AnimationSpeed"] = nil;
 		};
 		["HYPE DANCE"] = {
 			["ID"] = "rbxassetid://10714369624";
@@ -80,7 +96,7 @@ local Animations = {
 			["ToTimePos"] = nil;
 			["FullAnimation"] = true;
 			["Looped"] = true;
-			["AnimationSpeed"] = 2;
+			["AnimationSpeed"] = nil;
 		};
 		["TRUMP DANCE"] = {
 			["ID"] = "rbxassetid://16553163212";
@@ -90,6 +106,22 @@ local Animations = {
 			["Looped"] = true;
 			["AnimationSpeed"] = nil;
 		};
+		["HYPERFAST LEGSSS"] = {
+			["ID"] = "rbxassetid://10714371264";
+			["TimePos"] = 1;
+			["ToTimePos"] = 2.5;
+			["FullAnimation"] = false;
+			["Looped"] = true;
+			["AnimationSpeed"] = 1.3;
+		}; --73785690856046
+		["CARAMELLDANSEN"] = {
+			["ID"] = "rbxassetid://73785690856046";
+			["TimePos"] = nil;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 1.3;
+		}; --73785690856046
 
 	}
 }
@@ -149,6 +181,7 @@ ScrollingFrame.Position = UDim2.new(0.0492041516, 0, 0.152941227, 0)
 ScrollingFrame.Size = UDim2.new(0.893, 0,0.835, 0)
 ScrollingFrame.CanvasSize = UDim2.new(0,0,0,0)
 ScrollingFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+ScrollingFrame.ScrollBarThickness = 6
 
 UIListLayout.Parent = ScrollingFrame
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
