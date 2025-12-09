@@ -481,7 +481,7 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 			ClearEveryTwentyInterval = 0
 			AlreadyPing = true
 		end
-		
+
 		character = player.Character
 
 		if not character:FindFirstChild("HumanoidRootPart") then
@@ -508,6 +508,10 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 			Info.Text = string.format("[%s, %s, %s]   %sH",math.round(xx),math.round(yy),math.round(zz),LIGHT.TimeOfDay)
 		end)
 
+		if not character:FindFirstChild("HumanoidRootPart") then
+			return
+		end
+		
 		local currentPos = character.HumanoidRootPart.Position;
 		local r3 = Region3.new(Vector3.new(currentPos.X - sizeX, currentPos.Y - sizeY, currentPos.Z - sizeZ), Vector3.new(currentPos.X + sizeX, currentPos.Y + sizeY, currentPos.Z + sizeZ)) 
 		local objects = workspace:FindPartsInRegion3(r3, character, math.huge) 
