@@ -186,6 +186,14 @@ local Animations = {
 			["Looped"] = true;
 			["AnimationSpeed"] = 1;
 		}; --73785690856046
+		["DRONE"] = {
+			["ID"] = "rbxassetid://125972205391287";
+			["TimePos"] = 0;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 5;
+		}; --73785690856046
 
 	}
 }
