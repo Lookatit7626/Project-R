@@ -488,7 +488,6 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 			continue
 		end
 		if not character:FindFirstChild("Humanoid") then
-			print("FAILED - 1")
 			continue
 		end
 		CurrentWalkSpeed = tonumber(character.Humanoid.WalkSpeed) or CurrentWalkSpeed
@@ -509,6 +508,10 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 			Info.Text = string.format("[%s, %s, %s]   %sH",math.round(xx),math.round(yy),math.round(zz),LIGHT.TimeOfDay)
 		end)
 
+		if not character:FindFirstChild("HumanoidRootPart") then
+			print("ERR")
+			continue
+		end
 		local currentPos = character:WaitForChild("HumanoidRootPart").Position;
 		local r3 = Region3.new(Vector3.new(currentPos.X - sizeX, currentPos.Y - sizeY, currentPos.Z - sizeZ), Vector3.new(currentPos.X + sizeX, currentPos.Y + sizeY, currentPos.Z + sizeZ)) 
 		local objects = workspace:FindPartsInRegion3(r3, character, math.huge) 
@@ -649,3 +652,4 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 	end
 end
 coroutine.wrap(NBSJMTZ_fake_script)()
+
