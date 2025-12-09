@@ -363,6 +363,9 @@ while true do -- Full animation
 		TrackToUse = PreviousCharacter:FindFirstChildOfClass("Humanoid"):LoadAnimation(Animation)
 		TrackToUse.Looped = CacheSelectedTrackData.Looped
 		TrackToUse.Priority = Enum.AnimationPriority.Action2
+
+		ToDo = false
+		LShiftDown = false
 	end
 	if ToDo and CacheSelectedTrackData then
 		TrackToUse:Play()
