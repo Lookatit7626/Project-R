@@ -242,9 +242,18 @@ local Animations = {
 			["Looped"] = true;
 			["AnimationSpeed"] = 1;
 		}; 
+		["MOTORBIKE"] = {
+			["ID"] = "rbxassetid://104810105184118";
+			["TimePos"] = 0;
+			["ToTimePos"] = .35;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 1;
+		}; 
 
 	}
 }
+
 
 local Animation = Instance.new("ScreenGui")
 local Frame = Instance.new("Frame")
