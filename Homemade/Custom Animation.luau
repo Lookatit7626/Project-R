@@ -178,6 +178,14 @@ local Animations = {
 			["Looped"] = true;
 			["AnimationSpeed"] = 1;
 		}; --73785690856046
+		["JUMPING SPIDER"] = {
+			["ID"] = "rbxassetid://108330152008383";
+			["TimePos"] = 0;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 1;
+		}; --73785690856046
 
 	}
 }
