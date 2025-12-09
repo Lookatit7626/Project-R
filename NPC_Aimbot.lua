@@ -388,6 +388,8 @@ BackFrame.BorderColor3 = Color3.fromRGB(0, 0, 0)
 BackFrame.BorderSizePixel = 0
 BackFrame.Position = UDim2.new(0.614691198, 0, 0.0431034639, 0)
 BackFrame.Size = UDim2.new(0.334723562, 0, 0.42922768, 0)
+BackFrame.Active = true
+BackFrame.Draggable = true
 
 UIAspectRatioConstraint.Parent = BackFrame
 UIAspectRatioConstraint.AspectRatio = 1.720
