@@ -218,6 +218,14 @@ local Animations = {
 			["Looped"] = true;
 			["AnimationSpeed"] = 2;
 		}; --73785690856046
+		["TRUCK"] = {
+			["ID"] = "rbxassetid://138861918679066";
+			["TimePos"] = 0;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 5;
+		}; --73785690856046
 
 	}
 }
