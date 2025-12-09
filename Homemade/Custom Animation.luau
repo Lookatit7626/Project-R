@@ -56,14 +56,6 @@ local Animations = {
 			["Looped"] = true;
 			["AnimationSpeed"] = 1.7;
 		}; -- rbxassetid://rbxassetid://429703734
-		["CARAMELLDANSEN R6"] = {
-			["ID"] = "rbxassetid://102908521825429";
-			["TimePos"] = nil;
-			["ToTimePos"] = nil;
-			["FullAnimation"] = true;
-			["Looped"] = true;
-			["AnimationSpeed"] = 1.3;
-		};
 	};
 	["R15"] = {
 		["HEIL"] = {
