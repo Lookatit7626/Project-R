@@ -47,7 +47,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 1.7;
-		}; -- rbxassetid://rbxassetid://429703734
+		};
 		["(Charlieston) DANCE"] = {
 			["ID"] = "rbxassetid://429703734";
 			["TimePos"] = nil;
@@ -55,7 +55,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 1.7;
-		}; -- rbxassetid://rbxassetid://429703734
+		};
 	};
 	["R15"] = {
 		["HEIL"] = {
@@ -113,7 +113,7 @@ local Animations = {
 			["FullAnimation"] = false;
 			["Looped"] = true;
 			["AnimationSpeed"] = 1.3;
-		}; --73785690856046
+		}; 
 		["CARAMELLDANSEN"] = {
 			["ID"] = "rbxassetid://73785690856046";
 			["TimePos"] = nil;
@@ -121,7 +121,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 1.3;
-		}; --73785690856046
+		}; 
 		["MACARENA"] = {
 			["ID"] = "rbxassetid://89558401923098";
 			["TimePos"] = nil;
@@ -129,7 +129,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 1.3;
-		}; --73785690856046
+		}; 
 		["ISHOWSPEED DANCE"] = {
 			["ID"] = "rbxassetid://126378844669776";
 			["TimePos"] = nil;
@@ -137,7 +137,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 2;
-		}; --73785690856046
+		}; 
 		["67"] = {
 			["ID"] = "rbxassetid://120852662885277";
 			["TimePos"] = nil;
@@ -145,7 +145,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 1;
-		}; --73785690856046
+		}; 
 		["TANK"] = {
 			["ID"] = "rbxassetid://115951523870527";
 			["TimePos"] = 0;
@@ -153,7 +153,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 1;
-		}; --73785690856046
+		}; 
 		["RACE CAR"] = {
 			["ID"] = "rbxassetid://72382226286301";
 			["TimePos"] = 0;
@@ -161,7 +161,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 1;
-		}; --73785690856046
+		}; 
 		["HELICOPTER"] = {
 			["ID"] = "rbxassetid://76510079095692";
 			["TimePos"] = 0;
@@ -169,7 +169,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 2.5;
-		}; --73785690856046
+		}; 
 		["SITTING POSE"] = {
 			["ID"] = "rbxassetid://85961795938515";
 			["TimePos"] = 0;
@@ -177,7 +177,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 1;
-		}; --73785690856046
+		}; 
 		["JUMPING SPIDER"] = {
 			["ID"] = "rbxassetid://108330152008383";
 			["TimePos"] = 0;
@@ -185,7 +185,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 1;
-		}; --73785690856046
+		}; 
 		["DRONE"] = {
 			["ID"] = "rbxassetid://125972205391287";
 			["TimePos"] = 0;
@@ -193,7 +193,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 5;
-		}; --73785690856046
+		}; 
 		["PLANE"] = {
 			["ID"] = "rbxassetid://119440277215867";
 			["TimePos"] = 0;
@@ -201,7 +201,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 5;
-		}; --73785690856046
+		}; 
 		["CHAIR"] = {
 			["ID"] = "rbxassetid://80714552140457";
 			["TimePos"] = 3;
@@ -209,15 +209,7 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 5;
-		}; --73785690856046
-		["BIBLICALLY ACCURATE ANGEL"] = {
-			["ID"] = "rbxassetid://101388085585160";
-			["TimePos"] = 0;
-			["ToTimePos"] = nil;
-			["FullAnimation"] = true;
-			["Looped"] = true;
-			["AnimationSpeed"] = 2;
-		}; --73785690856046
+		}; 
 		["TRUCK"] = {
 			["ID"] = "rbxassetid://138861918679066";
 			["TimePos"] = 0;
@@ -225,7 +217,31 @@ local Animations = {
 			["FullAnimation"] = true;
 			["Looped"] = true;
 			["AnimationSpeed"] = 5;
-		}; --73785690856046
+		}; 
+		["BIBLICALLY ACCURATE ANGEL"] = {
+			["ID"] = "rbxassetid://101388085585160";
+			["TimePos"] = 0;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 2;
+		}; 
+		["HAIDILAO DANCE"] = {
+			["ID"] = "rbxassetid://137581268977122";
+			["TimePos"] = 0;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 1;
+		}; 
+		["FEELING KAWAII"] = {
+			["ID"] = "rbxassetid://73161476966723";
+			["TimePos"] = 0;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 1;
+		}; 
 
 	}
 }
