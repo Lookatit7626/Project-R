@@ -194,6 +194,30 @@ local Animations = {
 			["Looped"] = true;
 			["AnimationSpeed"] = 5;
 		}; --73785690856046
+		["PLANE"] = {
+			["ID"] = "rbxassetid://119440277215867";
+			["TimePos"] = 0;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 5;
+		}; --73785690856046
+		["CHAIR"] = {
+			["ID"] = "rbxassetid://80714552140457";
+			["TimePos"] = 3;
+			["ToTimePos"] = 4;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 5;
+		}; --73785690856046
+		["BIBLICALLY ACCURATE ANGEL"] = {
+			["ID"] = "rbxassetid://101388085585160";
+			["TimePos"] = 0;
+			["ToTimePos"] = nil;
+			["FullAnimation"] = true;
+			["Looped"] = true;
+			["AnimationSpeed"] = 2;
+		}; --73785690856046
 
 	}
 }
