@@ -1439,7 +1439,7 @@ while task.wait(0.1) do
 
 						Buttons[Name].Parent.WorldPivot = lplr.Character.HumanoidRootPart.CFrame
 
-						for i = 1, 15 do
+						for i = 1, 30 do
 							firetouchinterest(Buttons[Name], lplr.Character.HumanoidRootPart,0)
 							task.wait(.075)
 							firetouchinterest(Buttons[Name], lplr.Character.HumanoidRootPart,1)
