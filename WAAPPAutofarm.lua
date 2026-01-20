@@ -1324,9 +1324,9 @@ while task.wait(0.1) do
 
 										FinishedDelivery = true
 
-										task.wait(3)
+										task.wait(1)
 										if SlowDownBool and not TeleportOrWalkBool then
-											task.wait(4)
+											task.wait(3)
 										end
 										if TeleportOrWalkBool then
 											task.wait(2)
