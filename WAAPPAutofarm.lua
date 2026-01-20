@@ -656,7 +656,7 @@ while task.wait(0.1) do
 			CashierMayContinue = true
 
 			for i,v in pairs(workspace.Customers:GetChildren()) do
-				task.wait(.25)
+				task.wait(.15)
 
 				if SlowDownBool then
 					repeat
@@ -707,7 +707,7 @@ while task.wait(0.1) do
 							repeat
 								task.wait(.1)
 							until CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image) ~= nil
-							task.wait(.5)
+							task.wait(.25)
 
 						end
 
@@ -1098,23 +1098,28 @@ while task.wait(0.1) do
 
 					print("DEBUG : I SEE YOU")
 					local HasBox = false
-					for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
-						if HasBox == false and Boxes.Name == "BoxClosed" and Boxes.HasPizzaInside.Value == false then
-							print("DEBUG : PLACING BOX")
-							local args = {
-								Boxes,
-								"CFrame",
-								CFrame.new(67.99999237060547, 4.000000476837158, 21.500001907348633, 1, 0, 0, 0, 1, 0, 0, 0, 1)
-							}
-							FireServerEvent(nil, "UpdateProperty", unpack(args))
-							task.wait(0.15)
-							FireServerEvent(nil, "OpenBox", Boxes)
-							task.wait(0.15)
-							HasBox = true
-							break
-						end
-					end
-					task.wait(0.225)
+					local ratelimitedPizzaBoxer_FindingBoxes = 0
+                    repeat
+                        for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
+                            if HasBox == false and Boxes.Name == "BoxClosed" and Boxes.HasPizzaInside.Value == false then
+                                print("DEBUG : PLACING BOX")
+                                local args = {
+                                    Boxes,
+                                    "CFrame",
+                                    CFrame.new(67.99999237060547, 4.000000476837158, 21.500001907348633, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+                                }
+                                FireServerEvent(nil, "UpdateProperty", unpack(args))
+                                task.wait(0.15)
+                                FireServerEvent(nil, "OpenBox", Boxes)
+                                task.wait(0.15)
+                                HasBox = true
+                                break
+                            end
+                        end
+                        task.wait(0.1)
+                        ratelimitedPizzaBoxer_FindingBoxes += 1
+                    until HasBox or ratelimitedPizzaBoxer_FindingBoxes > 5
+					task.wait(0.1)
 
 					for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
 						if Boxes.Name == "BoxOpen" and Boxes.Pizza.Value == nil and Item ~= nil then
@@ -1133,13 +1138,27 @@ while task.wait(0.1) do
 							break
 						end
 					end
-					task.wait(0.5)
+					task.wait(0.2)
+
+                    for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
+                        if Boxes.Name == "BoxClosed" and Boxes.HasPizzaInside.Value == true then
+                            local args = {
+                                Boxes,
+                                "CFrame",
+                                CFrame.new(68.1999740600586, 4.40000057220459, 4.900001525878906, 0, 0, 1, 0, 1, -0, -1, 0, 0)
+                            }
+                            FireServerEvent(nil, "UpdateProperty", unpack(args))
+                            task.wait(.5)
+                        end
+                    end
+
+                    task.wait(0.2)
 				end
 			end
 			for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
 				if Boxes.Name == "BoxOpen" and Boxes.Pizza.Value == true then
 					FireServerEvent(nil, "CloseBox", Boxes)
-					task.wait(1)
+					task.wait(.5)
 				end
 			end
 
@@ -1152,7 +1171,7 @@ while task.wait(0.1) do
 						CFrame.new(68.1999740600586, 4.40000057220459, 4.900001525878906, 0, 0, 1, 0, 1, -0, -1, 0, 0)
 					}
 					FireServerEvent(nil, "UpdateProperty", unpack(args))
-					task.wait(1)
+					task.wait(.5)
 				end
 			end
 
