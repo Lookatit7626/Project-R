@@ -519,7 +519,7 @@ local LayoutOrder = 18
 
 local DefaultToHide = CFrame.new(46.2959862, 3.39802527, -18.3784046, 0.999943018, 3.89492563e-08, -0.0106764864, -3.94884836e-08, 1, -5.02952844e-08, 0.0106764864, 5.07140179e-08, 0.999943018)
 
-local SpeedToGo = 40
+local SpeedToGo = 55
 local GoRateLimit = 0
 
 
