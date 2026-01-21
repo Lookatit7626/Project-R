@@ -684,7 +684,7 @@ while task.wait(0.1) do
                     local Head = v.Head
                     if (Vector3.new(55, 4, 84) - v.HumanoidRootPart.Position).Magnitude > 31 then
                         --print(v.HumanoidRootPart.AssemblyLinearVelocity.Magnitude)
-                        error("Too far boy")
+                        return warn("Too far boy")
                     end
 
                     local CashierTickCheckLocal = tick()
