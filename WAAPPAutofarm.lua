@@ -720,11 +720,11 @@ while task.wait(0.1) do
 
                             if CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image) ~= nil then
                                 FireServerEvent(nil,"OrderComplete", v, CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image),workspace:WaitForChild("Register1"))
+                                customersServed += 1
                             end
 
                             if CashierTickCheck == CashierTickCheckLocal then
                                 print("Proceed!")
-                                customersServed += 1
                                 CashierMayContinue = true
                             end
                         end)
