@@ -730,10 +730,10 @@ while task.wait(0.1) do
                         end)
                     end)()
                 end
+                repeat
+                    task.wait()
+                until CashierMayContinue
             until customersServed > 10
-			repeat
-				task.wait()
-			until CashierMayContinue
 			task.wait(TimeToWaitBeforeNextTask)
 		end
 
