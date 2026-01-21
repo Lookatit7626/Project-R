@@ -594,6 +594,7 @@ coroutine.wrap(function()
 	end
 end)()
 
+local customersServed = 0
 while task.wait(0.1) do
 	task.wait(1)
 	--print("DEBUG : REMOVE BEFORE GOING #0")
@@ -615,7 +616,9 @@ while task.wait(0.1) do
 		--print("DEBUG : REMOVE BEFORE GOING #2")
 		--print("RAN")
 
+
 		if AutoCashierBool then
+            customersServed = 0
 			if TeleportOrWalkBool and CurrentWalkPosition ~= "Cashier" then
 				if CurrentWalkPosition == "Delivery" or CurrentWalkPosition == "Supplier" then
 					lplr.Character.HumanoidRootPart.CFrame = DefaultToHide
@@ -655,73 +658,79 @@ while task.wait(0.1) do
 			CashierMayContinueRATELIMIT = 0
 			CashierMayContinue = true
 
-			for i,v in pairs(workspace.Customers:GetChildren()) do
-				task.wait(.15)
+			repeat
+                for i,v in pairs(workspace.Customers:GetChildren()) do
+                    task.wait(.15)
 
-				if SlowDownBool then
-					repeat
-						task.wait(0.1)
-						CashierMayContinueRATELIMIT += 1
-					until CashierMayContinue or CashierMayContinueRATELIMIT > 60
-					if CashierMayContinueRATELIMIT > 60 then
-						CashierMayContinue = true
-						return warn("DEBUG : CASHIER RATE LIMIT")
-					end
-				end
+                    if SlowDownBool then
+                        repeat
+                            task.wait(0.1)
+                            CashierMayContinueRATELIMIT += 1
+                        until CashierMayContinue or CashierMayContinueRATELIMIT > 60
+                        if CashierMayContinueRATELIMIT > 60 then
+                            CashierMayContinue = true
+                            return warn("DEBUG : CASHIER RATE LIMIT")
+                        end
+                    end
 
-				coroutine.wrap(function()
-					local suc,err = pcall(function()
-						if not AutoCashierBool then
-							error("forced to error to halt program")
-						end
+                    coroutine.wrap(function()
+                        local suc,err = pcall(function()
+                            if not AutoCashierBool then
+                                error("forced to error to halt program")
+                            end
+                            if customersServed > 10 then
+                                return warn("Served more than 10 people!!!")
+                            end
 
-						local Head = v.Head
+                            local Head = v.Head
 
-						if (Vector3.new(55, 4, 84) - v.HumanoidRootPart.Position).Magnitude > 31 then
-							--print(v.HumanoidRootPart.AssemblyLinearVelocity.Magnitude)
-							error("Too far boy")
-						end
+                            if (Vector3.new(55, 4, 84) - v.HumanoidRootPart.Position).Magnitude > 31 then
+                                --print(v.HumanoidRootPart.AssemblyLinearVelocity.Magnitude)
+                                error("Too far boy")
+                            end
 
-						local CashierTickCheckLocal = tick()
-						CashierTickCheck = CashierTickCheckLocal
-						CashierMayContinue = false
+                            local CashierTickCheckLocal = tick()
+                            CashierTickCheck = CashierTickCheckLocal
+                            CashierMayContinue = false
 
-						print("OK")
-						if not TeleportOrWalkBool then
-							lplr.Character.HumanoidRootPart.CFrame = CashierCFramePos
-						end
+                            print("OK")
+                            if not TeleportOrWalkBool then
+                                lplr.Character.HumanoidRootPart.CFrame = CashierCFramePos
+                            end
 
-						if Head:FindFirstChild("Dialog") and Head.InUse.Value ~= true and CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image) == nil then
-							if SlowDownBool then
-								task.wait(2)
-							end
-							if CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image) == nil then
-								local args = {
-									"ResponseSelected",
-									Head:WaitForChild("DialogSimple"):WaitForChild("Correct"),
-									Head
-								}
-								workspace:WaitForChild("Dialog"):FireServer(unpack(args))
-							end
+                            if Head:FindFirstChild("Dialog") and Head.InUse.Value ~= true and CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image) == nil then
+                                if SlowDownBool then
+                                    task.wait(2)
+                                end
+                                if CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image) == nil then
+                                    local args = {
+                                        "ResponseSelected",
+                                        Head:WaitForChild("DialogSimple"):WaitForChild("Correct"),
+                                        Head
+                                    }
+                                    workspace:WaitForChild("Dialog"):FireServer(unpack(args))
+                                end
 
-							repeat
-								task.wait(.1)
-							until CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image) ~= nil
-							task.wait(.25)
+                                repeat
+                                    task.wait(.1)
+                                until CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image) ~= nil
+                                task.wait(.25)
 
-						end
+                            end
 
-						if CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image) ~= nil then
-							FireServerEvent(nil,"OrderComplete", v, CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image),workspace:WaitForChild("Register1"))
-						end
+                            if CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image) ~= nil then
+                                FireServerEvent(nil,"OrderComplete", v, CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image),workspace:WaitForChild("Register1"))
+                            end
 
-						if CashierTickCheck == CashierTickCheckLocal then
-							print("Proceed!")
-							CashierMayContinue = true
-						end
-					end)
-				end)()
-			end
+                            if CashierTickCheck == CashierTickCheckLocal then
+                                print("Proceed!")
+                                customersServed += 1
+                                CashierMayContinue = true
+                            end
+                        end)
+                    end)()
+                end
+            until customersServed > 10
 			repeat
 				task.wait()
 			until CashierMayContinue
@@ -790,7 +799,7 @@ while task.wait(0.1) do
 							FireServerEvent(nil,"UpdateProperty",workspace.AllMountainDew:FindFirstChild("MountainDew"),"CFrame",CFrame.new(55, 4, 37.5, 1, 0, 0, 0, 1, 0, 0, 0, 1))
 							task.wait(3)
 						end
-					else
+					elseif CheckForWhich(v.SG.ImageLabel.Image) ~= nil then
 						local MayProceedWithNextOperationRL = 0
 						repeat
 							task.wait(1)
