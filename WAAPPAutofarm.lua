@@ -673,26 +673,26 @@ while task.wait(0.1) do
                         end
                     end
 
+                    if not AutoCashierBool then
+                        error("forced to error to halt program")
+                    end
+
+                    if customersServed > 10 then
+                        return warn("Served more than 10 people!!!")
+                    end
+
+                    local Head = v.Head
+                    if (Vector3.new(55, 4, 84) - v.HumanoidRootPart.Position).Magnitude > 31 then
+                        --print(v.HumanoidRootPart.AssemblyLinearVelocity.Magnitude)
+                        error("Too far boy")
+                    end
+
+                    local CashierTickCheckLocal = tick()
+                    CashierTickCheck = CashierTickCheckLocal
+                    CashierMayContinue = false
+                    
                     coroutine.wrap(function()
                         local suc,err = pcall(function()
-                            if not AutoCashierBool then
-                                error("forced to error to halt program")
-                            end
-                            if customersServed > 10 then
-                                return warn("Served more than 10 people!!!")
-                            end
-
-                            local Head = v.Head
-
-                            if (Vector3.new(55, 4, 84) - v.HumanoidRootPart.Position).Magnitude > 31 then
-                                --print(v.HumanoidRootPart.AssemblyLinearVelocity.Magnitude)
-                                error("Too far boy")
-                            end
-
-                            local CashierTickCheckLocal = tick()
-                            CashierTickCheck = CashierTickCheckLocal
-                            CashierMayContinue = false
-
                             print("OK")
                             if not TeleportOrWalkBool then
                                 lplr.Character.HumanoidRootPart.CFrame = CashierCFramePos
