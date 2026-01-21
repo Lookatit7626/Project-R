@@ -2,6 +2,10 @@
 -- Version: 3.2
 
 -- Instances:
+
+local NAMEOFGUI = "W@APP SCRIPT GUI"
+local GUITITLE = "Work at a pizza place [BY ICARUS] V1.11"
+
 local lplr = game:GetService("Players").LocalPlayer
 local PathFindingService = game:GetService("PathfindingService")
 local TweenService = game:GetService("TweenService")
@@ -98,6 +102,7 @@ GUI.Parent = game.CoreGui
 GUI.Enabled = true
 GUI.ResetOnSpawn = false
 GUI.DisplayOrder = 1000000
+GUI.Name = NAMEOFGUI
 
 
 Main.Name = "Main"
@@ -160,7 +165,7 @@ Title.BorderSizePixel = 0
 Title.Position = UDim2.new(0, 0, 0.0409356728, 0)
 Title.Size = UDim2.new(1, 0, 0.118918911, 0)
 Title.Font = Enum.Font.SourceSansBold
-Title.Text = "Work at a pizza place [BY ICARUS]"
+Title.Text = GUITITLE
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextScaled = true
 Title.TextSize = 14.000
@@ -347,6 +352,8 @@ local CurrentWalkPosition = ""
 local TeleportOrWalk
 local TimeToWaitBeforeNextTask = 2
 
+local CashierLimit = 6
+
 for i,Frame in pairs(Main:GetChildren()) do
 	coroutine.wrap(function()
 		local ButtonSuc, ButtonErr = pcall(function()
@@ -378,8 +385,10 @@ for i,Frame in pairs(Main:GetChildren()) do
 						if SlowDownBool then
 							if SlowWalk then
 								TimeToWaitBeforeNextTask = 3
+                                CashierLimit = 10
 							else
 								TimeToWaitBeforeNextTask = 10
+                                CashierLimit = 5
 							end
 						else
 							TimeToWaitBeforeNextTask = 2
@@ -594,7 +603,9 @@ coroutine.wrap(function()
 	end
 end)()
 
+local CharAlreadyDone = {}
 local customersServed = 0
+
 while task.wait(0.1) do
 	task.wait(1)
 	--print("DEBUG : REMOVE BEFORE GOING #0")
@@ -618,6 +629,7 @@ while task.wait(0.1) do
 
 
 		if AutoCashierBool then
+            CharAlreadyDone = {}
             customersServed = 0
 			if TeleportOrWalkBool and CurrentWalkPosition ~= "Cashier" then
 				if CurrentWalkPosition == "Delivery" or CurrentWalkPosition == "Supplier" then
@@ -661,7 +673,8 @@ while task.wait(0.1) do
 			repeat
                 for i,v in pairs(workspace.Customers:GetChildren()) do
                     task.wait(.15)
-
+                    
+                    CashierMayContinueRATELIMIT = 0
                     if SlowDownBool then
                         repeat
                             task.wait(0.1)
@@ -669,7 +682,8 @@ while task.wait(0.1) do
                         until CashierMayContinue or CashierMayContinueRATELIMIT > 60
                         if CashierMayContinueRATELIMIT > 60 then
                             CashierMayContinue = true
-                            return warn("DEBUG : CASHIER RATE LIMIT")
+                            warn("DEBUG : CASHIER RATE LIMIT")
+                            continue
                         end
                     end
 
@@ -677,16 +691,27 @@ while task.wait(0.1) do
                         return warn("forced to error to halt program")
                     end
 
-                    if customersServed > 10 then
+                    if customersServed >= CashierLimit then
                         return warn("Served more than 10 people!!!")
                     end
 
-                    local Head = v.Head
-                    if (Vector3.new(55, 4, 84) - v.HumanoidRootPart.Position).Magnitude > 31 then
-                        --print(v.HumanoidRootPart.AssemblyLinearVelocity.Magnitude)
-                        warn("Too far boy")
+                    local Head = v:FindFirstChild("Head")
+                    if Head == nil then
+                        warn("WARNING,  NO HEAD??")
                         continue
                     end
+                    if (Vector3.new(55, 4, 84) - v.HumanoidRootPart.Position).Magnitude > 47 then
+                        --print(v.HumanoidRootPart.AssemblyLinearVelocity.Magnitude)
+                        --warn("Too far boy")
+                        continue
+                    end
+
+                    if CharAlreadyDone[v] then
+                        --warn("Already in the list")
+                        continue
+                    end
+
+                    CharAlreadyDone[v] = true
 
                     local CashierTickCheckLocal = tick()
                     CashierTickCheck = CashierTickCheckLocal
@@ -726,6 +751,7 @@ while task.wait(0.1) do
 
                             if CashierTickCheck == CashierTickCheckLocal then
                                 print("Proceed!")
+                                print(customersServed)
                                 CashierMayContinue = true
                             end
                         end)
@@ -734,7 +760,7 @@ while task.wait(0.1) do
                 repeat
                     task.wait()
                 until CashierMayContinue
-            until customersServed > 10
+            until customersServed >= CashierLimit
 			task.wait(TimeToWaitBeforeNextTask)
 		end
 
@@ -801,6 +827,7 @@ while task.wait(0.1) do
 							task.wait(3)
 						end
 					elseif CheckForWhich(v.SG.ImageLabel.Image) ~= nil then
+                        print("PREPARING TO COOK : "..CheckForWhich(v.SG.ImageLabel.Image))
 						local MayProceedWithNextOperationRL = 0
 						repeat
 							task.wait(1)
@@ -867,7 +894,9 @@ while task.wait(0.1) do
 							FireServerEvent(nil,"AddIngredientToPizza",Dough,"Cheese")
 							task.wait(0.2)
 
-
+                            if CheckForWhich(v.SG.ImageLabel.Image) == nil then
+                                return warn("NO MORE PIZZA FOR YOU")
+                            end
 							if CheckForWhich(v.SG.ImageLabel.Image) == "PepperoniPizza" then
 								FireServerEvent(nil,"AddIngredientToPizza",Dough,"Pepperoni") 
 							elseif CheckForWhich(v.SG.ImageLabel.Image) == "SausagePizza" then
@@ -1455,6 +1484,17 @@ while task.wait(0.1) do
 							firetouchinterest(Buttons[Name], lplr.Character.HumanoidRootPart,1)
 							task.wait(.25)
 						end
+                        
+                        task.wait(1)
+                        for i, SBox in pairs(workspace.AllSupplyBoxes:GetChildren()) do
+                            local args = {
+                                SBox,
+                                "CFrame",
+                                CFrame.new(7, 10.8, -9.2, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+                            }
+                            FireServerEvent(nil, "UpdateProperty", unpack(args))
+                            task.wait(0.1)
+                        end
 					end
 				end
 
