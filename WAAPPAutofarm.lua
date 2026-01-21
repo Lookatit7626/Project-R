@@ -674,7 +674,7 @@ while task.wait(0.1) do
                     end
 
                     if not AutoCashierBool then
-                        error("forced to error to halt program")
+                        return warn("forced to error to halt program")
                     end
 
                     if customersServed > 10 then
@@ -690,7 +690,7 @@ while task.wait(0.1) do
                     local CashierTickCheckLocal = tick()
                     CashierTickCheck = CashierTickCheckLocal
                     CashierMayContinue = false
-                    
+
                     coroutine.wrap(function()
                         local suc,err = pcall(function()
                             print("OK")
