@@ -693,7 +693,7 @@ while task.wait(0.1) do
 			end
 			CashierMayContinueRATELIMIT = 0
 			CashierMayContinue = true
-
+            local CMCLimit = 0
 			repeat
                 for i,v in pairs(workspace.Customers:GetChildren()) do
                     task.wait(.15)
@@ -712,11 +712,13 @@ while task.wait(0.1) do
                     end
 
                     if not AutoCashierBool then
-                        return warn("forced to error to halt program")
+                        warn("forced to error to halt program")
+                        continue
                     end
 
                     if customersServed >= CashierLimit then
-                        return warn("Served more than 10 people!!!")
+                        warn("Served more than 10 people!!!")
+                        continue
                     end
 
                     local Head = v:FindFirstChild("Head")
@@ -737,9 +739,12 @@ while task.wait(0.1) do
 
                     CharAlreadyDone[v] = true
 
+                    local CoolDownLimit = 0
                     local CashierTickCheckLocal = tick()
                     CashierTickCheck = CashierTickCheckLocal
-                    CashierMayContinue = false
+                    if SlowDownBool then
+                        CashierMayContinue = false
+                    end
 
                     coroutine.wrap(function()
                         local suc,err = pcall(function()
@@ -763,7 +768,8 @@ while task.wait(0.1) do
 
                                 repeat
                                     task.wait(.1)
-                                until CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image) ~= nil
+                                    CoolDownLimit += 1
+                                until CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image) ~= nil or CoolDownLimit > 200
                                 task.wait(.25)
 
                             end
@@ -782,8 +788,9 @@ while task.wait(0.1) do
                     end)()
                 end
                 repeat
-                    task.wait()
-                until CashierMayContinue
+                    task.wait(.1)
+                    CMCLimit += 1
+                until CashierMayContinue or CMCLimit > 200
             until customersServed >= CashierLimit
 			task.wait(TimeToWaitBeforeNextTask)
 		end
@@ -938,7 +945,7 @@ while task.wait(0.1) do
                                     for _ ,Oven in pairs(workspace.Ovens:GetChildren()) do
                                         if not FoundOven and not Oven.IsCooking.Value and UsingOven[Oven] == nil then
                                             if Dough == nil then
-                                                ErrFinishTask()
+                                                ErrFinishTask(Oven)
                                                 warn("Something has gone wrong")
                                             end
                                             UsingOven[Oven] = true
@@ -948,7 +955,7 @@ while task.wait(0.1) do
                                             if FOUNDOVENRateLimit > 7 then
                                                 warn("DEBUG : FOUND OVEN RATELIMITED!")
                                                 FireServerEvent(nil,"UpdateProperty",Dough,"CFrame",CFrame.new(36.60036849975586, 3.700181245803833, 45.499725341796875, 1, 0, 0, 0, 1, 0, 0, 0, 1))
-                                                ErrFinishTask()
+                                                ErrFinishTask(Oven)
                                                 return 
                                             end
                                             if not Oven.IsOpen.Value then
@@ -1127,10 +1134,10 @@ while task.wait(0.1) do
 			end
 
 			task.wait(2)
+            local HowManyBoxesIsGettingUsed = 0
+            IAmUsingTheseBoxes = {}
 			for i,Item in pairs(workspace.BoxingRoom:GetChildren()) do
 				print("DEBUG : ",Item)
-                local HowManyBoxesIsGettingUsed = 0
-                IAmUsingTheseBoxes = {}
 				if Item then
 					-- IF DRINKS
 					if Item.name == "Dew" then
@@ -1148,34 +1155,53 @@ while task.wait(0.1) do
 					local HasBox = false
 					local ratelimitedPizzaBoxer_FindingBoxes = 0
 
+                    local GettingBoxRL = 0
                     repeat
-                        task.wait()
-                    until HowManyBoxesIsGettingUsed < 3
+                         for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
+                            if Boxes.Name == "BoxClosed" and Boxes.HasPizzaInside.Value == false then
+                                GettingBoxRL = -99
+                                break
+                            end
+                        end
+                        task.wait(.1)
+                        GettingBoxRL += 1
+                    until GettingBoxRL > 75 or GettingBoxRL < -10
+
+                    if GettingBoxRL > 75 then
+                        warn("DEBUG : LIMITED REACHED #1")
+                        continue
+                    end
+
+                    HowManyBoxesIsGettingUsed += 1
+
+                    task.wait(0.1)
+
+                    repeat
+                        for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
+                            if HasBox == false and Boxes.Name == "BoxClosed" and Boxes.HasPizzaInside.Value == false then
+                                print("DEBUG : PLACING BOX")
+                                local args = {
+                                    Boxes,
+                                    "CFrame",
+                                    CFrame.new(67.99999237060547, 4.000000476837158, 21.500001907348633, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+                                }
+                                FireServerEvent(nil, "UpdateProperty", unpack(args))
+                                task.wait(0.15)
+                                FireServerEvent(nil, "OpenBox", Boxes)
+                                task.wait(0.15)
+                                HasBox = true
+                                break
+                            end
+                        end
+                        task.wait(0.1)
+                        ratelimitedPizzaBoxer_FindingBoxes += 1
+                    until HasBox or ratelimitedPizzaBoxer_FindingBoxes > 100
+                    if ratelimitedPizzaBoxer_FindingBoxes > 100 then
+                        warn("DEBUG : LIMITED REACHED #1")
+                    end
+
 
                     coroutine.wrap(function()
-                        HowManyBoxesIsGettingUsed += 1
-                        repeat
-                            for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
-                                if HasBox == false and Boxes.Name == "BoxClosed" and Boxes.HasPizzaInside.Value == false then
-                                    print("DEBUG : PLACING BOX")
-                                    local args = {
-                                        Boxes,
-                                        "CFrame",
-                                        CFrame.new(67.99999237060547, 4.000000476837158, 21.500001907348633, 1, 0, 0, 0, 1, 0, 0, 0, 1)
-                                    }
-                                    FireServerEvent(nil, "UpdateProperty", unpack(args))
-                                    task.wait(0.15)
-                                    FireServerEvent(nil, "OpenBox", Boxes)
-                                    task.wait(0.15)
-                                    HasBox = true
-                                    break
-                                end
-                            end
-                            task.wait(0.1)
-                            ratelimitedPizzaBoxer_FindingBoxes += 1
-                        until HasBox or ratelimitedPizzaBoxer_FindingBoxes > 5
-                        task.wait(0.1)
-
                         for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
                             if Boxes.Name == "BoxOpen" and Boxes.Pizza.Value == nil and Item ~= nil and IAmUsingTheseBoxes[Boxes] == nil then
                                 print("DEBUG : PLACING PIZZA AND SLICING IT")
@@ -1194,17 +1220,18 @@ while task.wait(0.1) do
                                 break
                             end
                         end
-                        HowManyBoxesIsGettingUsed -= 1
+                        
                         task.wait(0.1)
                         for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
                             if Boxes.Name == "BoxClosed" and Boxes.HasPizzaInside.Value == true and IAmUsingTheseBoxes[Boxes] == nil then
+                                IAmUsingTheseBoxes[Boxes] = true
                                 local args = {
                                     Boxes,
                                     "CFrame",
-                                    CFrame.new(68.1999740600586, 4.40000057220459, 4.900001525878906, 0, 0, 1, 0, 1, -0, -1, 0, 0)
+                                    CFrame.new(68.1999740600586, 4.25000057220459, 2.500001525878906, 0, 0, 1, 0, 1, -0, -1, 0, 0)
                                 }
                                 FireServerEvent(nil, "UpdateProperty", unpack(args))
-                                task.wait(.25)
+                                task.wait(.3125)
                             end
                         end
                     end)()
@@ -1225,10 +1252,10 @@ while task.wait(0.1) do
 					local args = {
 						Boxes,
 						"CFrame",
-						CFrame.new(68.1999740600586, 4.40000057220459, 4.900001525878906, 0, 0, 1, 0, 1, -0, -1, 0, 0)
+						CFrame.new(68.1999740600586, 4.25000057220459, 2.500001525878906, 0, 0, 1, 0, 1, -0, -1, 0, 0)
 					}
 					FireServerEvent(nil, "UpdateProperty", unpack(args))
-					task.wait(.5)
+					task.wait(.3125)
 				end
 			end
 
@@ -1496,11 +1523,11 @@ while task.wait(0.1) do
 
 						Buttons[Name].Parent.WorldPivot = lplr.Character.HumanoidRootPart.CFrame
 
-						for i = 1, 30 do
+						for i = 1, 50 do
 							firetouchinterest(Buttons[Name], lplr.Character.HumanoidRootPart,0)
 							task.wait(.075)
 							firetouchinterest(Buttons[Name], lplr.Character.HumanoidRootPart,1)
-							task.wait(.25)
+							task.wait(.125)
 						end
                         
                         task.wait(1)
