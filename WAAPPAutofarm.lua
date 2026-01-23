@@ -332,6 +332,200 @@ TextButton_8.TextSize = 14.000
 TextButton_8.TextWrapped = true
 
 
+-- NETWORK MODULE
+
+
+
+
+if true then
+	getgenv().Network = {
+		BaseParts = {};
+		FakeConnections = {};
+		Connections = {};
+		Output = {
+			Enabled = true;
+			Prefix = "[NETWORK] ";
+			Send = function(Type,Output,BypassOutput)
+				if typeof(Type) == "function" and (Type == print or Type == warn or Type == error) and typeof(Output) == "string" and (typeof(BypassOutput) == "nil" or typeof(BypassOutput) == "boolean") then
+					if Network["Output"].Enabled or BypassOutput then
+						Type(Network["Output"].Prefix..Output);
+					end;
+				elseif Network["Output"].Enabled then
+					error(Network["Output"].Prefix.."Output Send Error : Invalid syntax.");
+				end;
+			end;
+		};
+		LostParts = {};
+		CharacterRelative = true;
+		LastCharacter = nil;
+		TryKeep = true; --loop attempts to
+		PartOwnership = {
+			PreMethodSettings = {};
+			Enabled = true;
+		};
+	}
+
+	Network["Output"].Send(print,": Loading.")
+
+	Network["RetainPart"] = function(Part,Silent,ReturnFakePart) --function for retaining ownership of unanchored parts
+		assert(Network["PartOwnership"]["Enabled"], Network["Output"].Prefix.." RetainPart Error : PartOwnership is Disabled.")
+		--assert(typeof(Part) == "Instance" and Part:IsA("BasePart") and not Part:IsGrounded(),Network["Output"].Prefix.."RetainPart Error : Invalid syntax: Arg1 (Part) must be an ungrounded BasePart which is a descendant of workspace.")
+		if not Part:IsDescendantOf(workspace) then
+			--Network["Output"].Send(error,"RetainPart Error : Invalid syntax: Arg1 (Part) must be an ungrounded BasePart which is a descendant of workspace.")
+			local Index = table.find(Network["LostParts"],Part)
+			if Index then
+				table.remove(Network["LostParts"],Index)
+			end
+			return false
+		end
+		assert(typeof(Silent) == "boolean" or typeof(Silent) == "nil",Network["Output"].Prefix.."RetainPart Error : Invalid syntax: Arg2 (Silent) must be a boolean or nil.")
+		assert(typeof(ReturnFakePart) == "boolean" or typeof(ReturnFakePart) == "nil",Network["Output"].Prefix.."RetainPart Error : Invalid syntax: Arg3 (ReturnFakePart) must be a boolean or nil.")
+		if not table.find(Network["BaseParts"],Part) and not table.find(Network["LostParts"],Part) then
+			table.insert(Network["BaseParts"],Part)
+			local Item1Pos = table.find(Network["BaseParts"],Part)
+			local Item2Pos = table.find(Network["LostParts"],Part)
+			pcall(function()
+				Part.CustomPhysicalProperties = PhysicalProperties.new(0, 0, 0, 0, 0)
+			end)
+			if not Silent then
+				Network["Output"].Send(print,"PartOwnership Output : PartOwnership applied to BasePart "..Part:GetFullName()..".")
+			end
+			Part.Destroying:Connect(function()
+				table.remove(Network["BaseParts"],Item1Pos)
+				table.remove(Network["LostParts"],Item2Pos)
+
+				--print("removed it")
+			end)
+			if ReturnFakePart then
+				local workspaceParts = {}
+				return FakePart
+			end
+		else
+			Network["Output"].Send(warn,"RetainPart Warning : PartOwnership not applied to BasePart "..Part:GetFullName()..", as it already active.")
+			return false
+		end
+	end
+
+	Network["RemovePart"] = function(Part,Silent) --function for removing ownership of unanchored part
+		assert(typeof(Part) == "Instance" and Part:IsA("BasePart"),Network["Output"].Prefix.."RemovePart Error : Invalid syntax: Arg1 (Part) must be a BasePart.")
+		if table.find(Network["BaseParts"],Part) then
+			table.remove(Network["BaseParts"],table.find(Network["BaseParts"],Part))
+		else
+			if not Silent then
+				Network["Output"].Send(warn,"RemovePart Warning : BasePart "..Part:GetFullName().." not found in BaseParts table.")
+			end
+			return
+		end
+		if table.find(Network["LostParts"],Part) then
+			table.remove(Network["LostParts"],table.find(Network["LostParts"],Part))
+		end
+		if not Silent then
+			Network["Output"].Send(print,"RemovePart Output: PartOwnership removed from BasePart "..Part:GetFullName()..".")
+		end
+	end
+
+	Network["PartOwnership"]["PartCoroutine"] = coroutine.create(function(Part)
+		if Part:IsDescendantOf(workspace) then
+			if Network.CharacterRelative then
+				local Character = Network["LastCharacter"];
+				if not Character.PrimaryPart then
+					for _,Inst in pairs(Character:GetDescendants()) do
+						if Inst:IsA("BasePart") then
+							Character.PrimaryPart = Inst
+							break
+						end
+					end
+				end
+				if Character and Character.PrimaryPart then
+					local Distance = (Character.PrimaryPart.Position - Part.Position).Magnitude
+					if Distance > gethiddenproperty(LocalPlayer,"MaximumSimulationRadius") and not isnetworkowner(Part) then
+						Network["Output"].Send(warn,"PartOwnership Warning : PartOwnership not applied to BasePart "..Part:GetFullName()..", as it is more than "..gethiddenproperty(LocalPlayer,"MaximumSimulationRadius").." studs away.")
+						Network["RemovePart"](Part)
+						if not Part:IsGrounded() then
+							table.insert(Network["LostParts"],Part)
+						else
+							--Network["Output"].Send(warn,"PartOwnership Warning : PartOwnership not applied to BasePart "..Part:GetFullName()..", as it is grounded.")
+						end
+					end
+				else
+					Network["Output"].Send(warn,"PartOwnership Warning : PartOwnership not applied to BasePart "..Part:GetFullName()..", as the LocalPlayer Character's PrimaryPart does not exist.")
+				end
+			end
+			Part.AssemblyLinearVelocity = (Part.AssemblyLinearVelocity.Unit+Vector3.new(.01,.01,.01))*(50+math.cos(tick()*10))
+		else
+			Network["RemovePart"](Part)
+		end
+	end)
+
+	Network["PartOwnership"]["Enable"] = coroutine.create(function() --creating a thread for network stuff
+		if not Network["PartOwnership"]["Enabled"] then
+			Network["PartOwnership"]["Enabled"] = true
+			Network["PartOwnership"]["PreMethodSettings"].ReplicationFocus = LocalPlayer.ReplicationFocus
+			LocalPlayer.ReplicationFocus = workspace
+			Network["PartOwnership"]["PreMethodSettings"].SimulationRadius = gethiddenproperty(LocalPlayer,"SimulationRadius")
+			Network["PartOwnership"]["Connection"] = RunService.Stepped:Connect(function()
+				Network["LastCharacter"] = pcall(function() return LocalPlayer.Character end) or Network["LastCharacter"]
+				sethiddenproperty(LocalPlayer,"SimulationRadius",1/0)
+
+				local NumberToPause = 0
+
+				coroutine.wrap(function()
+					--print("Base parts  ",#Network["BaseParts"])
+					for ind,Part in pairs(Network["BaseParts"]) do --loop through parts and do network stuff
+						NumberToPause += 1
+						if NumberToPause > 35 then
+							task.wait()
+							NumberToPause = 0
+						end
+						if Part.Parent == nil or Part:IsDescendantOf(workspace) == false then
+							table.remove(Network["BaseParts"],ind)
+							continue
+						end
+						coroutine.resume(Network["PartOwnership"]["PartCoroutine"],Part)
+						--[==[ [[by 4eyes btw]] ]==]--
+					end
+				end)()
+				coroutine.wrap(function()
+					--print("Lost parts  ",#Network["LostParts"])
+					for ind,Part in pairs(Network["LostParts"]) do
+						if Part.Parent == nil or Part:IsDescendantOf(workspace) == false then
+							table.remove(Network["LostParts"],ind)
+							continue
+						end
+						Network.RetainPart(Part,true)
+					end
+				end)()
+			end)
+			Network["Output"].Send(print,"PartOwnership Output : PartOwnership enabled.")
+		else
+			Network["Output"].Send(warn,"PartOwnership Output : PartOwnership already enabled.")
+		end
+	end)
+
+	Network["PartOwnership"]["Disable"] = coroutine.create(function()
+		if Network["PartOwnership"]["Connection"] then
+			Network["PartOwnership"]["Connection"]:Disconnect()
+			LocalPlayer.ReplicationFocus = Network["PartOwnership"]["PreMethodSettings"].ReplicationFocus
+			sethiddenproperty(LocalPlayer,"SimulationRadius",Network["PartOwnership"]["PreMethodSettings"].SimulationRadius)
+			Network["PartOwnership"]["PreMethodSettings"] = {}
+			for _,Part in pairs(Network["BaseParts"]) do
+				Network["RemovePart"](Part)
+			end
+			for Index,Part in pairs(Network["LostParts"]) do
+				table.remove(Network["LostParts"],Index)
+			end
+			Network["PartOwnership"]["Enabled"] = false
+			Network["Output"].Send(print,"PartOwnership Output : PartOwnership disabled.")
+		else
+			Network["Output"].Send(warn,"PartOwnership Output : PartOwnership already disabled.")
+		end
+	end)
+
+	Network["Output"].Send(print,": Loaded.")
+end
+
+
+
 --MAIN SCRIPT
 
 local Red = Color3.fromRGB(121, 35, 35)
@@ -558,6 +752,19 @@ ToProtectPart.Name = "ToProtectFromFalling"
 ToProtectPart.Position = Vector3.new(0,-30,0)
 ToProtectPart.Size = Vector3.new(2048, 10, 2048)
 
+
+
+local PartToBringItTo = Instance.new("Part")
+PartToBringItTo.Parent = game:GetService("Workspace")
+PartToBringItTo.Name = "WassupBro"
+PartToBringItTo.Anchored = true
+PartToBringItTo.Transparency = 1
+PartToBringItTo.CanCollide = false
+PartToBringItTo.Position = Vector3.new(0, -35, 0)
+
+local Attachment1 = Instance.new("Attachment", PartToBringItTo)
+Attachment1.WorldCFrame = CFrame.new(0, -42.5, 0)
+
 local SUC, ERR = pcall(function()
 	if Data then
 		if Data["SlowDownBool"] then
@@ -621,6 +828,9 @@ coroutine.wrap(function()
 		end
 	end
 end)()
+
+coroutine.resume(Network["PartOwnership"]["Enable"])
+
 
 local WhatDoesCookNeedToCook = {}
 local UsingOven = {}
@@ -713,7 +923,7 @@ while task.wait(0.1) do
 
                     if not AutoCashierBool then
                         warn("forced to error to halt program")
-                        continue
+                        return
                     end
 
                     if customersServed >= CashierLimit then
@@ -777,6 +987,26 @@ while task.wait(0.1) do
                             if CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image) ~= nil then
                                 FireServerEvent(nil,"OrderComplete", v, CheckForWhich(Head.SimpleDialogBillboard.FoodOrder.Image),workspace:WaitForChild("Register1"))
                                 customersServed += 1
+
+                                local args = {
+                                    v:FindFirstChild("HumanoidRootPart") or Head,
+                                    "CFrame",
+                                    CFrame.new(0, -42.5, 0, 0, 0, 1, 0, 1, -0, -1, 0, 0)
+                                }
+                                FireServerEvent(nil, "UpdateProperty", unpack(args))
+
+                                pcall(function()
+                                    local AlignPosition = Instance.new("AlignPosition", Head)
+                                    AlignPosition.Name = "FIByMovement"
+                                    local Attachment2 = Instance.new("Attachment", Head)
+                                    Attachment2.Name = "FIByAttaching"
+
+                                    AlignPosition.MaxForce = math.huge
+                                    AlignPosition.MaxVelocity = 999
+                                    AlignPosition.Responsiveness = math.huge
+                                    AlignPosition.Attachment0 = Attachment2
+                                    AlignPosition.Attachment1 = Attachment1
+                                end)
                             end
 
                             if CashierTickCheck == CashierTickCheckLocal then
@@ -846,6 +1076,8 @@ while task.wait(0.1) do
 
                 local finishedCookingTheList = false
                 local HowManyIsGettingCooked = 0
+
+                local AmountOfDoughReset = 0
 				local function TOCOOK()
 					if not AutoCookBool then
 						return warn("Force Stop")
@@ -861,6 +1093,9 @@ while task.wait(0.1) do
                     end
 
                     local function ToCookThePizza(type)
+                        if AmountOfDoughReset > 5 then
+                            return warn("NO MORE DOUGH DETECTED (AmountOfDoughReset > 5)")
+                        end
                         repeat
                             task.wait()
                         until #CookingThisPizza < 6
@@ -878,6 +1113,7 @@ while task.wait(0.1) do
                         end
                         print("OK NEXT")
 
+                        local DoughRL = 0
                         local Dough
                         repeat
                             Dough = workspace.AllDough:GetChildren()[math.random(#workspace.AllDough:GetChildren())]
@@ -909,9 +1145,15 @@ while task.wait(0.1) do
                                     end
                                 end
                             end
-                            task.wait()
-                        until Dough ~= nil and math.round(Dough.Size.X) == 5 and not Dough.IsBurned.Value and ChosenPizza[Dough] == nil and Dough.Color == Color3.fromRGB(215, 197, 154) and ( (#Dough.SG.Frame:GetChildren() == 0) or (#Dough.SG.Frame:GetChildren() == 1 and (Dough.SG.Frame:FindFirstChild("Cheese") or Dough.SG.Frame:FindFirstChild("TomatoSauce"))) or (#Dough.SG.Frame:GetChildren() == 2 and (Dough.SG.Frame:FindFirstChild("Cheese") and Dough.SG.Frame:FindFirstChild("TomatoSauce"))) )
-                    
+                            task.wait(.1)
+                            DoughRL += 1
+                        until DoughRL > 10 or Dough ~= nil and math.round(Dough.Size.X) == 5 and not Dough.IsBurned.Value and ChosenPizza[Dough] == nil and Dough.Color == Color3.fromRGB(215, 197, 154) and ( (#Dough.SG.Frame:GetChildren() == 0) or (#Dough.SG.Frame:GetChildren() == 1 and (Dough.SG.Frame:FindFirstChild("Cheese") or Dough.SG.Frame:FindFirstChild("TomatoSauce"))) or (#Dough.SG.Frame:GetChildren() == 2 and (Dough.SG.Frame:FindFirstChild("Cheese") and Dough.SG.Frame:FindFirstChild("TomatoSauce"))) )
+
+                        if DoughRL > 10 then
+                            AmountOfDoughReset += 1
+                            return warn("DOUGH RATE LIMIT!")
+                        end
+                        AmountOfDoughReset = 0
                         if Dough ~= nil then
                             ChosenPizza[Dough] = true
                             table.insert(CookingThisPizza,Dough)
@@ -1054,7 +1296,7 @@ while task.wait(0.1) do
 
 				if CheckForWhich(SlotOrders[1].SG.ImageLabel.Image) ~= nil then
 					repeat
-                        task.wait(2)
+                        task.wait(1)
                         WaitingValue = 0
                         WhatDoesCookNeedToCook = {}
                         UsingOven = {}
@@ -1070,11 +1312,14 @@ while task.wait(0.1) do
                         end
                         finishedCookingTheList = false
                         TOCOOK()
+                        if AmountOfDoughReset > 5 then
+                            return warn("NO MORE DOUGH DETECTED (AmountOfDoughReset > 5)")
+                        end
                         repeat
                             task.wait(.1)
                             WaitingValue += 1
-                        until WaitingValue > 10 * 60 * 1 or #CookingThisPizza == 0
-					until WaitingValue > 10 * 60 * 1 or not AutoCookBool or AmountToLoop > 4 or( CheckForWhich(SlotOrders[1].SG.ImageLabel.Image) == nil and CheckForWhich(SlotOrders[2].SG.ImageLabel.Image) == nil)
+                        until WaitingValue > 10 * 60 * 1 or #CookingThisPizza == 0 or AmountOfDoughReset > 5
+					until AmountOfDoughReset > 5 or WaitingValue > 10 * 60 * 1 or not AutoCookBool or AmountToLoop > 4 or( CheckForWhich(SlotOrders[1].SG.ImageLabel.Image) == nil and CheckForWhich(SlotOrders[2].SG.ImageLabel.Image) == nil)
 				end
 
 			end)
@@ -1598,3 +1843,15 @@ while task.wait(0.1) do
 		warn("AN ERROR HAS OCCURED : ", ALLERR)
 	end
 end
+
+
+
+
+
+
+
+
+
+
+
+
