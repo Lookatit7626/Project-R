@@ -492,7 +492,6 @@ local CookMayContinue = true
 local MayProceedWithNextOperation = true
 local CookCFrameToHide = CFrame.new(57.9154587, 3.80013371, 46.2564087, 0.0372269899, -5.44392726e-08, 0.999306858, -3.53651046e-08, 1, 5.57944837e-08, -0.999306858, -3.7417653e-08, 0.0372269899)
 local CookPartToHide = workspace.WallPizzaPlaceRemove or game:GetService("ReplicatedStorage").WallPizzaPlaceRemove
-local FOUNDOVENRateLimit = 0
 local WaitingValue = 0
 local AmountToLoop = 0
 local COOKSUC, COOKERR
@@ -564,10 +563,30 @@ local SUC, ERR = pcall(function()
 		if Data["SlowDownBool"] then
 			SlowDown.BackgroundColor3 = Color3.fromRGB(35, 121, 45)
 			SlowDownBool = true
+            if SlowDownBool then
+				if SlowWalk then
+					TimeToWaitBeforeNextTask = 3
+                    CashierLimit = 10
+				else
+					TimeToWaitBeforeNextTask = 10
+                    CashierLimit = 5
+				end
+			else
+				TimeToWaitBeforeNextTask = 2
+			end
 		end
 		if Data["TeleportOrWalkBool"] then
 			SlowWalk.BackgroundColor3 = Color3.fromRGB(35, 121, 45)
 			TeleportOrWalkBool = true
+            if TeleportOrWalkBool then
+				if SlowWalk then
+					TimeToWaitBeforeNextTask = 3
+				end
+			else
+				if SlowWalk then
+					TimeToWaitBeforeNextTask = 10
+				end
+			end
 		end
 		if Data["AutoPayBool"] then
 			AutoPay.BackgroundColor3 = Color3.fromRGB(35, 121, 45)
@@ -603,8 +622,13 @@ coroutine.wrap(function()
 	end
 end)()
 
+local WhatDoesCookNeedToCook = {}
+local UsingOven = {}
+local CookingThisPizza = {}
 local CharAlreadyDone = {}
 local customersServed = 0
+
+local IAmUsingTheseBoxes = {}
 
 while task.wait(0.1) do
 	task.wait(1)
@@ -700,7 +724,7 @@ while task.wait(0.1) do
                         warn("WARNING,  NO HEAD??")
                         continue
                     end
-                    if (Vector3.new(55, 4, 84) - v.HumanoidRootPart.Position).Magnitude > 47 then
+                    if (Vector3.new(55, 4, 84) - v.HumanoidRootPart.Position).Magnitude > 37.5 then
                         --print(v.HumanoidRootPart.AssemblyLinearVelocity.Magnitude)
                         --warn("Too far boy")
                         continue
@@ -813,245 +837,237 @@ while task.wait(0.1) do
 					lplr.Character.HumanoidRootPart.CFrame = CookCFrameToHide
 				end
 
-				local function TOCOOK(v)
+                local finishedCookingTheList = false
+                local HowManyIsGettingCooked = 0
+				local function TOCOOK()
 					if not AutoCookBool then
 						return warn("Force Stop")
 					end
-					if v.SG.ImageLabel.Image == "" or v.SG.ImageLabel.Image == nil or CheckForWhich(v.SG.ImageLabel.Image) == nil then
-						--print("S. DEBUG : Nothing")
-						return warn("Nil")
-					end
-					if CheckForWhich(v.SG.ImageLabel.Image) == "MountainDew" then
-						if workspace.AllMountainDew:FindFirstChild("MountainDew") then
-							FireServerEvent(nil,"UpdateProperty",workspace.AllMountainDew:FindFirstChild("MountainDew"),"CFrame",CFrame.new(55, 4, 37.5, 1, 0, 0, 0, 1, 0, 0, 0, 1))
-							task.wait(3)
-						end
-					elseif CheckForWhich(v.SG.ImageLabel.Image) ~= nil then
-                        print("PREPARING TO COOK : "..CheckForWhich(v.SG.ImageLabel.Image))
-						local MayProceedWithNextOperationRL = 0
-						repeat
-							task.wait(1)
-							print("DEBUG : COOK WAITING TO PROCEED")
-							MayProceedWithNextOperationRL += 1
-						until MayProceedWithNextOperation or MayProceedWithNextOperationRL > 130
-						if MayProceedWithNextOperationRL > 120 then
-							MayProceedWithNextOperation = true
-							CookMayContinue = true
-							return warn("DEBUG : COOK took too long!")
-						end
-						print("OK NEXT")
-
-						local Dough
-						repeat
-							Dough = workspace.AllDough:GetChildren()[math.random(#workspace.AllDough:GetChildren())]
-							if Dough.HasBugs.Value or Dough.Cold.Value or Dough.IsBurned.Value then
-								print("THROW THAT AWAY")
-								local args = {
-									Dough,
-									"CFrame",
-									CFrame.new(47.90007781982422, 7.000152111053467, 72.49983978271484, 1, 0, -0, 0, 0, 1, 0, -1, 0)
-								}
-								FireServerEvent(nil,"UpdateProperty",unpack(args))
-								continue
-							end
-							if math.round(Dough.Size.X) == 3 and Dough.Color == Color3.fromRGB(215, 197, 154) then
-								local OriginalPosForDough = Vector3.new(22.1, 9.7, 54)
-								local args = {
-									workspace:WaitForChild("AllDough"):WaitForChild("Dough"),
-									"CFrame",
-									CFrame.new(22.1, 9.7, 54, 1, 0, 0, 0, 1, 0, 0, 0, 1)
-
-								}
-								FireServerEvent(nil,"UpdateProperty",unpack(args))
-								--task.wait(0.1)
-								FireServerEvent(nil,"SquishDough",Dough)
-								Dough = nil
-
-								task.wait(0.2)
-
-								for __, Dough in pairs(workspace.AllDough:GetChildren()) do
-									--print( (Dough.Position - OriginalPosForDough).Magnitude )
-									if math.round(Dough.Size.X) == 5 and (Dough.Position - OriginalPosForDough).Magnitude < 2 then
-										--print("FOUND OUR DOUGH!")
-										break
-									end
-								end
-							end
-							task.wait()
-						until Dough ~= nil and math.round(Dough.Size.X) == 5 and not Dough.IsBurned.Value and ChosenPizza[Dough] == nil and Dough.Color == Color3.fromRGB(215, 197, 154) and ( (#Dough.SG.Frame:GetChildren() == 0) or (#Dough.SG.Frame:GetChildren() == 1 and (Dough.SG.Frame:FindFirstChild("Cheese") or Dough.SG.Frame:FindFirstChild("TomatoSauce"))) or (#Dough.SG.Frame:GetChildren() == 2 and (Dough.SG.Frame:FindFirstChild("Cheese") and Dough.SG.Frame:FindFirstChild("TomatoSauce"))) )
-
-						if Dough ~= nil then
-							CookMayContinue = false
-							MayProceedWithNextOperation = false
-
-							ChosenPizza[Dough] = true
-							FireServerEvent(nil,"UpdateProperty",Dough,"CFrame",CFrame.new(36.60036849975586, 3.700181245803833, 45.499725341796875, 1, 0, 0, 0, 1, 0, 0, 0, 1))
-							task.wait(0.015)
-							--FireServerEvent(nil,"SquishDough",Dough)
-							--task.wait(0.1)
-							FireServerEvent(nil,"AddIngredientToPizza",Dough,"TomatoSauce")
-							task.wait(0.2)
-							FireServerEvent(nil,"AddIngredientToPizza",Dough,"Cheese")
-							task.wait(0.2)
-
-                            if CheckForWhich(v.SG.ImageLabel.Image) == nil then
-                                return warn("NO MORE PIZZA FOR YOU")
+                    
+                    if WhatDoesCookNeedToCook["MountainDew"] ~= nil then
+                        for i = 1, WhatDoesCookNeedToCook["MountainDew"], 1 do
+                            if workspace.AllMountainDew:FindFirstChild("MountainDew") then
+                                FireServerEvent(nil,"UpdateProperty",workspace.AllMountainDew:FindFirstChild("MountainDew"),"CFrame",CFrame.new(55, 4, 37.5, 1, 0, 0, 0, 1, 0, 0, 0, 1))
+                                task.wait(1.5)
                             end
-							if CheckForWhich(v.SG.ImageLabel.Image) == "PepperoniPizza" then
-								FireServerEvent(nil,"AddIngredientToPizza",Dough,"Pepperoni") 
-							elseif CheckForWhich(v.SG.ImageLabel.Image) == "SausagePizza" then
-								FireServerEvent(nil,"AddIngredientToPizza",Dough,"Sausage")
-							end
+                        end
+                    end
 
+                    local function ToCookThePizza(type)
+                        repeat
+                            task.wait()
+                        until #CookingThisPizza < 6
 
-							coroutine.wrap(function()
-								local CookTickCheckLocal = tick()
-								CookTickCheck = CookTickCheckLocal
-								FOUNDOVENRateLimit = 0
-								local FoundOven = false
+                        local MayProceedWithNextOperationRL = 0
+                        repeat
+                            task.wait(1)
+                            print("DEBUG : COOK WAITING TO PROCEED")
+                            MayProceedWithNextOperationRL += 1
+                        until MayProceedWithNextOperation or MayProceedWithNextOperationRL > 130
+                        if MayProceedWithNextOperationRL > 120 then
+                            MayProceedWithNextOperation = true
+                            CookMayContinue = true
+                            return warn("DEBUG : COOK took too long!")
+                        end
+                        print("OK NEXT")
 
-								local function ErrFinishTask()
-									if CookTickCheckLocal == CookTickCheck then
-										CookMayContinue = true
-										--error("An error has occured")
-									end
-									MayProceedWithNextOperation = true
-									CookMayContinue = true
-								end
+                        local Dough
+                        repeat
+                            Dough = workspace.AllDough:GetChildren()[math.random(#workspace.AllDough:GetChildren())]
+                            if Dough.HasBugs.Value or Dough.Cold.Value or Dough.IsBurned.Value then
+                                print("THROW THAT AWAY")
+                                local args = {
+                                    Dough,
+                                    "CFrame",
+                                    CFrame.new(47.90007781982422, 7.000152111053467, 72.49983978271484, 1, 0, -0, 0, 0, 1, 0, -1, 0)
+                                }
+                                FireServerEvent(nil,"UpdateProperty",unpack(args))
+                                continue
+                            end
+                            if math.round(Dough.Size.X) == 3 and Dough.Color == Color3.fromRGB(215, 197, 154) then
+                                local OriginalPosForDough = Vector3.new(22.1, 9.7, 54)
+                                local args = {
+                                    workspace:WaitForChild("AllDough"):WaitForChild("Dough"),
+                                    "CFrame",
+                                    CFrame.new(22.1, 9.7, 54, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+                                }
+                                FireServerEvent(nil,"UpdateProperty",unpack(args))
+                                --task.wait(0.1)
+                                FireServerEvent(nil,"SquishDough",Dough)
+                                Dough = nil
+                                task.wait(0.2)
+                                for __, Dough in pairs(workspace.AllDough:GetChildren()) do
+                                    if math.round(Dough.Size.X) == 5 and (Dough.Position - OriginalPosForDough).Magnitude < 2 then
+                                        break
+                                    end
+                                end
+                            end
+                            task.wait()
+                        until Dough ~= nil and math.round(Dough.Size.X) == 5 and not Dough.IsBurned.Value and ChosenPizza[Dough] == nil and Dough.Color == Color3.fromRGB(215, 197, 154) and ( (#Dough.SG.Frame:GetChildren() == 0) or (#Dough.SG.Frame:GetChildren() == 1 and (Dough.SG.Frame:FindFirstChild("Cheese") or Dough.SG.Frame:FindFirstChild("TomatoSauce"))) or (#Dough.SG.Frame:GetChildren() == 2 and (Dough.SG.Frame:FindFirstChild("Cheese") and Dough.SG.Frame:FindFirstChild("TomatoSauce"))) )
+                    
+                        if Dough ~= nil then
+                            ChosenPizza[Dough] = true
+                            table.insert(CookingThisPizza,Dough)
 
-								repeat
-									task.wait()
+                            coroutine.wrap(function()
+                                FireServerEvent(nil,"UpdateProperty",Dough,"CFrame",CFrame.new(36.60036849975586, 3.700181245803833, 45.499725341796875, 1, 0, 0, 0, 1, 0, 0, 0, 1))
+                                task.wait(0.015)
+                                FireServerEvent(nil,"AddIngredientToPizza",Dough,"TomatoSauce")
+                                task.wait(0.2)
+                                FireServerEvent(nil,"AddIngredientToPizza",Dough,"Cheese")
+                                task.wait(0.2)
 
-									if FoundOven then
-										continue
-									end
+                                if type == "PepperoniPizza" then
+                                    FireServerEvent(nil,"AddIngredientToPizza",Dough,"Pepperoni") 
+                                elseif type == "SausagePizza" then
+                                    FireServerEvent(nil,"AddIngredientToPizza",Dough,"Sausage")
+                                end
+                                local FOUNDOVENRateLimit = 0
+                                local FoundOven = false
 
-									for _ ,Oven in pairs(workspace.Ovens:GetChildren()) do
-										if not FoundOven and not Oven.IsCooking.Value then
-											if Dough == nil then
-												ErrFinishTask()
-												warn("Something has gone wrong")
-											end
-											FoundOven = true
-											print("DEBUG : FOUND OVEN")
-											FOUNDOVENRateLimit += 1
-											if FOUNDOVENRateLimit > 7 then
-												warn("DEBUG : FOUND OVEN RATELIMITED!")
-												FireServerEvent(nil,"UpdateProperty",Dough,"CFrame",CFrame.new(36.60036849975586, 3.700181245803833, 45.499725341796875, 1, 0, 0, 0, 1, 0, 0, 0, 1))
-												ErrFinishTask()
-												return 
-											end
+                                local function ErrFinishTask(Oven)
+                                    UsingOven[Oven] = false
+                                    table.remove(CookingThisPizza, table.find(CookingThisPizza, Dough))
+                                end
 
-											if not Oven.IsOpen.Value then
-												Oven.Door.ClickDetector.Detector:FireServer()
-												task.wait(2)
-											end
+                                repeat
+                                    task.wait()
+                                    if FoundOven then
+                                        continue
+                                    end
+                                    for _ ,Oven in pairs(workspace.Ovens:GetChildren()) do
+                                        if not FoundOven and not Oven.IsCooking.Value and UsingOven[Oven] == nil then
+                                            if Dough == nil then
+                                                ErrFinishTask()
+                                                warn("Something has gone wrong")
+                                            end
+                                            UsingOven[Oven] = true
+                                            FoundOven = true
+                                            print("DEBUG : FOUND OVEN")
+                                            FOUNDOVENRateLimit += 1
+                                            if FOUNDOVENRateLimit > 7 then
+                                                warn("DEBUG : FOUND OVEN RATELIMITED!")
+                                                FireServerEvent(nil,"UpdateProperty",Dough,"CFrame",CFrame.new(36.60036849975586, 3.700181245803833, 45.499725341796875, 1, 0, 0, 0, 1, 0, 0, 0, 1))
+                                                ErrFinishTask()
+                                                return 
+                                            end
+                                            if not Oven.IsOpen.Value then
+                                                Oven.Door.ClickDetector.Detector:FireServer()
+                                                task.wait(2)
+                                            end
                                             ToAnchorOrNot(Dough,true)
                                             task.wait()
-											FireServerEvent(nil,"UpdateProperty",Dough,"CFrame",Oven.Bottom.CFrame * CFrame.new(0,.5,0))
+                                            FireServerEvent(nil,"UpdateProperty",Dough,"CFrame",Oven.Bottom.CFrame * CFrame.new(0,.5,0))
                                             task.wait()
                                             ToAnchorOrNot(Dough,false)
-
-											local ResettedValue = false
-											local WaitingForFoodTimeOut = 0
-
-											repeat
-												if Oven.IsOpen.Value then
-													Oven.Door.ClickDetector.Detector:FireServer()
-													task.wait(3)
-												end
-
-												task.wait(.1)
-												if not ResettedValue and Oven.Door.Meter.SurfaceGui.ProgressBar.Visible and not Oven.IsOpen.Value then
-													print("DEBUG : IS CLOSED AND WORKING")
-													task.wait(.1)
-													--CookMayContinue = true
-													ResettedValue = true
-													MayProceedWithNextOperation = true
-												end
-
-												if WaitingForFoodTimeOut > 150 and not ResettedValue then
-													ErrFinishTask()
-													return warn("DEBUG : ResettedValueTimeout > 20 [TIMEOUT]")
-												end
-												WaitingForFoodTimeOut +=1
-
-											until WaitingForFoodTimeOut > 200 or Dough == nil or not Oven:FindFirstChild("Door") or Oven.Door.Meter.SurfaceGui.ProgressBar.Bar.ImageColor3 ~= Color3.fromRGB(222, 132, 57)
-
-											if WaitingForFoodTimeOut > 200 then
-												ErrFinishTask()
-												return warn("DEBUG : WaitingForFoodTimeOut > 200 [TIMEOUT]")
-											end
-											if Dough == nil then
-												ErrFinishTask()
-												return warn("DEBUG : DOUGH IS GONE")
-											end
-											if not Oven:FindFirstChild("Door") then
-												FireServerEvent(nil,"UpdateProperty",Dough,"CFrame",CFrame.new(36.60036849975586, 3.700181245803833, 45.499725341796875, 1, 0, 0, 0, 1, 0, 0, 0, 1))
-												ErrFinishTask()
-
-												return warn("DEBUG : OVEN DOOR IS NOT FOUND!")
-											end
-
-											print("FINISHED")
-											task.wait(.5)
-											if not Oven.IsOpen.Value then
-												Oven.Door.ClickDetector.Detector:FireServer()
-											end
-											task.wait(.25)
-											if Dough.Color ~= Color3.fromRGB(218, 133, 65) then
-												FoundOven = false
-											else
-												if CookTickCheckLocal == CookTickCheck then
-													CookMayContinue = true
-												end
-											end
-
-										end
-									end
-								until Dough == nil or ChosenPizza[Dough] == nil or Dough.Color == Color3.fromRGB(218, 133, 65)
-								task.wait(0.25)
+                                            local ResettedValue = false
+                                            local WaitingForFoodTimeOut = 0
+                                            repeat
+                                                if Oven.IsOpen.Value then
+                                                    Oven.Door.ClickDetector.Detector:FireServer()
+                                                    task.wait(3)
+                                                end
+                                                task.wait(.1)
+                                                if not ResettedValue and Oven.Door.Meter.SurfaceGui.ProgressBar.Visible and not Oven.IsOpen.Value then
+                                                    print("DEBUG : IS CLOSED AND WORKING")
+                                                    task.wait(.1)
+                                                    --CookMayContinue = true
+                                                    ResettedValue = true
+                                                    MayProceedWithNextOperation = true
+                                                end
+                                                if WaitingForFoodTimeOut > 150 and not ResettedValue then
+                                                    ErrFinishTask(Oven)
+                                                    return warn("DEBUG : ResettedValueTimeout > 20 [TIMEOUT]")
+                                                end
+                                                WaitingForFoodTimeOut +=1
+                                            until WaitingForFoodTimeOut > 250 or Dough == nil or not Oven:FindFirstChild("Door") or Oven.Door.Meter.SurfaceGui.ProgressBar.Bar.ImageColor3 ~= Color3.fromRGB(222, 132, 57)
+                                            
+                                            if WaitingForFoodTimeOut > 250 then
+                                                ErrFinishTask(Oven)
+                                                return warn("DEBUG : WaitingForFoodTimeOut > 200 [TIMEOUT]")
+                                            end
+                                            if Dough == nil then
+                                                ErrFinishTask(Oven)
+                                                return warn("DEBUG : DOUGH IS GONE")
+                                            end
+                                            if not Oven:FindFirstChild("Door") then
+                                                FireServerEvent(nil,"UpdateProperty",Dough,"CFrame",CFrame.new(36.60036849975586, 3.700181245803833, 45.499725341796875, 1, 0, 0, 0, 1, 0, 0, 0, 1))
+                                                ErrFinishTask(Oven)
+                                                return warn("DEBUG : OVEN DOOR IS NOT FOUND!")
+                                            end
+                                            print("FINISHED")
+                                            task.wait(.5)
+                                            if Oven:FindFirstChild("IsOpen") and not Oven.IsOpen.Value then
+                                                Oven.Door.ClickDetector.Detector:FireServer()
+                                            end
+                                            task.wait(.25)
+                                            if Dough.Color ~= Color3.fromRGB(218, 133, 65) then
+                                                FoundOven = false
+                                            end
+                                            UsingOven[Oven] = nil
+                                        end
+                                    end
+                                until Dough == nil or ChosenPizza[Dough] == nil or Dough.Color == Color3.fromRGB(218, 133, 65)
+                                task.wait(0.25)
                                 ToAnchorOrNot(Dough,true)
                                 task.wait()
-								FireServerEvent(nil,"UpdateProperty",Dough,"CFrame", CFrame.new(53, 4.2, 37.5, 1, 0, 0, 0, 1, 0, 0, 0, 1))
+                                FireServerEvent(nil,"UpdateProperty",Dough,"CFrame", CFrame.new(53, 4.2, 37.5, 1, 0, 0, 0, 1, 0, 0, 0, 1))
                                 task.wait()
-								ToAnchorOrNot(Dough,false)
+                                ToAnchorOrNot(Dough,false)
+                                table.remove(CookingThisPizza, table.find(CookingThisPizza, Dough))
                                 task.wait(2)
-							end)()
-						end
-					end
+                            end)()
+                        end
+                    end
+
+                    if  WhatDoesCookNeedToCook["CheesePizza"] ~= nil then
+                        for i = 1, WhatDoesCookNeedToCook["CheesePizza"], 1 do
+                            ToCookThePizza("CheesePizza")
+                        end
+                    end
+
+                    if  WhatDoesCookNeedToCook["PepperoniPizza"] ~= nil then
+                        for i = 1, WhatDoesCookNeedToCook["PepperoniPizza"], 1 do
+                            ToCookThePizza("PepperoniPizza")
+                        end
+                    end
+
+                    if  WhatDoesCookNeedToCook["SausagePizza"] ~= nil then
+                        for i = 1, WhatDoesCookNeedToCook["SausagePizza"], 1 do
+                            ToCookThePizza("SausagePizza")
+                        end
+                    end
+                    
+			
+					
 				end
+
 				WaitingValue = 0
 				AmountToLoop = 0
-				if CheckForWhich(SlotOrders[1].SG.ImageLabel.Image) ~= nil or CheckForWhich(SlotOrders[2].SG.ImageLabel.Image) ~= nil then
-					repeat 
-						AmountToLoop += 1
-						print("DEBUG : GETTING ORDERS!")
-						TOCOOK(SlotOrders[1])
-						task.wait()
-						TOCOOK(SlotOrders[2])
-						task.wait()
-						TOCOOK(SlotOrders[3])
-						task.wait()
-						TOCOOK(SlotOrders[4])
-						task.wait()
-						TOCOOK(SlotOrders[5])
-						task.wait()
 
-						WaitingValue = 0
-						repeat
-							task.wait(1)
-							WaitingValue += 1
-							if WaitingValue > 150 then
-								CookMayContinue = true
-								MayProceedWithNextOperation = true
-								error("DEBUG : COOK WAITED FOR TOO LONG")
-							end
-						until CookMayContinue
-
-						task.wait(.5)
-						print("DEBUG : R. PROCEED")
-					until not AutoCookBool or AmountToLoop > 4 or( CheckForWhich(SlotOrders[1].SG.ImageLabel.Image) == nil and CheckForWhich(SlotOrders[2].SG.ImageLabel.Image) == nil)
+				if CheckForWhich(SlotOrders[1].SG.ImageLabel.Image) ~= nil then
+					repeat
+                        task.wait(2)
+                        WaitingValue = 0
+                        WhatDoesCookNeedToCook = {}
+                        UsingOven = {}
+						for i,v in pairs(SlotOrders) do
+                            if CheckForWhich(v.SG.ImageLabel.Image) == nil then
+                                continue
+                            end
+                            if WhatDoesCookNeedToCook[CheckForWhich(v.SG.ImageLabel.Image)] == nil then
+                                WhatDoesCookNeedToCook[CheckForWhich(v.SG.ImageLabel.Image)] = 1
+                            else
+                                WhatDoesCookNeedToCook[CheckForWhich(v.SG.ImageLabel.Image)] += 1
+                            end
+                        end
+                        finishedCookingTheList = false
+                        TOCOOK()
+                        repeat
+                            task.wait(.1)
+                            WaitingValue += 1
+                        until WaitingValue > 10 * 60 * 1 or #CookingThisPizza == 0
+					until WaitingValue > 10 * 60 * 1 or not AutoCookBool or AmountToLoop > 4 or( CheckForWhich(SlotOrders[1].SG.ImageLabel.Image) == nil and CheckForWhich(SlotOrders[2].SG.ImageLabel.Image) == nil)
 				end
 
 			end)
@@ -1062,15 +1078,6 @@ while task.wait(0.1) do
 			end
 			--end
 			local WaitingValue = 0
-			repeat
-				task.wait(1)
-				WaitingValue += 1
-				if WaitingValue > 250 or (WaitingValue > 150 and CheckForWhich(SlotOrders[1].SG.ImageLabel.Image) == nil and CheckForWhich(SlotOrders[2].SG.ImageLabel.Image) == nil) then
-					CookMayContinue = true
-					MayProceedWithNextOperation = true
-					error("DEBUG : THE FIRST COOK WAITED FOR TOO LONG")
-				end
-			until CookMayContinue
 			task.wait(2)
 			print("DEBUG : COOK CONTINUE")
 			ChosenPizza = {}
@@ -1122,6 +1129,8 @@ while task.wait(0.1) do
 			task.wait(2)
 			for i,Item in pairs(workspace.BoxingRoom:GetChildren()) do
 				print("DEBUG : ",Item)
+                local HowManyBoxesIsGettingUsed = 0
+                IAmUsingTheseBoxes = {}
 				if Item then
 					-- IF DRINKS
 					if Item.name == "Dew" then
@@ -1138,58 +1147,67 @@ while task.wait(0.1) do
 					print("DEBUG : I SEE YOU")
 					local HasBox = false
 					local ratelimitedPizzaBoxer_FindingBoxes = 0
+
                     repeat
+                        task.wait()
+                    until HowManyBoxesIsGettingUsed < 3
+
+                    coroutine.wrap(function()
+                        HowManyBoxesIsGettingUsed += 1
+                        repeat
+                            for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
+                                if HasBox == false and Boxes.Name == "BoxClosed" and Boxes.HasPizzaInside.Value == false then
+                                    print("DEBUG : PLACING BOX")
+                                    local args = {
+                                        Boxes,
+                                        "CFrame",
+                                        CFrame.new(67.99999237060547, 4.000000476837158, 21.500001907348633, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+                                    }
+                                    FireServerEvent(nil, "UpdateProperty", unpack(args))
+                                    task.wait(0.15)
+                                    FireServerEvent(nil, "OpenBox", Boxes)
+                                    task.wait(0.15)
+                                    HasBox = true
+                                    break
+                                end
+                            end
+                            task.wait(0.1)
+                            ratelimitedPizzaBoxer_FindingBoxes += 1
+                        until HasBox or ratelimitedPizzaBoxer_FindingBoxes > 5
+                        task.wait(0.1)
+
                         for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
-                            if HasBox == false and Boxes.Name == "BoxClosed" and Boxes.HasPizzaInside.Value == false then
-                                print("DEBUG : PLACING BOX")
+                            if Boxes.Name == "BoxOpen" and Boxes.Pizza.Value == nil and Item ~= nil and IAmUsingTheseBoxes[Boxes] == nil then
+                                print("DEBUG : PLACING PIZZA AND SLICING IT")
+                                IAmUsingTheseBoxes[Boxes] = true
                                 local args = {
                                     Boxes,
-                                    "CFrame",
-                                    CFrame.new(67.99999237060547, 4.000000476837158, 21.500001907348633, 1, 0, 0, 0, 1, 0, 0, 0, 1)
+                                    Item
                                 }
-                                FireServerEvent(nil, "UpdateProperty", unpack(args))
-                                task.wait(0.15)
-                                FireServerEvent(nil, "OpenBox", Boxes)
-                                task.wait(0.15)
-                                HasBox = true
+                                task.wait(0.125)
+                                FireServerEvent(nil, "AssignPizzaToBox", unpack(args))
+                                task.wait(.25)
+                                FireServerEvent(nil, "SlicePizza", Boxes)
+                                task.wait(0.125)
+                                FireServerEvent(nil, "CloseBox", Boxes)
+                                task.wait(0.125)
                                 break
                             end
                         end
+                        HowManyBoxesIsGettingUsed -= 1
                         task.wait(0.1)
-                        ratelimitedPizzaBoxer_FindingBoxes += 1
-                    until HasBox or ratelimitedPizzaBoxer_FindingBoxes > 5
-					task.wait(0.1)
-
-					for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
-						if Boxes.Name == "BoxOpen" and Boxes.Pizza.Value == nil and Item ~= nil then
-							print("DEBUG : PLACING PIZZA AND SLICING IT")
-							local args = {
-								Boxes,
-								Item
-							}
-							task.wait(0.25)
-							FireServerEvent(nil, "AssignPizzaToBox", unpack(args))
-							task.wait(.5)
-							FireServerEvent(nil, "SlicePizza", Boxes)
-							task.wait(0.25)
-							FireServerEvent(nil, "CloseBox", Boxes)
-							task.wait(0.25)
-							break
-						end
-					end
-					task.wait(0.2)
-
-                    for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
-                        if Boxes.Name == "BoxClosed" and Boxes.HasPizzaInside.Value == true then
-                            local args = {
-                                Boxes,
-                                "CFrame",
-                                CFrame.new(68.1999740600586, 4.40000057220459, 4.900001525878906, 0, 0, 1, 0, 1, -0, -1, 0, 0)
-                            }
-                            FireServerEvent(nil, "UpdateProperty", unpack(args))
-                            task.wait(.5)
+                        for j, Boxes in pairs(workspace.AllBox:GetChildren()) do
+                            if Boxes.Name == "BoxClosed" and Boxes.HasPizzaInside.Value == true and IAmUsingTheseBoxes[Boxes] == nil then
+                                local args = {
+                                    Boxes,
+                                    "CFrame",
+                                    CFrame.new(68.1999740600586, 4.40000057220459, 4.900001525878906, 0, 0, 1, 0, 1, -0, -1, 0, 0)
+                                }
+                                FireServerEvent(nil, "UpdateProperty", unpack(args))
+                                task.wait(.25)
+                            end
                         end
-                    end
+                    end)()
 
                     task.wait(0.2)
 				end
