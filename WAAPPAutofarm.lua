@@ -1002,7 +1002,7 @@ while task.wait(0.1) do
                                     Attachment2.Name = "FIByAttaching"
 
                                     AlignPosition.MaxForce = math.huge
-                                    AlignPosition.MaxVelocity = 999
+                                    AlignPosition.MaxVelocity = math.huge
                                     AlignPosition.Responsiveness = math.huge
                                     AlignPosition.Attachment0 = Attachment2
                                     AlignPosition.Attachment1 = Attachment1
