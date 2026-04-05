@@ -482,7 +482,7 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 			AlreadyPing = true
 		end
 
-		character = player.Character
+		character = player.Character or workspace:FindFirstChild(player.Name)
 
 		if not character:FindFirstChild("HumanoidRootPart") then
 			continue
