@@ -508,7 +508,7 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 			Info.Text = string.format("[%s, %s, %s]   %sH",math.round(xx),math.round(yy),math.round(zz),LIGHT.TimeOfDay)
 		end)
 
-		if not character:FindFirstChild("HumanoidRootPart") then
+		if not character and not character:FindFirstChild("HumanoidRootPart") then
 			print("ERR")
 			continue
 		end
@@ -652,4 +652,3 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 	end
 end
 coroutine.wrap(NBSJMTZ_fake_script)()
-
