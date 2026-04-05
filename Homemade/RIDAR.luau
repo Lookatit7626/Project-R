@@ -509,6 +509,7 @@ local function NBSJMTZ_fake_script() -- ScreenGui.LocalScript
 		end)
 
 		if not character and not character:FindFirstChild("HumanoidRootPart") then
+            print(character)
 			print("ERR")
 			continue
 		end
