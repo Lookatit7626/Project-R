@@ -630,7 +630,14 @@ game:GetService("Players").LocalPlayer.Idled:connect(function()
 end)
 
 
-local FireServerEvent = loadstring(game:HttpGet("https://raw.githubusercontent.com/Lookatit7626/Project-R/refs/heads/main/WorkAtAPizzaPlaceInternal.lua"))()
+local FireServerEvent
+for i ,v in pairs(getgc()) do
+    if typeof(v) == "function" and string.sub(debug.getinfo(v).short_src, -7) == "Network" and getinfo(v).name == "FireServer" then
+        FireServerEvent = v
+        print("Found FireServerEvent!")
+    end
+end
+-- Dear W@APP Developers, or any skids, feel free to patch these or use these.
 if FireServerEvent == nil then
 	warn("THIS IS NIL")
 	GUI:Destroy()
