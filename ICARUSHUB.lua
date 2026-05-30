@@ -2379,6 +2379,8 @@ elseif GameID == 119048529960596 then --Restarant tycoon 3
 		"Pasta",
 		"Lamb",
 		"Banana",
+		"Ice",
+		"Pumpkin",
 	}
 
 	table.sort(listOfFarm)
