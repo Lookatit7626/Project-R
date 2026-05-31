@@ -1,5 +1,3 @@
---Hi, pls credit and no skidding thks
-
 local verison = "V1.0.17"
 
 local cloneref = cloneref or function(o) return o end
@@ -2519,7 +2517,7 @@ elseif GameID == 119048529960596 then --Restarant tycoon 3
 
 								for j,k in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
 									if k:FindFirstChild("TextLabel") and k.Name == "BillboardGui"  then
-										if (k:FindFirstChild("TextLabel").Text == changedText or string.lower(k:FindFirstChild("TextLabel").Text) == string.lower(Text)) and v.Adornee ~= nil then
+										if (k:FindFirstChild("TextLabel").Text == changedText or string.lower(k:FindFirstChild("TextLabel").Text) == string.lower(Text)) and v.Adornee ~= nil and k.Adornee.Parent and k.Adornee.Parent.Parent then
 											local args = {
 												{
 													Name = "Serve",
