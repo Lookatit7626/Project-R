@@ -1,3 +1,5 @@
+--Hi, pls credit and no skidding thks
+
 local verison = "V1.0.17"
 
 local cloneref = cloneref or function(o) return o end
@@ -2460,7 +2462,7 @@ elseif GameID == 119048529960596 then --Restarant tycoon 3
 							changedText = string.sub(changedText,1, #changedText-1)
 							--print(changedText)
 
-							if v.Bubble.ImageColor3 ~= Color3.fromRGB(128, 128, 128) and v.Adornee ~= nil then
+							if v.Bubble.ImageColor3 ~= Color3.fromRGB(128, 128, 128) and v.Adornee ~= nil and v.Adornee.Parent and v.Adornee.Parent.Parent then
 								local args = {
 									{
 										GroupId = tostring(v.Adornee.Parent.Parent.Name),
@@ -2510,6 +2512,9 @@ elseif GameID == 119048529960596 then --Restarant tycoon 3
 								local Text = v.Bubble.Content.Header.Text
 								local changedText = table.concat(string.split(Text," "), " ",4)
 								changedText = string.sub(changedText,1, #changedText-1)
+								if string.split(changedText,"")[1] == '"' or string.split(changedText,"")[1] == "'" then
+									changedText = string.sub(changedText, 2, -2)
+								end
 								--print(changedText)
 
 								for j,k in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
