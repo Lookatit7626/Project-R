@@ -1136,18 +1136,20 @@ local Responsiveness = 1.3
 local SETSTATE = ""
 coroutine.wrap(function()
 	while task.wait() do
-		if ToGlideBool then
-			if lplr.Character and lplr.Character:FindFirstChild("HumanoidRootPart") then
-				if ToGlide_VF == nil or ToGlide_ATT == nil then
-					ToGlide_ATT = Instance.new("Attachment", lplr.Character.HumanoidRootPart)
-
-					ToGlide_VF = Instance.new("VectorForce", lplr.Character)
-					ToGlide_VF.Attachment0 = ToGlide_ATT
-					ToGlide_VF.ApplyAtCenterOfMass = true
-					ToGlide_VF.Enabled = false
-				end
+		if lplr.Character and lplr.Character:FindFirstChild("HumanoidRootPart") then
+			if ToGlideBool and (not lplr.Character:FindFirstChild("ICARUSSF_VectorForce") or ToGlide_VF == nil or ToGlide_ATT == nil or ToGlide_VF.Parent == nil or ToGlide_ATT.Parent == nil) then
+				ToGlide_ATT = nil
+				ToGlide_VF = nil
+				ToGlide_ATT = Instance.new("Attachment", lplr.Character.HumanoidRootPart)
+				ToGlide_VF = Instance.new("VectorForce", lplr.Character)
+				ToGlide_VF.Name = "ICARUSSF_VectorForce"
+				ToGlide_VF.Attachment0 = ToGlide_ATT
+				ToGlide_VF.ApplyAtCenterOfMass = true
+				ToGlide_VF.Enabled = false
+			end
+			if ToGlide_ATT and ToGlide_VF then
 				pcall(function()
-					if lplr.Character.HumanoidRootPart.Velocity.Y < -1 and ToGlide then
+					if lplr.Character.HumanoidRootPart.Velocity.Y < -1 and ToGlideBool then
 						if SETSTATE == "DOWN" then return else
 							SETSTATE = "DOWN"
 						end
@@ -1155,7 +1157,7 @@ coroutine.wrap(function()
 						ToGlide_VF.Enabled = true
 						repeat
 							RunService.RenderStepped:Wait()
-						until lplr.Character.HumanoidRootPart.Velocity.Y < -VelocityToAchieve or lplr.Character.HumanoidRootPart.Velocity.Y > -0.5
+						until not ToGlideBool or lplr.Character.HumanoidRootPart.Velocity.Y < -VelocityToAchieve or lplr.Character.HumanoidRootPart.Velocity.Y > -0.5
 						ToGlide_VF.Force = Vector3.new(0, (GetMassOfPlayer(lplr.Character) * game.Workspace.Gravity) ,0)
 					else
 						if SETSTATE == "UP" then return else
