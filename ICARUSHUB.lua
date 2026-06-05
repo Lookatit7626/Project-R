@@ -1,5 +1,5 @@
-local verison = "V1.0.17"
-
+local verison = "V1.0.18"
+local verisonUpdateNotes = "1.0.18 Updates :\nAdded 3 new Player's Script (Step, Glide, Safewalk)"
 local cloneref = cloneref or function(o) return o end
 
 local RunService = cloneref(game:GetService("RunService"))
@@ -252,7 +252,7 @@ end
 
 Library.ChangeTitle("ICARUS "..verison)
 
-Library.SetInformationText("1.0.17 Update :\nRemoved a few outdated scripts\nOpened source Icarus hub!\nadded more scripts for W@APP")
+Library.SetInformationText(verisonUpdateNotes)
 
 Players.LocalPlayer.OnTeleport:Connect(function(State)
 	if queueteleport and not IsTPingRN then
@@ -1059,6 +1059,183 @@ Library.CreateCustomPageTextButton("Spin",'Spin around',PLRSCR,function(SpinSpee
 		end
 	end
 end, 20)
+
+local ToSafeWalk
+local ToSafeWalkBool = false
+ToSafeWalk = Library.CreateCustomPageButton("ToSafeWalk","Safe Walk : Disabled",PLRSCR,function()
+	ToSafeWalkBool = not ToSafeWalkBool
+	if ToSafeWalkBool then
+		Library.ChangeCustomPageButtonTitle(ToSafeWalk,"Safe Walk : Enabled")
+	else
+		Library.ChangeCustomPageButtonTitle(ToSafeWalk,"Safe Walk : Disabled")
+	end
+end)
+
+local ToSafeWalk_Ray
+local ToSafeWalk_ALV
+local ToSafeWalk_RayOrigin
+local ToSafeWalk_WasJumpping = false
+local ToSafeWalk_done = false
+local ToSafeWalk_ExParam
+coroutine.wrap(function()
+	while task.wait() do
+		if ToSafeWalkBool then
+			if ToSafeWalk_lplrHumRoot == nil or ToSafeWalk_Hum == nil then
+				ToSafeWalk_lplrHumRoot = lplr.Character:FindFirstChild("HumanoidRootPart")
+				ToSafeWalk_Hum = lplr.Character:FindFirstChild("Humanoid")
+			end
+			if ToSafeWalk_lplrHumRoot and ToSafeWalk_Hum then
+				if ToSafeWalk_Hum:GetState() == Enum.HumanoidStateType.Jumping then
+					ToSafeWalk_WasJumpping = true
+				end
+				ToSafeWalk_ExParam = RaycastParams.new()
+				ToSafeWalk_ExParam.FilterType = Enum.RaycastFilterType.Exclude
+				ToSafeWalk_ExParam.FilterDescendantsInstances = {lplr.Character}
+				
+				ToSafeWalk_ALV = ToSafeWalk_lplrHumRoot.AssemblyLinearVelocity.Unit
+				ToSafeWalk_RayOrigin = ToSafeWalk_lplrHumRoot.Position + ToSafeWalk_ALV
+				ToSafeWalk_Ray = workspace:Raycast(ToSafeWalk_RayOrigin,-ToSafeWalk_lplrHumRoot.CFrame.UpVector*4, ToSafeWalk_ExParam)
+				
+				if not ToSafeWalk_Ray and not ToSafeWalk_WasJumpping and not workspace:Raycast(ToSafeWalk_lplrHumRoot.Position ,ToSafeWalk_ALV*3,ToSafeWalk_ExParam) then
+					ToSafeWalk_lplrHumRoot.Position = ToSafeWalk_lplrHumRoot.Position - ToSafeWalk_ALV*2
+				end
+				
+				if ToSafeWalk_Hum:GetState() == Enum.HumanoidStateType.Landed then
+					ToSafeWalk_WasJumpping = false
+				end
+			end
+		end
+	end
+end)()
+
+local ToGlide
+local ToGlideBool = false
+local ToGlide_VF
+local ToGlide_ATT
+local function GetMassOfPlayer(char : Model)
+	local TM = 0
+	for i,v in pairs(char:GetDescendants()) do
+		if v:IsA("BasePart") then
+			TM += v.Mass
+		end
+	end
+	return TM
+end
+
+ToGlide = Library.CreateCustomPageButton("ToGlide","Glide : Disabled",PLRSCR,function()
+	ToGlideBool = not ToGlideBool
+	if ToGlideBool then
+		Library.ChangeCustomPageButtonTitle(ToGlide,"Glide : Enabled")
+	else
+		Library.ChangeCustomPageButtonTitle(ToGlide,"Glide : Disabled")
+	end
+end)
+
+local VelocityToAchieve = 10
+local Responsiveness = 1.3
+local SETSTATE = ""
+coroutine.wrap(function()
+	while task.wait() do
+		if ToGlideBool then
+			if lplr.Character and lplr.Character:FindFirstChild("HumanoidRootPart") then
+				if ToGlide_VF == nil or ToGlide_ATT == nil then
+					ToGlide_ATT = Instance.new("Attachment", lplr.Character.HumanoidRootPart)
+
+					ToGlide_VF = Instance.new("VectorForce", lplr.Character)
+					ToGlide_VF.Attachment0 = ToGlide_ATT
+					ToGlide_VF.ApplyAtCenterOfMass = true
+					ToGlide_VF.Enabled = false
+				end
+				pcall(function()
+					if lplr.Character.HumanoidRootPart.Velocity.Y < -1 and ToGlide then
+						if SETSTATE == "DOWN" then return else
+							SETSTATE = "DOWN"
+						end
+						ToGlide_VF.Force = Vector3.new(0, (GetMassOfPlayer(lplr.Character) * game.Workspace.Gravity)/Responsiveness ,0)
+						ToGlide_VF.Enabled = true
+						repeat
+							RunService.RenderStepped:Wait()
+						until lplr.Character.HumanoidRootPart.Velocity.Y < -VelocityToAchieve or lplr.Character.HumanoidRootPart.Velocity.Y > -0.5
+						ToGlide_VF.Force = Vector3.new(0, (GetMassOfPlayer(lplr.Character) * game.Workspace.Gravity) ,0)
+					else
+						if SETSTATE == "UP" then return else
+							SETSTATE = "UP"
+						end
+						ToGlide_VF.Enabled = false
+					end
+				end)
+			end
+		end
+	end
+end)()
+
+local ToStep
+local ToStepBool = false
+
+ToStep = Library.CreateCustomPageButton("ToStep","Step : Disabled",PLRSCR,function()
+	ToStepBool = not ToStepBool
+	if ToStepBool then
+		Library.ChangeCustomPageButtonTitle(ToStep,"Step : Enabled")
+	else
+		Library.ChangeCustomPageButtonTitle(ToStep,"Step : Disabled")
+	end
+end)
+
+local ToStep_ForwardBy = 3
+local ToStep_YOffset = 2
+local ToStep_CoolDown = false
+
+local function HIT(hit, char, HRP)
+	if not ToStep_CoolDown and not hit:IsA("Terrain") and not hit:IsDescendantOf(char)  and hit.CanCollide and (hit.Size.Y/2 + hit.Position.Y) > HRP.Position.Y and ToStepBool then
+		--HRP.CFrame = HRP.CFrame * CFrame.new(0,-HRP.Position.Y ,0) * CFrame.new(0,(hit.Size.Y/2 + hit.Position.Y) + 4 ,0) 
+		if char:FindFirstChild("Humanoid") and char:FindFirstChild("Humanoid"):GetState() ~= Enum.HumanoidStateType.Jumping then
+			char:FindFirstChild("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
+		end
+		local Pos = HRP.CFrame.Position
+		HRP.CFrame = CFrame.new(Vector3.new(Pos.X,(hit.Size.Y/2 + hit.Position.Y) + ToStep_YOffset,Pos.Z)  + HRP.CFrame.LookVector * ToStep_ForwardBy , Vector3.new(Pos.X,(hit.Size.Y/2 + hit.Position.Y) + ToStep_YOffset,Pos.Z) + HRP.CFrame.LookVector * (ToStep_ForwardBy+2))
+		ToStep_CoolDown = true
+		task.delay(0.05,function()
+			ToStep_CoolDown = false
+		end)
+	end
+end
+
+local ToStep_HasDonejob = false
+
+coroutine.wrap(function()
+	while task.wait() do
+		if ToStepBool and ToStep_HasDonejob == false and lplr.Character then
+			repeat
+				task.wait()
+			until lplr.Character:FindFirstChild("HumanoidRootPart")
+			
+			local HRP = lplr.Character:FindFirstChild("HumanoidRootPart")
+			local Head = lplr.Character:FindFirstChild("Head")
+			local SIG = lplr.Character.HumanoidRootPart.Touched:Connect(function(hit : Part)
+				HIT(hit, lplr.Character, HRP)
+			end)
+			
+			local SIG2
+			if Head then
+				SIG2 = Head.Touched:Connect(function(hit : Part)
+					HIT(hit, lplr.Character, HRP)
+				end)
+			end
+			ToStep_HasDonejob = true
+			lplr.Character.Destroying:Connect(function()
+				ToStep_HasDonejob = false
+			end)
+			repeat
+				task.wait()
+			until ToStep_HasDonejob == false or ToStep == false
+			ToStep_HasDonejob = false
+			SIG:Disconnect()
+			if SIG2 then
+				SIG2:Disconnect()
+			end
+		end
+	end
+end)()
 
 Library.CreateCustomPageButton("resetGravity", "Reset Gravity to 196.2 ( Default )",PLRSCR, function()
 	game.Workspace.Gravity = 196.2
