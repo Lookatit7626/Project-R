@@ -1200,10 +1200,7 @@ lplr.CharacterAdded:Connect(function(ToDeathSetSpawn_NewChar)
 		ToDeathSetSpawn_HumRoot = ToDeathSetSpawn_NewChar:WaitForChild("HumanoidRootPart")
 		ToDeathSetSpawn_Hum = ToDeathSetSpawn_NewChar:WaitForChild("Humanoid")
 		task.wait(0.5)
-		repeat
-			ToDeathSetSpawn_HumRoot.CFrame  = CFrame.lookAt(ToDeathSetSpawn_previousCFrame.Position - ToDeathSetSpawn_previousCFrame.LookVector * 2,ToDeathSetSpawn_previousCFrame.Position)
-			task.wait()
-		until isCFrameClose(ToDeathSetSpawn_HumRoot.CFrame,CFrame.lookAt(ToDeathSetSpawn_previousCFrame.Position - ToDeathSetSpawn_previousCFrame.LookVector * 2,ToDeathSetSpawn_previousCFrame.Position))
+		ToDeathSetSpawn_HumRoot.CFrame  = CFrame.lookAt(ToDeathSetSpawn_previousCFrame.Position - ToDeathSetSpawn_previousCFrame.LookVector * 2,ToDeathSetSpawn_previousCFrame.Position)
 	end
 	if ToDeathSetSpawnBool then
 		ToDeathSetSpawn_HumRoot = ToDeathSetSpawn_NewChar:WaitForChild("HumanoidRootPart")
