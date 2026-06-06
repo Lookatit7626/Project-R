@@ -1,5 +1,5 @@
 local verison = "V1.0.18"
-local verisonUpdateNotes = "1.0.18 Updates :\nAdded 3 new Player's Script (Step, Glide, Safewalk)"
+local verisonUpdateNotes = "1.0.18 Updates :\nAdded 4 new Player's Script (Step, Glide, Safewalk, Death Spawn Point)"
 local cloneref = cloneref or function(o) return o end
 
 local RunService = cloneref(game:GetService("RunService"))
@@ -9,7 +9,7 @@ local TS = cloneref(game:GetService('TweenService'))
 local PathFindingService = cloneref(game:GetService('PathfindingService'))
 local TweenService = TS
 local ReplicatedStorage = cloneref(game:GetService('ReplicatedStorage'))
-Lighting = cloneref(game:GetService("Lighting"))
+local Lighting = cloneref(game:GetService("Lighting"))
 local Players = cloneref(game:GetService("Players"))
 local LocalizationService = cloneref(game:GetService("LocalizationService"))
 local PhysicsService = cloneref(game:GetService("PhysicsService"))
@@ -1076,6 +1076,8 @@ local ToSafeWalk_ALV
 local ToSafeWalk_RayOrigin
 local ToSafeWalk_WasJumpping = false
 local ToSafeWalk_done = false
+local ToSafeWalk_lplrHumRoot
+local ToSafeWalk_Hum
 local ToSafeWalk_ExParam
 coroutine.wrap(function()
 	while task.wait() do
@@ -1093,11 +1095,11 @@ coroutine.wrap(function()
 				ToSafeWalk_ExParam.FilterDescendantsInstances = {lplr.Character}
 				
 				ToSafeWalk_ALV = ToSafeWalk_lplrHumRoot.AssemblyLinearVelocity.Unit
-				ToSafeWalk_RayOrigin = ToSafeWalk_lplrHumRoot.Position + ToSafeWalk_ALV
+				ToSafeWalk_RayOrigin = ToSafeWalk_lplrHumRoot.Position + ToSafeWalk_ALV*1.5
 				ToSafeWalk_Ray = workspace:Raycast(ToSafeWalk_RayOrigin,-ToSafeWalk_lplrHumRoot.CFrame.UpVector*4, ToSafeWalk_ExParam)
 				
 				if not ToSafeWalk_Ray and not ToSafeWalk_WasJumpping and not workspace:Raycast(ToSafeWalk_lplrHumRoot.Position ,ToSafeWalk_ALV*3,ToSafeWalk_ExParam) then
-					ToSafeWalk_lplrHumRoot.Position = ToSafeWalk_lplrHumRoot.Position - ToSafeWalk_ALV*2
+					ToSafeWalk_lplrHumRoot.CFrame = CFrame.fromMatrix(ToSafeWalk_lplrHumRoot.Position - ToSafeWalk_ALV*3,ToSafeWalk_lplrHumRoot.CFrame.RightVector,ToSafeWalk_lplrHumRoot.CFrame.UpVector,-ToSafeWalk_lplrHumRoot.CFrame.LookVector)
 				end
 				
 				if ToSafeWalk_Hum:GetState() == Enum.HumanoidStateType.Landed then
@@ -1170,6 +1172,78 @@ coroutine.wrap(function()
 		end
 	end
 end)()
+
+local ToDeathSetSpawn
+local ToDeathSetSpawnBool = false
+local ToDeathSetSpawn_previousCFrame
+local ToDeathSetSpawn_ALV
+local ToDeathSetSpawn_HumRoot : Part
+local ToDeathSetSpawn_Hum
+local ToDeathSetSpawn_PartToSpawn = nil
+local ToDeathSetSpawn_Died = false
+
+ToDeathSetSpawn = Library.CreateCustomPageButton("ToDeathSetSpawn","Set death as spawnpoint : Disabled",PLRSCR,function()
+	ToDeathSetSpawnBool = not ToDeathSetSpawnBool
+	if ToDeathSetSpawnBool then
+		Library.ChangeCustomPageButtonTitle(ToDeathSetSpawn,"Set death as spawnpoint : Enabled")
+	else
+		Library.ChangeCustomPageButtonTitle(ToDeathSetSpawn,"Set death as spawnpoint : Disabled")
+	end
+end)
+
+local function isCFrameClose(CF1,CF2)
+	return (CF1.Position - CF2.Position).Magnitude < 1
+end
+
+lplr.CharacterAdded:Connect(function(ToDeathSetSpawn_NewChar)
+	if ToDeathSetSpawnBool and ToDeathSetSpawn_previousCFrame then
+		ToDeathSetSpawn_HumRoot = ToDeathSetSpawn_NewChar:WaitForChild("HumanoidRootPart")
+		ToDeathSetSpawn_Hum = ToDeathSetSpawn_NewChar:WaitForChild("Humanoid")
+		task.wait(0.5)
+		repeat
+			ToDeathSetSpawn_HumRoot.CFrame  = CFrame.lookAt(ToDeathSetSpawn_previousCFrame.Position - ToDeathSetSpawn_previousCFrame.LookVector * 2,ToDeathSetSpawn_previousCFrame.Position)
+			task.wait()
+		until isCFrameClose(ToDeathSetSpawn_HumRoot.CFrame,CFrame.lookAt(ToDeathSetSpawn_previousCFrame.Position - ToDeathSetSpawn_previousCFrame.LookVector * 2,ToDeathSetSpawn_previousCFrame.Position))
+	end
+	if ToDeathSetSpawnBool then
+		ToDeathSetSpawn_HumRoot = ToDeathSetSpawn_NewChar:WaitForChild("HumanoidRootPart")
+		ToDeathSetSpawn_Hum = ToDeathSetSpawn_NewChar:WaitForChild("Humanoid")
+		
+		repeat
+			ToDeathSetSpawn_Died = false
+			task.wait()
+		until not ( ToDeathSetSpawn_Hum.Health > 0) 
+	end
+end)
+
+coroutine.wrap(function()
+	while task.wait() do
+		if ToDeathSetSpawnBool then
+			if not ToDeathSetSpawn_Hum or not ToDeathSetSpawn_HumRoot then
+				ToDeathSetSpawn_Hum = lplr.Character:FindFirstChild("Humanoid")
+				ToDeathSetSpawn_HumRoot = lplr.Character:FindFirstChild("HumanoidRootPart")
+			end
+			if ToDeathSetSpawn_Hum and ToDeathSetSpawn_HumRoot then
+				if ToDeathSetSpawn_Hum.Health > 0 and not ToDeathSetSpawn_Died then
+					ToDeathSetSpawn_previousCFrame = ToDeathSetSpawn_HumRoot.CFrame
+					ToDeathSetSpawn_ALV = ToDeathSetSpawn_HumRoot.AssemblyLinearVelocity
+				elseif not ( ToDeathSetSpawn_Hum.Health > 0) then
+					ToDeathSetSpawn_Died = true
+				end
+			end
+		else
+			if ToDeathSetSpawn_PartToSpawn then
+				ToDeathSetSpawn_PartToSpawn:Destroy()
+			end
+			ToDeathSetSpawn_PartToSpawn= nil
+			ToDeathSetSpawn_previousCFrame = nil
+			ToDeathSetSpawn_HumRoot = nil
+			ToDeathSetSpawn_Hum = nil
+			ToDeathSetSpawn_Died = false
+		end
+	end
+end)()
+
 
 local ToStep
 local ToStepBool = false
