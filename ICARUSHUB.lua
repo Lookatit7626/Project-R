@@ -1331,10 +1331,10 @@ function ESP(plr)
 			end
 		end
 
-		wait()
+		task.wait()
 
 		while plr.Character == nil do
-			wait(0.01)
+			task.wait(0.01)
 		end
 
 		if plr.Character and plr.Name ~= game:GetService('Players').LocalPlayer.Name and not COREGUI:FindFirstChild(plr.Name..'_ESP') then
@@ -1422,9 +1422,7 @@ function ESP(plr)
 					end)
 
 					if not suc then
-						if ESPenabled then
-							KILLESP()
-						end
+						KILLESP()
 					end
 				end)
 
@@ -1522,14 +1520,6 @@ Library.CreateCustomPageButton("ESP","ESP (Name and Health)",PLRSCR,function()
 	end
 
 	if ESPenabled then
-		for i,v in pairs(game:GetService('Players'):GetPlayers()) do
-			if v.Name ~= game:GetService('Players').LocalPlayer.Name then
-				v.CharacterAdded:Connect(function()
-					ESP(v)
-				end)
-			end
-		end
-
 		coroutine.wrap(function()
 			PLAYERRBXESP = game:GetService('Players').PlayerAdded:Connect(function(play)
 				play.CharacterAdded:Connect(function()
@@ -2514,6 +2504,18 @@ elseif GameID == 119048529960596 then --Restarant tycoon 3
 	local TableArrangements = {}
 	TableArrangements = {}
 
+	local DoForFriends
+	local DoForFriendsBool = false
+
+	DoForFriends = Library.CreateCustomPageButton("DoForFriends","Do for friends : disabled",simForGames,function()
+		DoForFriendsBool = not DoForFriendsBool
+		if DoForFriendsBool then
+			Library.ChangeCustomPageButtonTitle(DoForFriends,"Do for friends : enabled")
+		else
+			Library.ChangeCustomPageButtonTitle(DoForFriends,"Do for friends : disabled")
+		end
+	end)
+
 	local Furniture
 	local Surface
 
@@ -2521,29 +2523,54 @@ elseif GameID == 119048529960596 then --Restarant tycoon 3
 		AutoSetTableBool = not AutoSetTableBool
 		if AutoSetTableBool then
 			Library.ChangeCustomPageButtonTitle(AutoSetTable,"Auto set tables : enabled")
-
-			if TYCOON ~= game:GetService("Players").LocalPlayer.Tycoon.Value then
-				TYCOON = game:GetService("Players").LocalPlayer.Tycoon.Value
-			end
-
-			if TYCOON == nil then return end
-
 			TableArrangements = {}
-			Furniture = TYCOON.Items.Furniture
-			Surface = TYCOON.Items.Surface
+			if not DoForFriendsBool then
+				if TYCOON ~= game:GetService("Players").LocalPlayer.Tycoon.Value then
+					TYCOON = game:GetService("Players").LocalPlayer.Tycoon.Value
+				end
 
-			for i,Table in pairs(Surface:GetChildren()) do
-				if string.sub(Table.Name,1,1) =="T" then
-					for j, Chairs in pairs(Furniture:GetChildren()) do
-						if string.sub(Chairs.Name,1,1) =="C" then
-							local CPOP = ClosestPointOnPart(Chairs.PrimaryPart , Table.WorldPivot.Position)
+				if TYCOON == nil then return end
+				Furniture = TYCOON.Items.Furniture
+				Surface = TYCOON.Items.Surface
+				TableArrangements[lplr.Name] = {}
 
-							if ( CPOP - Table.WorldPivot.Position ).Magnitude <= 4 and not CheckForOb(Chairs.PrimaryPart, Table.PrimaryPart) then
+				for i,Table in pairs(Surface:GetChildren()) do
+					if string.sub(Table.Name,1,1) =="T" then
+						for j, Chairs in pairs(Furniture:GetChildren()) do
+							if string.sub(Chairs.Name,1,1) =="C" then
+								local CPOP = ClosestPointOnPart(Chairs.PrimaryPart , Table.WorldPivot.Position)
 
-								if TableArrangements[Table] == nil then
-									TableArrangements[Table] = { ["Table"] = Table, ["Chairs"] = {} }
+								if ( CPOP - Table.WorldPivot.Position ).Magnitude <= 4 and not CheckForOb(Chairs.PrimaryPart, Table.PrimaryPart) then
+									if TableArrangements[lplr.Name][Table] == nil then
+										TableArrangements[lplr.Name][Table] = { ["Table"] = Table, ["Chairs"] = {} }
+									end
+									table.insert(TableArrangements[lplr.Name][Table]["Chairs"], Chairs)
 								end
-								table.insert(TableArrangements[Table]["Chairs"], Chairs)
+							end
+						end
+					end
+				end
+			else
+				for _, plrrrrrrred in pairs(game:GetService("Players"):GetPlayers()) do
+					TYCOON = plrrrrrrred.Tycoon.Value
+
+					if TYCOON == nil then continue end
+					Furniture = TYCOON.Items.Furniture
+					Surface = TYCOON.Items.Surface
+					TableArrangements[plrrrrrrred.Name] = {}
+					for i,Table in pairs(Surface:GetChildren()) do
+						if string.sub(Table.Name,1,1) =="T" then
+							for j, Chairs in pairs(Furniture:GetChildren()) do
+								if string.sub(Chairs.Name,1,1) =="C" then
+									local CPOP = ClosestPointOnPart(Chairs.PrimaryPart , Table.WorldPivot.Position)
+
+									if ( CPOP - Table.WorldPivot.Position ).Magnitude <= 4 and not CheckForOb(Chairs.PrimaryPart, Table.PrimaryPart) then
+										if TableArrangements[plrrrrrrred.Name][Table] == nil then
+											TableArrangements[plrrrrrrred.Name][Table] = { ["Table"] = Table, ["Chairs"] = {} }
+										end
+										table.insert(TableArrangements[plrrrrrrred.Name][Table]["Chairs"], Chairs)
+									end
+								end
 							end
 						end
 					end
@@ -2653,14 +2680,44 @@ elseif GameID == 119048529960596 then --Restarant tycoon 3
 	local Events = game:GetService("ReplicatedStorage"):WaitForChild("Events")
 	local BestFitTable
 	local suc, err
+	local playersInd = 0
+	local SelectedPlr
+	local SelectTimeLimit = 0
+	local CurrencyCheckTextLabel = game:GetService("Players").LocalPlayer.PlayerGui.Currency.Frame.Owner
 	coroutine.wrap(function()
 		while task.wait(.1) do
 			suc, err = pcall(function()
-				if TYCOON ~= game:GetService("Players").LocalPlayer.Tycoon.Value then
+				if TYCOON ~= game:GetService("Players").LocalPlayer.Tycoon.Value and not DoForFriendsBool then
 					TYCOON = game:GetService("Players").LocalPlayer.Tycoon.Value
+					SelectedPlr = lplr
+				elseif DoForFriendsBool then
+					if playersInd > #players:GetPlayers() -1 then
+						playersInd = 0
+					end
+					repeat
+						playersInd += 1
+					until players:GetPlayers()[playersInd] == lplr or players:GetPlayers()[playersInd]:IsFriendsWith(lplr.UserId)
+					TYCOON = players:GetPlayers()[playersInd].Tycoon.Value
+					SelectedPlr = players:GetPlayers()[playersInd]
+				end
+				if DoForFriendsBool and (AutoSetTableBool or AutoTakeOrderBool or AutoCookBool or AutoServeFoodBool or AutoClearTableBool) then
+					local args = {
+						{
+							part = TYCOON:WaitForChild("Default"):WaitForChild("Base"),
+							owner = SelectedPlr,
+							name = "Tycoon",
+							tycoon = TYCOON
+						}
+					}
+					
+					game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("Location"):WaitForChild("LocationChanged"):FireServer(unpack(args))
+					SelectTimeLimit = 0
+					repeat
+						task.wait(0.1)
+						SelectTimeLimit += .1
+					until SelectTimeLimit > 2 or (CurrencyCheckTextLabel.Text == "" and SelectedPlr == lplr) or (string.lower(string.split(CurrencyCheckTextLabel.Text,"'")[1]) == string.lower(SelectedPlr.DisplayName))
 				end
 				if AutoSetTableBool then
-
 					for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui:GetChildren()) do
 						if v:FindFirstChild("Bubble") and v.Name == "CustomerSpeechUI"  then
 							if v.Bubble.ImageColor3 ~= Color3.fromRGB(128, 128, 128) then
@@ -2673,8 +2730,10 @@ elseif GameID == 119048529960596 then --Restarant tycoon 3
 									BestFitTable = nil
 									local NumOfCustomers = tonumber(string.sub(SplitedText[1],1,1)) or tonumber(string.split(Text," ")[3])
 									--print(NumOfCustomers)
-
-									for q,TableToCheck in pairs(TableArrangements) do
+									if TableArrangements[SelectedPlr.Name] == nil then
+										continue
+									end
+									for q,TableToCheck in pairs(TableArrangements[SelectedPlr.Name]) do
 										if BestFitTable == nil and (TableToCheck["Table"]:GetAttribute("InUse") ~= true) and #TableToCheck["Chairs"] >= NumOfCustomers then
 											BestFitTable = TableToCheck
 											--print("Found seat")
@@ -2823,8 +2882,6 @@ elseif GameID == 119048529960596 then --Restarant tycoon 3
 			end
 		end
 	end)()
-
-
 
 elseif GameID == 2210085102 then -- Naval Warfare
 	local SpamCaptureFlags
