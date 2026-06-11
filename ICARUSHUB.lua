@@ -1325,14 +1325,17 @@ coroutine.wrap(function()
 	while task.wait(0.1) do
 		if ESPenabled then
 			for _ , ESP_plrrr in pairs(game.Players:GetPlayers()) do
-				if not COREGUI:FindFirstChild(ESP_plrrr.Name..'_ESP') and ESP_plrrr ~= lplr then
+				if (not COREGUI:FindFirstChild(ESP_plrrr.Name..'_ESP') and ESP_plrrr ~= lplr )or (COREGUI:FindFirstChild(ESP_plrrr.Name..'_ESP') and not COREGUI:FindFirstChild(ESP_plrrr.Name..'_ESP'):FindFirstChild(ESP_plrrr.Name.."_Text")) then
+
+					if COREGUI:FindFirstChild(ESP_plrrr.Name..'_ESP') then
+						COREGUI:FindFirstChild(ESP_plrrr.Name..'_ESP'):Destroy()
+					end
 					local ESPHolder = Instance.new("Folder")
 					local BillboardGui
 					ESPHolder.Name = ESP_plrrr.Name..'_ESP'
 					ESPHolder.Parent = COREGUI
 					function CreateChar()
 						local suc, err = pcall(function()
-							repeat task.wait(0.01) until ESP_plrrr.Character or ESP_plrrr == nil
 							if ESP_plrrr == nil or ESP_plrrr.Character == nil then
 								ESPHolder:Destroy()
 								warn("DEBUG : Player left")
@@ -1341,9 +1344,6 @@ coroutine.wrap(function()
 							task.wait(0.5)
 							for b,n in pairs (ESP_plrrr.Character:GetChildren()) do
 								if (n:IsA("BasePart")) then
-									if ESPHolder:FindFirstChild(ESP_plrrr.Name.."_"..n.Name) then
-										ESPHolder:FindFirstChild(ESP_plrrr.Name.."_"..n.Name):Destroy()
-									end
 									local a = Instance.new("BoxHandleAdornment")
 									a.Name = n.Name
 									a.Parent = ESPHolder
@@ -1373,6 +1373,7 @@ coroutine.wrap(function()
 												pcall(function()
 													ESPHolder:Destroy()
 												end) -- Hmm, its not longer there, it means it might have died and does not know it...
+												return
 											end
 											n = ESP_plrrr.Character:FindFirstChild(a.Name)
 											a.Adornee = n
@@ -1384,14 +1385,17 @@ coroutine.wrap(function()
 											end)
 										end
 									end)()
+								else
+									if ESPHolder:FindFirstChild(ESP_plrrr.Name.."_"..n.Name) then
+										ESPHolder:FindFirstChild(ESP_plrrr.Name.."_"..n.Name):Destroy()
+									end
 								end
 							end
-							if ESP_plrrr.Character and ESP_plrrr.Character:FindFirstChild('Head') and not ESPHolder:FindFirstChild(ESP_plrrr.Name.."_Text") then
+							if ESP_plrrr.Character and ESP_plrrr.Character:FindFirstChild('Head') and ESPHolder and not ESPHolder:FindFirstChild(ESP_plrrr.Name.."_Text") then
 								BillboardGui = Instance.new("BillboardGui")
 								local TextLabel = Instance.new("TextLabel")
 								BillboardGui.Adornee = ESP_plrrr.Character.Head
 								BillboardGui:GetPropertyChangedSignal("Adornee"):Connect(function()
-									repeat task.wait(0.01) until ESP_plrrr.Character:FindFirstChild('Head')
 									BillboardGui.Adornee = ESP_plrrr.Character.Head
 								end)
 								BillboardGui.Name = ESP_plrrr.Name.."_Text"
@@ -3096,7 +3100,10 @@ elseif GameID == 142823291 then --MM2
 		while task.wait(0.1) do
 			if ESPMM2Bool then
 				for _ , plrsMM2 in pairs(game.Players:GetPlayers()) do
-					if not COREGUI:FindFirstChild(plrsMM2.Name..'_ESP') and plrsMM2 ~= lplr then
+					if (not COREGUI:FindFirstChild(plrsMM2.Name..'_ESP') and plrsMM2 ~= lplr) or (COREGUI:FindFirstChild(plrsMM2.Name..'_ESP') and not COREGUI:FindFirstChild(plrsMM2.Name..'_ESP'):FindFirstChild(plrsMM2.Name.."_Text")) then
+						if COREGUI:FindFirstChild(plrsMM2.Name..'_ESP') then
+							COREGUI:FindFirstChild(plrsMM2.Name..'_ESP'):Destroy()
+						end
 						local MM2ESPHolder = Instance.new("Folder")
 						local BillboardGui
 
@@ -3104,61 +3111,111 @@ elseif GameID == 142823291 then --MM2
 						MM2ESPHolder.Parent = COREGUI
 						function CreateChar()
 							local suc, err = pcall(function()
-								repeat task.wait(0.01) until plrsMM2.Character or plrsMM2 == nil
 								if plrsMM2 == nil or plrsMM2.Character == nil then
 									MM2ESPHolder:Destroy()
 									warn("DEBUG : Player left")
 									return
-								end
-								task.wait(0.5)
-								for b,n in pairs (plrsMM2.Character:GetChildren()) do
-									if (n:IsA("BasePart")) then
-										if MM2ESPHolder:FindFirstChild(plrsMM2.Name.."_"..n.Name) then
-											MM2ESPHolder:FindFirstChild(plrsMM2.Name.."_"..n.Name):Destroy()
-										end
-										local a = Instance.new("BoxHandleAdornment")
-										a.Name = n.Name
-										a.Parent = MM2ESPHolder
-										a.Adornee = n
-										a.AlwaysOnTop = true
-										a.ZIndex = 10
-										a.Size = n.Size
-										a.Transparency = 0.4
-										a.Color = BrickColor.new("Medium green")
-										pcall(function()
-											n:GetPropertyChangedSignal('Size'):Connect(function()
-												a.Size = n.Size
+								else
+									for b,n in pairs (plrsMM2.Character:GetChildren()) do
+										if (n:IsA("BasePart")) then
+											if MM2ESPHolder:FindFirstChild(plrsMM2.Name.."_"..n.Name) then
+												MM2ESPHolder:FindFirstChild(plrsMM2.Name.."_"..n.Name):Destroy()
+											end
+											local a = Instance.new("BoxHandleAdornment")
+											a.Name = n.Name
+											a.Parent = MM2ESPHolder
+											a.Adornee = n
+											a.AlwaysOnTop = true
+											a.ZIndex = 10
+											a.Size = n.Size
+											a.Transparency = 0.4
+											a.Color = BrickColor.new("Medium green")
+											pcall(function()
+												n:GetPropertyChangedSignal('Size'):Connect(function()
+													a.Size = n.Size
+												end)
 											end)
-										end)
-										pcall(function()
-											n.Destroying:Connect(function()
-												if MM2ESPHolder then
-													MM2ESPHolder:Destroy()
-												end
-												a:Destroy()
-												-- All of these are in a pcall above, but they are still emitting errors???
-											end)
-										end)
-										coroutine.wrap(function()
-											while task.wait(0.01) and a do
-												if not plrsMM2 or not plrsMM2.Character or not plrsMM2.Character:FindFirstChild(a.Name) then
-													pcall(function()
+											pcall(function()
+												n.Destroying:Connect(function()
+													if MM2ESPHolder then
 														MM2ESPHolder:Destroy()
-													end) -- Hmm, its not longer there, it means it might have died and does not know it...
-												end
-												n = plrsMM2.Character:FindFirstChild(a.Name)
-												a.Adornee = n
-												pcall(function()
-													if plrsMM2.Backpack:FindFirstChild("Knife") ~= nil or plrsMM2.Character:FindFirstChild("Knife") ~= nil then
-														--Murderer
-														a.Color = BrickColor.new("Persimmon")
-													elseif plrsMM2.Backpack:FindFirstChild("Gun") ~= nil or plrsMM2.Character:FindFirstChild("Gun") ~= nil then
-														--Sheriff
-														a.Color = BrickColor.new("Deep blue")
-													else
-														--innocent
-														a.Color = BrickColor.new("Medium green")
 													end
+													a:Destroy()
+													-- All of these are in a pcall above, but they are still emitting errors???
+												end)
+											end)
+											coroutine.wrap(function()
+												while task.wait(0.01) and a do
+													if not plrsMM2 or not plrsMM2.Character or not plrsMM2.Character:FindFirstChild(a.Name) then
+														pcall(function()
+															MM2ESPHolder:Destroy()
+														end) -- Hmm, its not longer there, it means it might have died and does not know it...
+														return
+													else
+														n = plrsMM2.Character:FindFirstChild(a.Name)
+														a.Adornee = n
+														pcall(function()
+															if plrsMM2.Backpack:FindFirstChild("Knife") ~= nil or plrsMM2.Character:FindFirstChild("Knife") ~= nil then
+																--Murderer
+																a.Color = BrickColor.new("Persimmon")
+															elseif plrsMM2.Backpack:FindFirstChild("Gun") ~= nil or plrsMM2.Character:FindFirstChild("Gun") ~= nil then
+																--Sheriff
+																a.Color = BrickColor.new("Deep blue")
+															else
+																--innocent
+																a.Color = BrickColor.new("Medium green")
+															end
+															if not ESPMM2Bool then
+																MM2ESPHolder:Destroy()
+															end
+														end)
+													end
+												end
+											end)()
+										end
+									end
+
+
+									if plrsMM2.Character and plrsMM2.Character:FindFirstChild('Head') and not MM2ESPHolder:FindFirstChild(plrsMM2.Name.."_Text") then
+										BillboardGui = Instance.new("BillboardGui")
+										local TextLabel = Instance.new("TextLabel")
+										BillboardGui.Adornee = plrsMM2.Character.Head
+										BillboardGui:GetPropertyChangedSignal("Adornee"):Connect(function()
+											if plrsMM2.Character and plrsMM2.Character:FindFirstChild("Head") then
+												BillboardGui.Adornee = plrsMM2.Character.Head
+											end
+										end)
+										BillboardGui.Name = plrsMM2.Name.."_Text"
+										BillboardGui.Parent = MM2ESPHolder
+										BillboardGui.Size = UDim2.new(0, 100, 0, 150)
+										BillboardGui.StudsOffset = Vector3.new(0, 1, 0)
+										BillboardGui.AlwaysOnTop = true
+										TextLabel.Parent = BillboardGui
+										TextLabel.BackgroundTransparency = 1
+										TextLabel.Position = UDim2.new(0, 0, 0, -50)
+										TextLabel.Size = UDim2.new(0, 100, 0, 100)
+										TextLabel.Font = Enum.Font.SourceSansSemibold
+										TextLabel.TextSize = 15
+										TextLabel.TextColor3 = Color3.new(1, 1, 1)
+										TextLabel.TextStrokeTransparency = 0
+										TextLabel.TextYAlignment = Enum.TextYAlignment.Bottom
+										TextLabel.Text = 'nil'
+										TextLabel.ZIndex = 10
+
+										coroutine.wrap(function()
+											while TextLabel do
+												task.wait(0.01)
+												pcall(function()
+													if plrsMM2.Character and getRoot(plrsMM2.Character) and plrsMM2.Character:FindFirstChildOfClass("Humanoid") and game:GetService('Players').LocalPlayer.Character and getRoot(game:GetService('Players').LocalPlayer.Character) and game:GetService('Players').LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
+														BillboardGui.Adornee = plrsMM2.Character.Head
+														local pos = math.floor((getRoot(game:GetService('Players').LocalPlayer.Character).Position - getRoot(plrsMM2.Character).Position).magnitude)
+														if game:GetService('Players').LocalPlayer:IsFriendsWith(plrsMM2.UserId) then
+															TextLabel.Text = '[ FRIEND ] Name: '..plrsMM2.Name..' | Studs: '..pos
+														else
+															TextLabel.Text = 'Name: '..plrsMM2.Name..' | Studs: '..pos
+														end
+													end
+
 													if not ESPMM2Bool then
 														MM2ESPHolder:Destroy()
 													end
@@ -3166,54 +3223,6 @@ elseif GameID == 142823291 then --MM2
 											end
 										end)()
 									end
-								end
-
-
-								if plrsMM2.Character and plrsMM2.Character:FindFirstChild('Head') and not MM2ESPHolder:FindFirstChild(plrsMM2.Name.."_Text") then
-									BillboardGui = Instance.new("BillboardGui")
-									local TextLabel = Instance.new("TextLabel")
-									BillboardGui.Adornee = plrsMM2.Character.Head
-									BillboardGui:GetPropertyChangedSignal("Adornee"):Connect(function()
-										repeat task.wait(0.01) until plrsMM2.Character:FindFirstChild('Head')
-										BillboardGui.Adornee = plrsMM2.Character.Head
-									end)
-									BillboardGui.Name = plrsMM2.Name.."_Text"
-									BillboardGui.Parent = MM2ESPHolder
-									BillboardGui.Size = UDim2.new(0, 100, 0, 150)
-									BillboardGui.StudsOffset = Vector3.new(0, 1, 0)
-									BillboardGui.AlwaysOnTop = true
-									TextLabel.Parent = BillboardGui
-									TextLabel.BackgroundTransparency = 1
-									TextLabel.Position = UDim2.new(0, 0, 0, -50)
-									TextLabel.Size = UDim2.new(0, 100, 0, 100)
-									TextLabel.Font = Enum.Font.SourceSansSemibold
-									TextLabel.TextSize = 15
-									TextLabel.TextColor3 = Color3.new(1, 1, 1)
-									TextLabel.TextStrokeTransparency = 0
-									TextLabel.TextYAlignment = Enum.TextYAlignment.Bottom
-									TextLabel.Text = 'nil'
-									TextLabel.ZIndex = 10
-
-									coroutine.wrap(function()
-										while TextLabel do
-											task.wait(0.01)
-											pcall(function()
-												if plrsMM2.Character and getRoot(plrsMM2.Character) and plrsMM2.Character:FindFirstChildOfClass("Humanoid") and game:GetService('Players').LocalPlayer.Character and getRoot(game:GetService('Players').LocalPlayer.Character) and game:GetService('Players').LocalPlayer.Character:FindFirstChildOfClass("Humanoid") then
-													BillboardGui.Adornee = plrsMM2.Character.Head
-													local pos = math.floor((getRoot(game:GetService('Players').LocalPlayer.Character).Position - getRoot(plrsMM2.Character).Position).magnitude)
-													if game:GetService('Players').LocalPlayer:IsFriendsWith(plrsMM2.UserId) then
-														TextLabel.Text = '[ FRIEND ] Name: '..plrsMM2.Name..' | Studs: '..pos
-													else
-														TextLabel.Text = 'Name: '..plrsMM2.Name..' | Studs: '..pos
-													end
-												end
-
-												if not ESPMM2Bool then
-													MM2ESPHolder:Destroy()
-												end
-											end)
-										end
-									end)()
 								end
 							end)
 							if not suc then
@@ -3345,7 +3354,7 @@ elseif GameID == 142823291 then --MM2
 									repeat 
 										--CFrame.new(plrMM2.HumanoidRootPart.Position - plrMM2.Character.HumanoidRootPart.CFrame.LookVector.Unit * -5)
 										RunService.RenderStepped:wait();
-										if lplr.Character:FindFirstChild("Gun") then
+										if lplr.Character:FindFirstChild("Gun") and plrMM2.Character then
 											MM2_GunHandle = lplr.Character:FindFirstChild("Gun").Handle
 											MM2_PredictPlayersDirection = plrMM2.Character.HumanoidRootPart.Position + plrMM2.Character.HumanoidRootPart.AssemblyLinearVelocity*0.5
 											MM2_Vec = (MM2_PredictPlayersDirection - lplr.Character:FindFirstChild("Gun").Handle.Position)
@@ -3359,8 +3368,6 @@ elseif GameID == 142823291 then --MM2
 													CFrame.new(MM2_PredictPlayersDirection)
 												}
 												lplr.Character:FindFirstChild("Gun"):WaitForChild("Shoot"):FireServer(unpack(MM2_ShootArgs))
-											else
-												print(MM2_CastRayCast)
 											end
 										end
 									until not Workspace:FindFirstChild(plrMM2.Name) or not AutoMurderKillMM2Bool or (not lplr.Backpack:FindFirstChild("Gun") and not lplr.Character:FindFirstChild("Gun") )
