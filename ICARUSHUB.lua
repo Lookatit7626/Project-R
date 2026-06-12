@@ -419,16 +419,16 @@ AntiFlingLibraryButton = Library.CreateCustomPageButton("AntiFling","Antifling :
 		Library.ChangeCustomPageButtonTitle(AntiFlingLibraryButton,"Antifling : Disabled")
 	end
 	while EnabledAF do
-		local humanoidroot = game:GetService('Players').LocalPlayer.Character.HumanoidRootPart
+		local humanoidroot = game:GetService('Players').LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
 		local primary = humanoidroot
-		if primary.AssemblyLinearVelocity.Magnitude > 250 or primary.AssemblyAngularVelocity.Magnitude > 250  then
+		if humanoidroot and primary.AssemblyLinearVelocity.Magnitude > 250 or primary.AssemblyAngularVelocity.Magnitude > 250  then
 			primary.AssemblyLinearVelocity = Vector3.new(0,0,0)
 			primary.AssemblyAngularVelocity = Vector3.new(0,0,0)
 			primary.CFrame = lastpos 
 			Library.CreateNotification('Fling alert!','We detected that you got flung and neuturalised your velocity')
 		end
 		lastpos = primary.CFrame
-		wait(0.01)
+		task.wait(0.01)
 	end
 end)
 
@@ -3343,7 +3343,7 @@ elseif GameID == 142823291 then --MM2
 					if (lplr.Backpack:FindFirstChild("Gun") ~= nil or lplr.Character:FindFirstChild("Gun") ~= nil) and AutoMurderKillMM2Bool then
 						for _ , plrMM2 in pairs(game.Players:GetPlayers()) do
 							local suc ,err = pcall(function()
-								if plrMM2.Backpack:FindFirstChild("Knife") ~= nil or plrMM2.Character:FindFirstChild("Knife") ~= nil and plrMM2 ~= lplr then
+								if (plrMM2.Backpack and plrMM2.Backpack:FindFirstChild("Knife") ~= nil) or (plrMM2.Character and plrMM2.Character:FindFirstChild("Knife") ~= nil) and plrMM2 ~= lplr then
 
 									if not lplr.Character:FindFirstChild("Gun") and lplr.Backpack:FindFirstChild("Gun") then
 										local hum = lplr.Character:FindFirstChildOfClass("Humanoid")
