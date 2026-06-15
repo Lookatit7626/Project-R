@@ -2282,6 +2282,130 @@ end
 local simForGames = Library.CreateCustomPage('Simulators',"Specific scripts")
 
 if GameID == 0 then
+elseif GameID == 88599461076137 then --Fishing Chef
+	local FC_ToggleAutoFishBool = false
+	local FC_ToggleAutoFish
+	FC_ToggleAutoFish = Library.CreateCustomPageButton("FC_ToggleAutoFish","Auto Fish : Disabled",simForGames,function()
+		FC_ToggleAutoFishBool = not FC_ToggleAutoFishBool
+		if FC_ToggleAutoFishBool then
+			Library.ChangeCustomPageButtonTitle(FC_ToggleAutoFish, "Auto Fish : Enabled")
+		else
+			Library.ChangeCustomPageButtonTitle(FC_ToggleAutoFish, "Auto Fish : Disabled")
+		end
+	end)
+
+	local FC_AutoServeBool = false
+	local FC_AutoServe
+	FC_AutoServe = Library.CreateCustomPageButton("FC_AutoServe","Auto Serve : Disabled",simForGames,function()
+		FC_AutoServeBool = not FC_AutoServeBool
+		if FC_AutoServeBool then
+			Library.ChangeCustomPageButtonTitle(FC_AutoServe, "Auto Serve : Enabled")
+		else
+			Library.ChangeCustomPageButtonTitle(FC_AutoServe, "Auto Serve : Disabled")
+		end
+	end)
+
+	local FC_IncludeLegendaryBool = false
+	local FC_IncludeLegendary
+	FC_IncludeLegendary = Library.CreateCustomPageButton("FC_IncludeLegendary","Allow legendary to be served : False",simForGames,function()
+		FC_IncludeLegendaryBool = not FC_IncludeLegendaryBool
+		if FC_IncludeLegendaryBool then
+			Library.ChangeCustomPageButtonTitle(FC_IncludeLegendary, "Allow legendary to be served : True")
+		else
+			Library.ChangeCustomPageButtonTitle(FC_IncludeLegendary, "Allow legendary to be served : False")
+		end
+	end)
+
+	local FishIndex = require(game:GetService("ReplicatedStorage").Shared.FishIndex)
+	local FishInv
+	local selFish
+	local NPCOrdering
+	local listOfAva = {
+		"Common",
+		"Uncommon",
+		"Rare"
+	}
+	local listOfAva_L = {
+		"Common",
+		"Uncommon",
+		"Rare",
+		"Legendary"
+	}
+
+	local FISHRF_RE = game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Knit"):WaitForChild("Services"):WaitForChild("Fish")
+	local function GetFish()
+		FishInv = FISHRF_RE:WaitForChild("RF"):WaitForChild("RequestFishData"):InvokeServer()
+		for i,FishDescArr in pairs(FishInv) do
+			if FishIndex[FishDescArr["Name"]] and (table.find(listOfAva, FishIndex[FishDescArr["Name"]].rarity) and not FC_IncludeLegendaryBool) or (FC_IncludeLegendaryBool and table.find(listOfAva_L, FishIndex[FishDescArr["Name"]].rarity)) then
+				return FishDescArr
+			end
+		end
+		return nil
+	end
+
+	local function lookForSpecTool(Where,Ending)
+		for i,item in pairs(Where:GetChildren()) do
+			if string.split(item.Name, " ")[#string.split(item.Name, " ") - 1] == Ending then
+				return item
+			end
+		end
+		return nil
+	end
+
+
+	local FC_AUTOFISH_args
+	local FC_ServeArgs
+	local FC_ServeArray
+	coroutine.wrap(function()
+		while task.wait() do
+			if FC_ToggleAutoFishBool then
+				FC_AUTOFISH_args = {
+					1
+				}
+				game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Knit"):WaitForChild("Services"):WaitForChild("Fish"):WaitForChild("RF"):WaitForChild("CastRequest"):InvokeServer(unpack(FC_AUTOFISH_args))
+				task.wait(4)
+				FC_AUTOFISH_args = {
+					true
+				}
+				game:GetService("ReplicatedStorage"):WaitForChild("Packages"):WaitForChild("Knit"):WaitForChild("Services"):WaitForChild("Fish"):WaitForChild("RF"):WaitForChild("MinigameResolved"):InvokeServer(unpack(FC_AUTOFISH_args))
+				task.wait()
+			end
+			if FC_AutoServeBool then
+				for i,FolderCustomer in pairs(workspace.Code.ActiveNPCs:GetChildren()) do
+					if FolderCustomer:FindFirstChild("Owner") and FolderCustomer:FindFirstChild("Owner").Value == lplr.Name and FolderCustomer:GetAttribute("Order") ~= nil and FolderCustomer:GetAttribute("WaitingForFood") == true and FolderCustomer:GetAttribute("Arrived") == true then
+						selFish = GetFish()
+						if selFish == nil then
+							continue
+						end
+						
+						FC_ServeArgs = {
+							selFish['ID'],
+							3000
+						}
+						FISHRF_RE:WaitForChild("RF"):WaitForChild("CutFish"):InvokeServer(unpack(FC_ServeArgs))
+
+						FC_ServeArray = FISHRF_RE:WaitForChild("RF"):WaitForChild("RequestRestaurauntData"):InvokeServer()
+						FC_ServeArgs = {
+							FolderCustomer:GetAttribute("Order"),
+							FC_ServeArray[1]
+						}
+						FISHRF_RE:WaitForChild("RF"):WaitForChild("Cook"):InvokeServer(unpack(FC_ServeArgs))
+						NPCOrdering = FolderCustomer:GetAttribute("Order")
+						repeat
+							task.wait()
+							if lookForSpecTool(lplr.Backpack,NPCOrdering) then
+								lplr.Character.Humanoid:EquipTool(lookForSpecTool(lplr.Backpack,NPCOrdering))
+							end
+						until lplr.Character:FindFirstChildOfClass("Tool") and string.split(lplr.Character:FindFirstChildOfClass("Tool").Name," ")[#string.split(lplr.Character:FindFirstChildOfClass("Tool").Name," ")] == NPCOrdering
+						FC_ServeArgs = {
+							FolderCustomer
+						}
+						FISHRF_RE:WaitForChild("RE"):WaitForChild("StoreFood"):FireServer(unpack(FC_ServeArgs))
+					end
+				end
+			end
+		end
+	end)()
 elseif GameID == 192800 then --Work at pizza place
 	Library.CreateCustomPageButton("WAAPP","Work at a pizza place auto farm",simForGames,function()
 		loadstring(game:HttpGet("https://raw.githubusercontent.com/Lookatit7626/Project-R/refs/heads/main/WAAPPAutofarm.lua"))()
