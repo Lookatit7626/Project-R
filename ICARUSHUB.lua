@@ -1,4 +1,4 @@
-local verison = "V1.0.19"
+local verison = "V1.0.19A"
 local verisonUpdateNotes = "1.0.19 Updates :\nReadded MM2 and fixed a few bugs"
 local cloneref = cloneref or function(o) return o end
 
@@ -2336,7 +2336,7 @@ elseif GameID == 88599461076137 then --Fishing Chef
 	local function GetFish()
 		FishInv = FISHRF_RE:WaitForChild("RF"):WaitForChild("RequestFishData"):InvokeServer()
 		for i,FishDescArr in pairs(FishInv) do
-			if FishIndex[FishDescArr["Name"]] and (table.find(listOfAva, FishIndex[FishDescArr["Name"]].rarity) and not FC_IncludeLegendaryBool) or (FC_IncludeLegendaryBool and table.find(listOfAva_L, FishIndex[FishDescArr["Name"]].rarity)) then
+			if FishIndex[FishDescArr["Name"]] and ((table.find(listOfAva, FishIndex[FishDescArr["Name"]].rarity) and not FC_IncludeLegendaryBool) or (FC_IncludeLegendaryBool and table.find(listOfAva_L, FishIndex[FishDescArr["Name"]].rarity))) then
 				return FishDescArr
 			end
 		end
