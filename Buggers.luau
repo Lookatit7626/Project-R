@@ -54,6 +54,7 @@ end
 debugTool.Name = "debugTool"
 debugTool.Parent = DEBUGTOOL_PARENT
 debugTool.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+debugTool.DisplayOrder = 10101
 
 Frame.Parent = debugTool
 Frame.BackgroundColor3 = Color3.fromRGB(52, 21, 21)
