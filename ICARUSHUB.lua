@@ -273,6 +273,11 @@ Library.CreateScriptPageScript("RSpy","Remote Spy / RSPY","Remote Spy is the bes
 	end
 end)
 
+Library.CreateScriptPageScript("Bugger","Bugger", "Bugger is a script created by our developers to help with hacking into games, similar to dex or rspy",scripts,function()
+	loadstring(game:HttpGet("https://raw.githubusercontent.com/Lookatit7626/Project-R/refs/heads/main/Buggers.luau",true))()
+	Library.CreateNotification("ICARUS","Executed Bugger!")
+end)
+
 Library.CreateScriptPageScript("Dex","Dex Explorer","Dex Explorer is a powerful tool that allows players to explore and manipulate the data within Roblox games.",scripts,function()
 	if Mobile then
 		getgenv().Key = "Bash"
@@ -332,11 +337,6 @@ end)
 Library.CreateScriptPageScript("Chaos Hub","Chaos Hub", "Chaos Hub supports over 30+ games, and its very powerful!",scripts,function()
 	loadstring(game:HttpGet("https://raw.githubusercontent.com/xChaoticVoid/Chaos-Hub-v1/main/ChaosHub.lua"))()
 	Library.CreateNotification("ICARUS","Executed Chao Hub GUI!")
-end)
-
-Library.CreateScriptPageScript("LuaWare","LuaWare", "LuaWare suports over 10+ games, including lumber tycoon!",scripts,function()
-	loadstring(game:HttpGet("https://raw.githubusercontent.com/frencaliber/LuaWareLoader.lw/main/luawareloader.wtf",true))()
-	Library.CreateNotification("ICARUS","Executed LuaWare GUI!")
 end)
 
 Library.CreateScriptPageScript("KronHub","Kron Hub", "Kron Hub support games like lumber tycoon, Bee Swarm simulator and Natural Disasters!",scripts,function()
@@ -1759,7 +1759,6 @@ end)()
 local TrollSCRUniVerSet1
 local NetworkchangePerimission = false
 TrollSCRUniVerSet1 = Library.CreateCustomPageButton("TPUA1", "Allow Network change : disabled",TROLLINGSCR, function()
-	print("On")
 	NetworkchangePerimission = true
 	if NetworkchangePerimission then
 		Library.CreateNotification('Alert!',"Once the network change is on, you can't turn it off!")
@@ -3546,7 +3545,8 @@ else
 	end)
 end
 
-if not getgenv().Network or true then
+--Credits to mr4eyes
+if not getgenv().Network then
 	getgenv().Network = {
 		BaseParts = {};
 		FakeConnections = {};
