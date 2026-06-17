@@ -1,7 +1,7 @@
 -- Gui to Lua
 -- Version: 3.2
 -- Instances:
-local Clippy = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set) -- from IY
+local Clippy = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
 function toClipboard(txt)
 	if Clippy then
 		Clippy(tostring(txt))
@@ -54,7 +54,6 @@ end
 debugTool.Name = "debugTool"
 debugTool.Parent = DEBUGTOOL_PARENT
 debugTool.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-debugTool.DisplayOrder = 1010101010101
 
 Frame.Parent = debugTool
 Frame.BackgroundColor3 = Color3.fromRGB(52, 21, 21)
@@ -406,7 +405,7 @@ local SaveConstantsInstance_Text = [[
 local SavedFunc
 local Script_Name = "%s"
 for i, Func in pairs(getgc()) do
-	if type(Func) == "function" and string.sub(getinfo(Func).short_src, -#Script_Name) == Script_Name and #getupvalues(Func) == %i and getinfo(Func).name == "%s" then
+	if type(Func) == "function" and string.sub(getinfo(Func).short_src, -#Script_Name) == Script_Name and #getconstants(Func) == %i and getinfo(Func).name == "%s" then
 		SavedFunc = Func
 		break
 	end
