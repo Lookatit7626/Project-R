@@ -487,7 +487,7 @@ local function CreateButton(Type, Args)
 			if Args["WhichOne"] == "UV" then
 				toClipboard(string.format(SaveUpValueInstance_Text,Args["Short_SRC_Format"],#getupvalues(Args["Func"]), getinfo(Args["Func"]).name, Args["Index"]))
 			elseif Args["WhichOne"] == "CN" then
-				toClipboard(string.format(SaveUpValueInstance_Text,Args["Short_SRC_Format"],#getconstants(Args["Func"]), getinfo(Args["Func"]).name, Args["Index"]))
+				toClipboard(string.format(SaveConstantsInstance_Text,Args["Short_SRC_Format"],#getconstants(Args["Func"]), getinfo(Args["Func"]).name, Args["Index"]))
 			end
 		end)
 	end
