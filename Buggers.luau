@@ -1,6 +1,10 @@
 -- Gui to Lua
 -- Version: 3.2
 -- Instances:
+
+--Created by ICARUS
+
+
 local Clippy = setclipboard or toclipboard or set_clipboard or (Clipboard and Clipboard.set)
 function toClipboard(txt)
 	if Clippy then
@@ -484,7 +488,6 @@ local function CreateButton(Type, Args)
 			end
 		end)
 		MyFrame.Index.MouseButton1Click:Connect(function()
-			print(string.format(SaveUpValueInstance_Text,Args["Short_SRC_Format"],#getupvalues(Args["Func"]), getinfo(Args["Func"]).name, Args["Index"]))
 			if Args["WhichOne"] == "UV" then
 				toClipboard(string.format(SaveUpValueInstance_Text,Args["Short_SRC_Format"],#getupvalues(Args["Func"]), getinfo(Args["Func"]).name, Args["Index"]))
 			elseif Args["WhichOne"] == "CN" then
